@@ -4,22 +4,22 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordFragment;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout txtLayoutEmail;
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
+        //progressBar.setVisibility(View.GONE);
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
 
@@ -58,6 +58,13 @@ public class LoginActivity extends AppCompatActivity {
                 String email = txtEmail.getText().toString();
                 String password = txtPassword.getText().toString();
                 logIn(email, password);
+            }
+        });
+
+        txtForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recoverPassword();
             }
         });
 
@@ -120,6 +127,12 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void recoverPassword() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        RecoverPasswordFragment recoverPasswordFragment = new RecoverPasswordFragment();
+        recoverPasswordFragment.show(fragmentManager, "0");
     }
 
     private void startSignedInActivity() {
