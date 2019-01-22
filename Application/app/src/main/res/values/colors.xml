@@ -3,4 +3,22 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="blue">#1D4A7C</color>
+    <color name="lightBlue">#ADCEDF</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="lightBlack">#5c5c5d</color>
+
+    <color name="bootstrap_red">#d9534f	</color>
+    <color name="bootstrap_white">#f9f9f9</color>
+    <color name="bootstrap_light_blue">#5bc0de</color>
+    <color name="bootstrap_green">#5cb85c</color>
+    <color name="bootstrap_blue">#428bca</color>
+
+    <color name="github_black">#24292e</color>
+    <color name="github_light_black">#2b3137</color>
+    <color name="github_dark_white">#fafbfc</color>
+    <color name="github_white">#ffffff</color>
+    <color name="github_green">#2dba4e</color>
+
 </resources>
