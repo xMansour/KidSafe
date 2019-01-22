@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "487946012349",
+    "firebase_url": "https://kidsafe-3a667.firebaseio.com",
+    "project_id": "kidsafe-3a667",
+    "storage_bucket": "kidsafe-3a667.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487946012349:android:d11fafe4263b5800",
+        "android_client_info": {
+          "package_name": "com.mansourappdevelopment.androidapp.kidsafe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487946012349-6limf25r4rln178dhi8ojm9s67a5j2j1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mansourappdevelopment.androidapp.kidsafe",
+            "certificate_hash": "111d3354e481c6160ac283971c057b462c621215"
+          }
+        },
+        {
+          "client_id": "487946012349-brimdf043dkkn6de7uspdv91mo7rc9s0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8ZY-iWZat49hZx753bGivVVxzmHrwc90"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487946012349-brimdf043dkkn6de7uspdv91mo7rc9s0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
