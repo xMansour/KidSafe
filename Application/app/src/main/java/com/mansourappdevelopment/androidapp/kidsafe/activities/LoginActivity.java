@@ -27,9 +27,12 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText txtEmail;
     private TextInputEditText txtPassword;
     private Button btnLogin;
+    private Button btnEmailSignUp;
+    private Button btnGoogleSignUp;
+    private Button btnFacebookSignUp;
     private TextView txtForgotPassword;
     private ProgressBar progressBar;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -37,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //FirebaseApp.initializeApp(this);
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         txtLayoutEmail = (TextInputLayout) findViewById(R.id.txtEmailLayout);
         txtEmail = (TextInputEditText) findViewById(R.id.txtEmail);
 
@@ -50,7 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         //progressBar.setVisibility(View.GONE);
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
-
+        btnEmailSignUp = (Button) findViewById(R.id.btnEmailSignUp);
+        btnGoogleSignUp = (Button) findViewById(R.id.btnGoogleSignUp);
+        btnFacebookSignUp = (Button) findViewById(R.id.btnFacebookSignUp);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +63,13 @@ public class LoginActivity extends AppCompatActivity {
                 String email = txtEmail.getText().toString();
                 String password = txtPassword.getText().toString();
                 logIn(email, password);
+            }
+        });
+
+        btnEmailSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSignUpActivity();
             }
         });
 
@@ -73,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
         //update ui -> go to the SignedIn Activity
         if (currentUser != null)
             startSignedInActivity();
@@ -111,13 +123,13 @@ public class LoginActivity extends AppCompatActivity {
     private void logIn(String email, String password) {
         if (validateForm()) {
             progressBar.setVisibility(View.VISIBLE);
-            mAuth.signInWithEmailAndPassword(email, password)
+            auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             progressBar.setVisibility(View.INVISIBLE);
                             if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
+                                FirebaseUser user = auth.getCurrentUser();
                                 Toast.makeText(LoginActivity.this, "Authentication Succeeded", Toast.LENGTH_SHORT).show();
                                 //update ui -> go to signedIn activity
                                 startSignedInActivity();
@@ -137,6 +149,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startSignedInActivity() {
         Intent intent = new Intent(this, SignedInActivity.class);
+        startActivity(intent);
+    }
+
+    private void startSignUpActivity() {
+        Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
 }
