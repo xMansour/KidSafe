@@ -9,14 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.FirstTimeUseActivity"></activity>
         <activity android:name=".activities.SignedInActivity" />
         <activity
             android:name=".activities.SignUpActivity"
             android:parentActivityName=".activities.LoginActivity" />
         <activity android:name=".activities.MainActivity" />
-
         <activity android:name=".activities.LoginActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

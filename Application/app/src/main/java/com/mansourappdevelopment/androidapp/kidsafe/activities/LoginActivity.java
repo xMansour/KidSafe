@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.INVISIBLE);
+                            progressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 FirebaseUser user = auth.getCurrentUser();
                                 Toast.makeText(LoginActivity.this, "Authentication Succeeded", Toast.LENGTH_SHORT).show();

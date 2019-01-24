@@ -55,7 +55,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/btnEmailSignUp"
+        android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_login"
@@ -65,5 +65,13 @@
         android:textStyle="bold"
         tools:layout_editor_absoluteX="143dp"
         tools:layout_editor_absoluteY="499dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
 
 </LinearLayout>

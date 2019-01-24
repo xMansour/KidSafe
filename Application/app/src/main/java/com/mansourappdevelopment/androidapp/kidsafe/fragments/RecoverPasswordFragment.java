@@ -58,13 +58,13 @@ public class RecoverPasswordFragment extends DialogFragment {
     }
 
     private void recoverPassword(String email) {
-        if (!validateForm()) {
+        if (validateForm()) {
             auth.sendPasswordResetEmail(email)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "Email sent", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Email sent, it may be within your drafts", Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }
                         }
