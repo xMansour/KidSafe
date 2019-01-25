@@ -86,7 +86,9 @@ public class ModeSelectionFragment extends DialogFragment {
             if (isChild) {
                 String parentEmail = txtParentEmail.getText().toString();
                 ((ModeSelectionCloseListener) activity).sendUserData(parentEmail, isChild);
-            }
+            } else
+                ((ModeSelectionCloseListener) activity).sendUserData("null", isChild);
+
         }
 
     }

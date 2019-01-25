@@ -22,17 +22,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.ModeSelectionCloseListener;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUpActivity extends AppCompatActivity implements ModeSelectionCloseListener {
     private final int PICK_IMAGE_REQUEST = 59;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     private Uri imageUri;
     private FirebaseAuth auth;
-    private FirebaseUser user;
     private EditText txtSignUpEmail;
     private EditText txtSignUpPassword;
     private EditText txtSignUpName;
@@ -42,13 +46,17 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
     private FragmentManager fragmentManager;
     private boolean isChild = false;
     private String parentEmail;
-
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         auth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
+
         txtSignUpEmail = (EditText) findViewById(R.id.txtSignUpEmail);
         txtSignUpPassword = (EditText) findViewById(R.id.txtSignUpPassword);
         txtSignUpName = (EditText) findViewById(R.id.txtSignUpName);
@@ -157,7 +165,8 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
     }
 
     private void verifyAccount() {
-        user = auth.getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
+        uid = user.getUid();
         user.sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -190,5 +199,24 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
     public void sendUserData(String parentEmail, boolean isChild) {
         this.isChild = isChild;
         this.parentEmail = parentEmail;
+        addUserToDB();
+    }
+
+    private void addUserToDB() {
+
+        String email = txtSignUpEmail.getText().toString();
+        String password = txtSignUpPassword.getText().toString();
+        String name = txtSignUpName.getText().toString();
+        String parentEmail = this.parentEmail;
+        boolean isChild = this.isChild;
+
+
+        User user = new User(name, email, password, parentEmail, isChild);
+        if (isChild)
+            databaseReference.child("kids").child(uid).setValue(user);
+        else
+            databaseReference.child("parents").child(uid).setValue(user);
+
+        //TODO:: add  an image
     }
 }

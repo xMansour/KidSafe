@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="20dp"
-        android:background="@drawable/edit_text_rounded"
+        android:background="@drawable/edit_text_rounded_disabled"
         android:drawableLeft="@drawable/ic_mail"
         android:drawablePadding="5dp"
         android:ems="10"
