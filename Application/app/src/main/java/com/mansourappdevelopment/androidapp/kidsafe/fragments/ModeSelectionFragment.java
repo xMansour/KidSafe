@@ -58,12 +58,10 @@ public class ModeSelectionFragment extends DialogFragment {
         btnModeSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isChild)
-                    connectParent();
+                if (isChild && validateForm())
+                    dismiss();
                 else
-                    setAsParent();
-
-                dismiss();
+                    dismiss();
             }
         });
     }
@@ -80,22 +78,16 @@ public class ModeSelectionFragment extends DialogFragment {
         return true;
     }
 
-    private void connectParent() {
-        if (validateForm()) {
-            //TODO:: associate the parent email with that child in the database
-        }
-
-    }
-
-    private void setAsParent() {
-
-    }
-
     @Override
     public void onDismiss(DialogInterface dialog) {
         Activity activity = getActivity();
         if (activity instanceof ModeSelectionCloseListener) {
             ((ModeSelectionCloseListener) activity).onModeSelectionClose(dialog);
+            if (isChild) {
+                String parentEmail = txtParentEmail.getText().toString();
+                ((ModeSelectionCloseListener) activity).sendUserData(parentEmail, isChild);
+            }
         }
+
     }
 }

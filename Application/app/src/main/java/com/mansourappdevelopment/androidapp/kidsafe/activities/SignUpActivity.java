@@ -40,6 +40,8 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
     private CircleImageView imgProfile;
     private ProgressBar progressBar;
     private FragmentManager fragmentManager;
+    private boolean isChild = false;
+    private String parentEmail;
 
 
     @Override
@@ -143,14 +145,14 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             imgProfile.setImageURI(imageUri);
-            //TODO:: imageUri Should be uploaded to the database as the profile image's uri
+            //TODO:: imageUri Should be uploaded to the storage as the profile image
         }
     }
 
     private void checkMode() {
         fragmentManager = getSupportFragmentManager();
         ModeSelectionFragment modeSelectionFragment = new ModeSelectionFragment();
-        modeSelectionFragment.show(fragmentManager, "1");
+        modeSelectionFragment.show(fragmentManager, "ModeSelectionFragment");
 
     }
 
@@ -182,5 +184,11 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
         Toast.makeText(SignUpActivity.this, "Sign up Succeeded", Toast.LENGTH_SHORT).show();
         verifyAccount();
         startLoginActivity();
+    }
+
+    @Override
+    public void sendUserData(String parentEmail, boolean isChild) {
+        this.isChild = isChild;
+        this.parentEmail = parentEmail;
     }
 }

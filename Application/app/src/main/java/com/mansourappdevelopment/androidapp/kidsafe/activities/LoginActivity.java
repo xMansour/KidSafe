@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtForgotPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
-
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,9 +141,9 @@ public class LoginActivity extends AppCompatActivity {
     //   }
 
     private void recoverPassword() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         RecoverPasswordFragment recoverPasswordFragment = new RecoverPasswordFragment();
-        recoverPasswordFragment.show(fragmentManager, "0");
+        recoverPasswordFragment.show(fragmentManager, "recoverPasswordFragment");
     }
 
     private void startSignedInActivity() {
