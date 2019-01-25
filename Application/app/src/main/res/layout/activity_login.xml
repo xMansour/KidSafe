@@ -31,40 +31,29 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/txtEmailLayout"
-                android:layout_width="300dp"
+            <EditText
+                android:id="@+id/txtLogInEmail"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="282dp">
+                android:layout_margin="10dp"
+                android:drawableStart="@drawable/ic_mail"
+                android:drawableLeft="@drawable/ic_mail"
+                android:drawablePadding="5dp"
+                android:hint="Email address"
+                android:inputType="textEmailAddress" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txtEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email adress"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1" />
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/txtPasswordLayout"
-                android:layout_width="300dp"
+
+            <EditText
+                android:id="@+id/txtLogInPassword"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:passwordToggleEnabled="true"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="410dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txtPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:maxLines="1" />
-            </android.support.design.widget.TextInputLayout>
+                android:layout_margin="10dp"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawableLeft="@drawable/ic_lock"
+                android:drawablePadding="5dp"
+                android:hint="Password"
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/btnLogin"
@@ -92,7 +81,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
                 android:text="OR"
                 android:textColor="@color/lightBlack"
@@ -113,21 +102,21 @@
                 android:gravity="center">
 
                 <Button
-                    android:id="@+id/btnEmailSignUp"
+                    android:id="@+id/btnSignUpEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
                     android:textAllCaps="false" />
 
                 <Button
-                    android:id="@+id/btnFacebookSignUp"
+                    android:id="@+id/btnSignUpFacebook"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Facebook"
                     android:textAllCaps="false" />
 
                 <Button
-                    android:id="@+id/btnGoogleSignUp"
+                    android:id="@+id/btnSignUpGoogle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Google"

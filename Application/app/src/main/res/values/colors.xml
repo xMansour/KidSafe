@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#2dba4e</color>
     <color name="blue">#1D4A7C</color>
     <color name="lightBlue">#ADCEDF</color>
     <color name="white">#ffffff</color>
@@ -20,6 +20,8 @@
     <color name="github_dark_white">#fafbfc</color>
     <color name="github_white">#ffffff</color>
     <color name="github_green">#2dba4e</color>
+    <color name="github_light_green">#6AFF91</color>
+
 
 
     <color name="darkRed">#B00020</color>

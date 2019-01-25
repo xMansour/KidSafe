@@ -2,13 +2,12 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,15 +16,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordFragment;
 
 public class LoginActivity extends AppCompatActivity {
-    private TextInputLayout txtLayoutEmail;
-    private TextInputLayout txtLayoutPassword;
-    private TextInputEditText txtEmail;
-    private TextInputEditText txtPassword;
+    private EditText txtLogInEmail;
+    private EditText txtLogInPassword;
     private Button btnLogin;
     private Button btnEmailSignUp;
     private Button btnGoogleSignUp;
@@ -41,11 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
-        txtLayoutEmail = (TextInputLayout) findViewById(R.id.txtEmailLayout);
-        txtEmail = (TextInputEditText) findViewById(R.id.txtEmail);
+        txtLogInEmail = (EditText) findViewById(R.id.txtLogInEmail);
 
-        txtLayoutPassword = (TextInputLayout) findViewById(R.id.txtPasswordLayout);
-        txtPassword = (TextInputEditText) findViewById(R.id.txtPassword);
+        txtLogInPassword = (EditText) findViewById(R.id.txtLogInPassword);
 
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
 
@@ -53,15 +49,15 @@ public class LoginActivity extends AppCompatActivity {
         //progressBar.setVisibility(View.GONE);
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnEmailSignUp = (Button) findViewById(R.id.btnEmailSignUp);
-        btnGoogleSignUp = (Button) findViewById(R.id.btnGoogleSignUp);
-        btnFacebookSignUp = (Button) findViewById(R.id.btnFacebookSignUp);
+        btnEmailSignUp = (Button) findViewById(R.id.btnSignUpEmail);
+        btnGoogleSignUp = (Button) findViewById(R.id.btnSignUpGoogle);
+        btnFacebookSignUp = (Button) findViewById(R.id.btnSignUpFacebook);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = txtEmail.getText().toString();
-                String password = txtPassword.getText().toString();
+                String email = txtLogInEmail.getText().toString();
+                String password = txtLogInPassword.getText().toString();
                 logIn(email, password);
             }
         });
@@ -91,55 +87,58 @@ public class LoginActivity extends AppCompatActivity {
             startSignedInActivity();
     }
 
-    private boolean validateForm() {
+/*    private boolean validateForm() {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        if (txtEmail.getText().toString().equals("")) {
-            txtLayoutEmail.setErrorEnabled(true);
-            txtLayoutEmail.setError("Enter your email");
+        if (txtLogInEmail.getText().toString().equals("")) {
+            txtLogInEmail.setError("Enter your email");
             return false;
-        } else {
-            txtLayoutEmail.setErrorEnabled(false);
-
         }
-        if (!txtEmail.getText().toString().trim().matches(emailPattern)) {
-            txtLayoutEmail.setErrorEnabled(true);
-            txtLayoutEmail.setError("Enter a valid email");
+        if (!txtLogInEmail.getText().toString().trim().matches(emailPattern)) {
+            txtLogInEmail.setError("Enter a valid email");
             return false;
-        } else {
-            txtLayoutEmail.setErrorEnabled(false);
         }
 
-        if (txtPassword.getText().toString().length() <= 6) {
-            txtLayoutPassword.setErrorEnabled(true);
-            txtLayoutPassword.setError("Enter a valid password");
+        if (txtLogInPassword.getText().toString().length() <= 6) {
+            txtLogInPassword.setError("Enter a valid password");
             return false;
-        } else {
-            txtLayoutPassword.setErrorEnabled(false);
         }
         return true;
-    }
+    }*/
 
     private void logIn(String email, String password) {
-        if (validateForm()) {
-            progressBar.setVisibility(View.VISIBLE);
-            auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.GONE);
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = auth.getCurrentUser();
-                                Toast.makeText(LoginActivity.this, "Authentication Succeeded", Toast.LENGTH_SHORT).show();
-                                //update ui -> go to signedIn activity
-                                startSignedInActivity();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+        //if (validateForm()) {
+        progressBar.setVisibility(View.VISIBLE);
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = auth.getCurrentUser();
+                            Toast.makeText(LoginActivity.this, "Authentication Succeeded", Toast.LENGTH_SHORT).show();
+                            //update ui -> go to signedIn activity
+                            startSignedInActivity();
+                        } else {
+                            String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                            switch (errorCode) {
+                                case "ERROR_INVALID_EMAIL":
+                                    txtLogInEmail.setError("Enter a valid email");
+                                    break;
+                                case "ERROR_USER_NOT_FOUND":
+                                    txtLogInEmail.setError("Email isn't registered");
+                                    break;
+                                case "ERROR_WRONG_PASSWORD":
+                                    txtLogInPassword.setError("Wrong password");
+                                    break;
+                                default:
+                                    Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });
-        }
+                    }
+                });
     }
+    //   }
 
     private void recoverPassword() {
         FragmentManager fragmentManager = getSupportFragmentManager();

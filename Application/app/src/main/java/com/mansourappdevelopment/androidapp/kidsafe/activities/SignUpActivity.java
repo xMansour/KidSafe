@@ -1,15 +1,17 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -17,24 +19,25 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionFragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
     private final int PICK_IMAGE_REQUEST = 59;
     private Uri imageUri;
     private FirebaseAuth auth;
-    private TextInputLayout txtSignUpEmailLayout;
-    private TextInputLayout txtSignUpPasswordLayout;
-    private TextInputLayout txtSignUpNameLayout;
-    private TextInputEditText txtSignUpEmail;
-    private TextInputEditText txtSignUpPassword;
-    private TextInputEditText txtSignUpName;
+    private FirebaseUser user;
+    private EditText txtSignUpEmail;
+    private EditText txtSignUpPassword;
+    private EditText txtSignUpName;
     private Button btnSignUp;
     private CircleImageView imgProfile;
     private ProgressBar progressBar;
+    private FragmentManager fragmentManager;
 
 
     @Override
@@ -42,14 +45,9 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         auth = FirebaseAuth.getInstance();
-        txtSignUpEmailLayout = (TextInputLayout) findViewById(R.id.txtSignUpEmailLayout);
-        txtSignUpEmail = (TextInputEditText) findViewById(R.id.txtSignUpEmail);
-
-        txtSignUpPasswordLayout = (TextInputLayout) findViewById(R.id.txtSignUpPasswordLayout);
-        txtSignUpPassword = (TextInputEditText) findViewById(R.id.txtSignUpPassword);
-
-        txtSignUpNameLayout = (TextInputLayout) findViewById(R.id.txtSignUpNameLayout);
-        txtSignUpName = (TextInputEditText) findViewById(R.id.txtSignUpName);
+        txtSignUpEmail = (EditText) findViewById(R.id.txtSignUpEmail);
+        txtSignUpPassword = (EditText) findViewById(R.id.txtSignUpPassword);
+        txtSignUpName = (EditText) findViewById(R.id.txtSignUpName);
         //TODO:: Name Should be uploaded to the database
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -74,56 +72,60 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    private boolean validateForm() {
+/*    private boolean validateForm() {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if (txtSignUpEmail.getText().toString().equals("")) {
-            txtSignUpEmailLayout.setErrorEnabled(true);
-            txtSignUpEmailLayout.setError("Enter your email");
+            txtSignUpEmail.setError("Enter your email");
             return false;
-        } else {
-            txtSignUpEmailLayout.setErrorEnabled(false);
-
         }
         if (!txtSignUpEmail.getText().toString().trim().matches(emailPattern)) {
-            txtSignUpEmailLayout.setErrorEnabled(true);
-            txtSignUpEmailLayout.setError("Enter a valid email");
+            txtSignUpEmail.setError("Enter a valid email");
             return false;
-        } else {
-            txtSignUpEmailLayout.setErrorEnabled(false);
         }
 
         if (txtSignUpPassword.getText().toString().length() <= 6) {
-            txtSignUpPasswordLayout.setErrorEnabled(true);
-            txtSignUpPasswordLayout.setError("Enter a valid password");
+            txtSignUpPassword.setError("Enter a valid password");
             return false;
-        } else {
-            txtSignUpPasswordLayout.setErrorEnabled(false);
         }
         return true;
-    }
+    }*/
 
     private void signUp(String email, String password) {
-        if (validateForm()) {
-            progressBar.setVisibility(View.VISIBLE);
-            auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.GONE);
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = auth.getCurrentUser();
-                                //update ui -> go to LoginActivity
-                                Toast.makeText(SignUpActivity.this, "SignUp Succeeded", Toast.LENGTH_SHORT).show();
-                                startLoginActivity();
-                            } else {
-                                Toast.makeText(SignUpActivity.this, "SignUp Failed", Toast.LENGTH_SHORT).show();
+        //if (validateForm()) {
+        progressBar.setVisibility(View.VISIBLE);
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = auth.getCurrentUser();
+                            //update ui -> go to LoginActivity
+                            checkMode();
+
+                        } else {
+                            String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                            switch (errorCode) {
+                                case "ERROR_INVALID_EMAIL":
+                                    txtSignUpEmail.setError("Enter a valid email");
+                                    break;
+                                case "ERROR_EMAIL_ALREADY_IN_USE":
+                                    txtSignUpEmail.setError("Email is already in use");
+                                    break;
+                                case "ERROR_WEAK_PASSWORD":
+                                    txtSignUpPassword.setError("Weak password");
+                                    break;
+                                default:
+                                    Toast.makeText(SignUpActivity.this, "SignUp Failed", Toast.LENGTH_SHORT).show();
 
                             }
+
                         }
-                    });
-        }
+                    }
+                });
     }
+    // }
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -139,12 +141,43 @@ public class SignUpActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             imgProfile.setImageURI(imageUri);
-            //TODO:: imgageUri Should be uploaded to the database as the profile image's uri
+            //TODO:: imageUri Should be uploaded to the database as the profile image's uri
         }
+    }
+
+    private void checkMode() {
+        fragmentManager = getSupportFragmentManager();
+        ModeSelectionFragment modeSelectionFragment = new ModeSelectionFragment();
+        modeSelectionFragment.show(fragmentManager, "1");
+    }
+
+    private void verifyAccount() {
+        user = auth.getCurrentUser();
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(SignUpActivity.this, "Verification email sent, it may be within your drafts", Toast.LENGTH_LONG).show();
+
+                                }
+                            }, 3000);
+                    }
+                });
     }
 
     private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        Toast.makeText(SignUpActivity.this, "Sign up Succeeded", Toast.LENGTH_SHORT).show();
+        verifyAccount();
+        startLoginActivity();
     }
 }

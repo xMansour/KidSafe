@@ -28,91 +28,39 @@
                 app:civ_border_color="@color/github_green"
                 app:civ_border_width="2dp" />
 
-            <FrameLayout
+
+            <EditText
+                android:id="@+id/txtSignUpName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:drawableStart="@drawable/ic_person"
+                android:drawableLeft="@drawable/ic_person"
+                android:drawablePadding="5dp"
+                android:hint="Name"
+                android:inputType="textPersonName" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_person" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/txtSignUpNameLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/txtSignUpName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Name"
-                        android:inputType="textPersonName"
-                        android:maxLines="1"
-                        android:paddingLeft="30dp" />
-                </android.support.design.widget.TextInputLayout>
-            </FrameLayout>
-
-            <FrameLayout
+            <EditText
+                android:id="@+id/txtSignUpEmail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:drawableStart="@drawable/ic_mail"
+                android:drawableLeft="@drawable/ic_mail"
+                android:drawablePadding="5dp"
+                android:hint="Email address"
+                android:inputType="textEmailAddress" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_mail" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/txtSignUpEmailLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/txtSignUpEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Email address"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:paddingLeft="30dp" />
-                </android.support.design.widget.TextInputLayout>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/txtSignUpPassword"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_lock" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/txtSignUpPasswordLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/txtSignUpPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Password"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        android:paddingLeft="30dp" />
-                </android.support.design.widget.TextInputLayout>
-
-            </FrameLayout>
+                android:layout_margin="10dp"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawableLeft="@drawable/ic_lock"
+                android:drawablePadding="5dp"
+                android:hint="Password"
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/btnSignUp"

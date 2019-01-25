@@ -64,7 +64,7 @@ public class RecoverPasswordFragment extends DialogFragment {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "Email sent, it may be within your drafts", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Password reset email sent, it may be within your drafts", Toast.LENGTH_LONG).show();
                                 dismiss();
                             }
                         }
