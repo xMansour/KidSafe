@@ -1,7 +1,9 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,13 +20,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SignUpActivity extends AppCompatActivity {
+    private final int PICK_IMAGE_REQUEST = 59;
+    private Uri imageUri;
     private FirebaseAuth auth;
-    private TextInputLayout txtEmailSignUpLayout;
-    private TextInputLayout txtPasswordSignUpLayout;
-    private TextInputEditText txtEmailSignUp;
-    private TextInputEditText txtPasswordSignUp;
+    private TextInputLayout txtSignUpEmailLayout;
+    private TextInputLayout txtSignUpPasswordLayout;
+    private TextInputLayout txtSignUpNameLayout;
+    private TextInputEditText txtSignUpEmail;
+    private TextInputEditText txtSignUpPassword;
+    private TextInputEditText txtSignUpName;
     private Button btnSignUp;
+    private CircleImageView imgProfile;
     private ProgressBar progressBar;
 
 
@@ -33,21 +42,32 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         auth = FirebaseAuth.getInstance();
-        txtEmailSignUpLayout = (TextInputLayout) findViewById(R.id.txtEmailSignUpLayout);
-        txtEmailSignUp = (TextInputEditText) findViewById(R.id.txtEmailSignUp);
+        txtSignUpEmailLayout = (TextInputLayout) findViewById(R.id.txtSignUpEmailLayout);
+        txtSignUpEmail = (TextInputEditText) findViewById(R.id.txtSignUpEmail);
 
-        txtPasswordSignUpLayout = (TextInputLayout) findViewById(R.id.txtPasswordSignUpLayout);
-        txtPasswordSignUp = (TextInputEditText) findViewById(R.id.txtPasswordSignUp);
+        txtSignUpPasswordLayout = (TextInputLayout) findViewById(R.id.txtSignUpPasswordLayout);
+        txtSignUpPassword = (TextInputEditText) findViewById(R.id.txtSignUpPassword);
+
+        txtSignUpNameLayout = (TextInputLayout) findViewById(R.id.txtSignUpNameLayout);
+        txtSignUpName = (TextInputEditText) findViewById(R.id.txtSignUpName);
+        //TODO:: Name Should be uploaded to the database
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         //progressBar.setVisibility(View.GONE);
 
+        imgProfile = (CircleImageView) findViewById(R.id.imgProfile);
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = txtEmailSignUp.getText().toString();
-                String password = txtPasswordSignUp.getText().toString();
+                String email = txtSignUpEmail.getText().toString();
+                String password = txtSignUpPassword.getText().toString();
                 signUp(email, password);
             }
         });
@@ -57,28 +77,28 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean validateForm() {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        if (txtEmailSignUp.getText().toString().equals("")) {
-            txtEmailSignUpLayout.setErrorEnabled(true);
-            txtEmailSignUpLayout.setError("Enter your email");
+        if (txtSignUpEmail.getText().toString().equals("")) {
+            txtSignUpEmailLayout.setErrorEnabled(true);
+            txtSignUpEmailLayout.setError("Enter your email");
             return false;
         } else {
-            txtEmailSignUpLayout.setErrorEnabled(false);
+            txtSignUpEmailLayout.setErrorEnabled(false);
 
         }
-        if (!txtEmailSignUp.getText().toString().trim().matches(emailPattern)) {
-            txtEmailSignUpLayout.setErrorEnabled(true);
-            txtEmailSignUpLayout.setError("Enter a valid email");
+        if (!txtSignUpEmail.getText().toString().trim().matches(emailPattern)) {
+            txtSignUpEmailLayout.setErrorEnabled(true);
+            txtSignUpEmailLayout.setError("Enter a valid email");
             return false;
         } else {
-            txtEmailSignUpLayout.setErrorEnabled(false);
+            txtSignUpEmailLayout.setErrorEnabled(false);
         }
 
-        if (txtPasswordSignUp.getText().toString().length() <= 6) {
-            txtPasswordSignUpLayout.setErrorEnabled(true);
-            txtPasswordSignUpLayout.setError("Enter a valid password");
+        if (txtSignUpPassword.getText().toString().length() <= 6) {
+            txtSignUpPasswordLayout.setErrorEnabled(true);
+            txtSignUpPasswordLayout.setError("Enter a valid password");
             return false;
         } else {
-            txtPasswordSignUpLayout.setErrorEnabled(false);
+            txtSignUpPasswordLayout.setErrorEnabled(false);
         }
         return true;
     }
@@ -105,6 +125,23 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imgProfile.setImageURI(imageUri);
+            //TODO:: imgageUri Should be uploaded to the database as the profile image's uri
+        }
+    }
 
     private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);

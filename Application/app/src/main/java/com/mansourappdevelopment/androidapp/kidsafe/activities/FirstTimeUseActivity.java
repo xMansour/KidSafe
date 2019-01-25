@@ -3,6 +3,8 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.mansourappdevelopment.androidapp.kidsafe.R;
+
 public class FirstTimeUseActivity extends AppCompatActivity {
 
     @Override
