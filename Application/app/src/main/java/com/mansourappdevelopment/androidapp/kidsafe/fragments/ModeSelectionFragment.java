@@ -1,6 +1,7 @@
 package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +16,7 @@ import android.widget.Switch;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
-import com.mansourappdevelopment.androidapp.kidsafe.activities.LoginActivity;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.ModeSelectionCloseListener;
 
 public class ModeSelectionFragment extends DialogFragment {
     private View view;
@@ -90,4 +91,11 @@ public class ModeSelectionFragment extends DialogFragment {
 
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        Activity activity = getActivity();
+        if (activity instanceof ModeSelectionCloseListener) {
+            ((ModeSelectionCloseListener) activity).onModeSelectionClose(dialog);
+        }
+    }
 }

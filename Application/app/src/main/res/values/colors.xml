@@ -20,10 +20,10 @@
     <color name="github_dark_white">#fafbfc</color>
     <color name="github_white">#ffffff</color>
     <color name="github_green">#2dba4e</color>
-    <color name="github_light_green">#6AFF91</color>
+    <color name="github_light_green">#A0CEA9</color>
 
 
 
-    <color name="darkRed">#B00020</color>
+    <color name="dark_red">#B00020</color>
 
 </resources>

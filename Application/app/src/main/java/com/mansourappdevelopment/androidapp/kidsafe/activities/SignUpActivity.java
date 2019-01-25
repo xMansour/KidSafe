@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,10 +24,11 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.ModeSelectionCloseListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SignUpActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
+public class SignUpActivity extends AppCompatActivity implements ModeSelectionCloseListener {
     private final int PICK_IMAGE_REQUEST = 59;
     private Uri imageUri;
     private FirebaseAuth auth;
@@ -149,6 +151,7 @@ public class SignUpActivity extends AppCompatActivity implements DialogInterface
         fragmentManager = getSupportFragmentManager();
         ModeSelectionFragment modeSelectionFragment = new ModeSelectionFragment();
         modeSelectionFragment.show(fragmentManager, "1");
+
     }
 
     private void verifyAccount() {
@@ -175,7 +178,7 @@ public class SignUpActivity extends AppCompatActivity implements DialogInterface
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onModeSelectionClose(DialogInterface dialogInterface) {
         Toast.makeText(SignUpActivity.this, "Sign up Succeeded", Toast.LENGTH_SHORT).show();
         verifyAccount();
         startLoginActivity();

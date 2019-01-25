@@ -43,6 +43,7 @@
         android:drawableLeft="@drawable/ic_mail"
         android:drawablePadding="5dp"
         android:ems="10"
+        android:enabled="false"
         android:hint="Parent email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
