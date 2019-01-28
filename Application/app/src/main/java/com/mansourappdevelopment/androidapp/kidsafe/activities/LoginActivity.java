@@ -18,6 +18,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordFragment;
 
@@ -32,19 +38,23 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FragmentManager fragmentManager;
+    private String uid;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         //FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
+
         txtLogInEmail = (EditText) findViewById(R.id.txtLogInEmail);
-
         txtLogInPassword = (EditText) findViewById(R.id.txtLogInPassword);
-
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
-
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         //progressBar.setVisibility(View.GONE);
 
@@ -81,12 +91,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = auth.getCurrentUser();
         //update ui -> go to the SignedIn Activity
-        if (currentUser != null)
-            startSignedInActivity();
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            checkMode(email);
+        }
     }
-
 /*    private boolean validateForm() {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -116,9 +127,10 @@ public class LoginActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             FirebaseUser user = auth.getCurrentUser();
+                            String email = user.getEmail();
                             Toast.makeText(LoginActivity.this, "Authentication Succeeded", Toast.LENGTH_SHORT).show();
-                            //update ui -> go to signedIn activity
-                            startSignedInActivity();
+                            //update ui -> go to signedIn activity, but verify which mode first
+                            checkMode(email);
                         } else {
                             String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                             switch (errorCode) {
@@ -146,13 +158,37 @@ public class LoginActivity extends AppCompatActivity {
         recoverPasswordFragment.show(fragmentManager, "recoverPasswordFragment");
     }
 
-    private void startSignedInActivity() {
-        Intent intent = new Intent(this, SignedInActivity.class);
+    private void startParentSignedInActivity() {
+        Intent intent = new Intent(this, ParentSignedInActivity.class);
+        startActivity(intent);
+    }
+
+    private void startChildSignedInActivity() {
+        Intent intent = new Intent(this, ChildSignedInActivity.class);
         startActivity(intent);
     }
 
     private void startSignUpActivity() {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
+    }
+
+    //lag at the login screen until verifying
+    private void checkMode(String email) {
+        Query query = databaseReference.child("parents").orderByChild("email").equalTo(email);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
+                    startParentSignedInActivity();
+                else
+                    startChildSignedInActivity();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

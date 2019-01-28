@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 
-public class FirstTimeUseActivity extends AppCompatActivity {
+public class ParentSignedInActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first_time_use);
+        setContentView(R.layout.activity_parent_signed_in);
     }
 }

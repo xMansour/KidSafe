@@ -213,7 +213,7 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
 
         User user = new User(name, email, password, parentEmail, isChild);
         if (isChild)
-            databaseReference.child("kids").child(uid).setValue(user);
+            databaseReference.child("childs").child(uid).setValue(user);
         else
             databaseReference.child("parents").child(uid).setValue(user);
 

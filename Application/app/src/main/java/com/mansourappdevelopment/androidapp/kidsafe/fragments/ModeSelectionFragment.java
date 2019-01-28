@@ -14,7 +14,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.ModeSelectionCloseListener;
 
@@ -23,8 +28,10 @@ public class ModeSelectionFragment extends DialogFragment {
     private Button btnModeSelection;
     private EditText txtParentEmail;
     private Switch switchMode;
-    private Boolean isChild = false;
-    private FirebaseAuth auth;
+    private boolean isChild = false;
+    private boolean isValid = false;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     @Nullable
     @Override
@@ -35,7 +42,9 @@ public class ModeSelectionFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        auth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
+
         txtParentEmail = view.findViewById(R.id.txtParentEmail);
         switchMode = view.findViewById(R.id.switchMode);
         switchMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -58,20 +67,41 @@ public class ModeSelectionFragment extends DialogFragment {
         btnModeSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isChild && validateForm())
+                if (isChild && validateForm() && isValid)
                     dismiss();
-                else
+
+                if (!isChild && !validateForm() && !isValid)
                     dismiss();
             }
+
         });
     }
 
     private boolean validateForm() {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        if (txtParentEmail.getText().toString().equals("")) {
+        String parentEmail = txtParentEmail.getText().toString();
+        //TODO:: a delay is needed here with a progressbar animation on the button
+        Query query = databaseReference.child("parents").orderByChild("email").equalTo(parentEmail);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    txtParentEmail.setError("This email isn't registered as a parent");
+                    isValid = false;
+                } else
+                    isValid = true;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        if (parentEmail.equals("")) {
             txtParentEmail.setError("Enter your email");
             return false;
-        } else if (!txtParentEmail.getText().toString().trim().matches(emailPattern)) {
+        } else if (!parentEmail.trim().matches(emailPattern)) {
             txtParentEmail.setError("Enter a valid email");
             return false;
         }
