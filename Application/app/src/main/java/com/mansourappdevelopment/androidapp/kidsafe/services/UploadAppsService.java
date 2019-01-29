@@ -36,11 +36,17 @@ public class UploadAppsService extends JobService {
     private PackageManager packageManager;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private boolean blocked;
+    private boolean blocked = false;
+    private String email;
 
 
     @Override
     public boolean onStartJob(JobParameters params) {
+
+        email = params.getExtras().getString(CHILD_EMAIL);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
+
         uploadApps(params);
         //to keep device awake
         return true;
@@ -57,17 +63,13 @@ public class UploadAppsService extends JobService {
         if (jobCancelled)
             return;
 
-        final String email = params.getExtras().getString(CHILD_EMAIL);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 //upload apps to the database
                 prepareData();
-                writeDataToDB(email);
-                updateAppState();
+                writeDataToDB();
             }
         }).start();
 
@@ -80,7 +82,9 @@ public class UploadAppsService extends JobService {
         getInstalledApplication();
         for (ApplicationInfo applicationInfo : applicationInfoList) {
             if (applicationInfo.packageName != null) {
-                appsList.add(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.loadIcon(packageManager), false));
+                getAppState((String) applicationInfo.loadLabel(packageManager));
+                Log.i(TAG, "prepareData: executed");
+                appsList.add(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.loadIcon(packageManager), blocked));
             }
         }
     }
@@ -101,7 +105,7 @@ public class UploadAppsService extends JobService {
         return applicationInfoList;
     }
 
-    private void writeDataToDB(String email) {
+    private void writeDataToDB() {
         final ArrayList<AppTestClass> appNames = new ArrayList<>();
         for (App app : appsList) {
             //appNames.add(app.getAppName());
@@ -142,6 +146,7 @@ public class UploadAppsService extends JobService {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
+                            //TODO:: move this to the parent activity
                             DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
                             HashMap<String, Object> update = new HashMap<>();
                             update.put("blocked", "true");
@@ -176,8 +181,42 @@ public class UploadAppsService extends JobService {
         //TODO:: this method should update the app state, blocked or not
     }
 
-    private boolean getAppState(String email, String appName) {
-        //TODO:: this method should get the app state
+    //TODO:: this method is asynchronous, needs a fix
+    private boolean getAppState(final String appName) {
+        Log.i(TAG, "getAppState: " + appName);
+        Query query = databaseReference.child("childs").orderByChild("email").equalTo(email);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                final String key = nodeShot.getKey();
+                Query query = databaseReference.child("childs").child(key).child("apps").orderByChild("appName").equalTo(appName);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            GenericTypeIndicator<List<AppTestClass>> indicator = new GenericTypeIndicator<List<AppTestClass>>() {
+                            };
+                            List<AppTestClass> app = dataSnapshot.getValue(indicator);
+                            blocked = app.get(0).isBlocked();
+                            Log.i(TAG, "onDataChange: app is found");
+                            Log.i(TAG, "onDataChange: " + String.valueOf(app.get(0).getAppName()));
+                            Log.i(TAG, "onDataChange: " + String.valueOf(app.get(0).isBlocked()));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return blocked;
     }
 
