@@ -146,9 +146,14 @@ public class UploadAppsService extends JobService {
                             HashMap<String, Object> update = new HashMap<>();
                             update.put("blocked", "true");
                             databaseReference.child("childs").child(key).child("apps").child(snapshot.getKey()).updateChildren(update);
+                            GenericTypeIndicator<List<AppTestClass>> indicator = new GenericTypeIndicator<List<AppTestClass>>() {
+                            };
+                            List<AppTestClass> app = dataSnapshot.getValue(indicator);
                             Log.i(TAG, "onDataChange: app is found");
                             Log.i(TAG, "onDataChange: " + dataSnapshot.getValue());
                             Log.i(TAG, "onDataChange: " + dataSnapshot.toString());
+                            Log.i(TAG, "onDataChange: " + String.valueOf(app.get(0).isBlocked()));
+                            Log.i(TAG, "onDataChange: " + String.valueOf(app.get(0).getAppName()));
 
                         }
                     }
@@ -158,7 +163,6 @@ public class UploadAppsService extends JobService {
 
                     }
                 });
-                //databaseReference.child("childs").child(key).child("apps").setValue(appNames);
             }
 
             @Override

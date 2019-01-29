@@ -5,6 +5,9 @@ public class AppTestClass {
     private String appName;
     private boolean blocked;
 
+    public AppTestClass() {
+    }
+
     public AppTestClass(String appName, boolean blocked) {
         this.appName = appName;
         this.blocked = blocked;
