@@ -28,7 +28,7 @@ public class ModeSelectionFragment extends DialogFragment {
     private Button btnModeSelection;
     private EditText txtParentEmail;
     private Switch switchMode;
-    private boolean isChild = false;
+    private boolean child = false;
     private boolean isValid = false;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -54,12 +54,12 @@ public class ModeSelectionFragment extends DialogFragment {
                     switchMode.setText("Child");
                     txtParentEmail.setEnabled(true);
                     txtParentEmail.setBackground(getResources().getDrawable(R.drawable.edit_text_rounded));
-                    isChild = true;
+                    child = true;
                 } else {
                     switchMode.setText("Parent");
                     txtParentEmail.setEnabled(false);
                     txtParentEmail.setBackground(getResources().getDrawable(R.drawable.edit_text_rounded_disabled));
-                    isChild = false;
+                    child = false;
                 }
             }
         });
@@ -67,10 +67,10 @@ public class ModeSelectionFragment extends DialogFragment {
         btnModeSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isChild && validateForm() && isValid)
+                if (child && validateForm() && isValid)
                     dismiss();
 
-                if (!isChild && !validateForm() && !isValid)
+                if (!child && !validateForm() && !isValid)
                     dismiss();
             }
 
@@ -113,11 +113,11 @@ public class ModeSelectionFragment extends DialogFragment {
         Activity activity = getActivity();
         if (activity instanceof ModeSelectionCloseListener) {
             ((ModeSelectionCloseListener) activity).onModeSelectionClose(dialog);
-            if (isChild) {
+            if (child) {
                 String parentEmail = txtParentEmail.getText().toString();
-                ((ModeSelectionCloseListener) activity).sendUserData(parentEmail, isChild);
+                ((ModeSelectionCloseListener) activity).sendUserData(parentEmail, child);
             } else
-                ((ModeSelectionCloseListener) activity).sendUserData("null", isChild);
+                ((ModeSelectionCloseListener) activity).sendUserData("null", child);
 
         }
 

@@ -6,5 +6,5 @@ public interface ModeSelectionCloseListener {
 
     public void onModeSelectionClose(DialogInterface dialogInterface);
 
-    public void sendUserData(String parentEmail, boolean isChild);
+    public void sendUserData(String parentEmail, boolean child);
 }

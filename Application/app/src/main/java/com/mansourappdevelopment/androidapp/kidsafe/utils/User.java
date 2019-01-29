@@ -5,14 +5,14 @@ public class User {
     private String email;
     private String password;
     private String parentEmail;
-    private boolean isChild;
+    private boolean child;
 
-    public User(String name, String email, String password, String parentEmail, boolean isChild) {
+    public User(String name, String email, String password, String parentEmail, boolean child) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.parentEmail = parentEmail;
-        this.isChild = isChild;
+        this.child = child;
     }
 
     public void setName(String name) {
@@ -32,7 +32,7 @@ public class User {
     }
 
     public void setChild(boolean child) {
-        isChild = child;
+        this.child = child;
     }
 
     public String getName() {
@@ -52,6 +52,6 @@ public class User {
     }
 
     public boolean isChild() {
-        return isChild;
+        return child;
     }
 }

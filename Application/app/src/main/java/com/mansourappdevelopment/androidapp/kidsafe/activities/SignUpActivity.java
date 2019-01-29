@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
     private CircleImageView imgProfile;
     private ProgressBar progressBar;
     private FragmentManager fragmentManager;
-    private boolean isChild = false;
+    private boolean child = false;
     private String parentEmail;
     private String uid;
 
@@ -196,8 +195,8 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
     }
 
     @Override
-    public void sendUserData(String parentEmail, boolean isChild) {
-        this.isChild = isChild;
+    public void sendUserData(String parentEmail, boolean child) {
+        this.child = child;
         this.parentEmail = parentEmail;
         addUserToDB();
     }
@@ -208,11 +207,11 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
         String password = txtSignUpPassword.getText().toString();
         String name = txtSignUpName.getText().toString();
         String parentEmail = this.parentEmail;
-        boolean isChild = this.isChild;
+        boolean child = this.child;
 
 
-        User user = new User(name, email, password, parentEmail, isChild);
-        if (isChild)
+        User user = new User(name, email, password, parentEmail, child);
+        if (child)
             databaseReference.child("childs").child(uid).setValue(user);
         else
             databaseReference.child("parents").child(uid).setValue(user);
