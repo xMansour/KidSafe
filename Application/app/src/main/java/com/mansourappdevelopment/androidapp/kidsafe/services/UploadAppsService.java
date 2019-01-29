@@ -7,17 +7,21 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.AppTestClass;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,12 +29,15 @@ import static com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSigne
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class UploadAppsService extends JobService {
+    public static final String TAG = "appFound";
     private boolean jobCancelled;
     private ArrayList<App> appsList;
     private List<ApplicationInfo> applicationInfoList;
     private PackageManager packageManager;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private boolean blocked;
+
 
     @Override
     public boolean onStartJob(JobParameters params) {
@@ -60,11 +67,12 @@ public class UploadAppsService extends JobService {
                 //upload apps to the database
                 prepareData();
                 writeDataToDB(email);
+                updateAppState();
             }
         }).start();
 
         //should be true for rescheduling if it failed
-        jobFinished(params, true);
+        jobFinished(params, false);
     }
 
     private void prepareData() {
@@ -72,7 +80,7 @@ public class UploadAppsService extends JobService {
         getInstalledApplication();
         for (ApplicationInfo applicationInfo : applicationInfoList) {
             if (applicationInfo.packageName != null) {
-                appsList.add(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.loadIcon(packageManager)));
+                appsList.add(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.loadIcon(packageManager), false));
             }
         }
     }
@@ -94,9 +102,10 @@ public class UploadAppsService extends JobService {
     }
 
     private void writeDataToDB(String email) {
-        final ArrayList<String> appNames = new ArrayList<>();
+        final ArrayList<AppTestClass> appNames = new ArrayList<>();
         for (App app : appsList) {
-            appNames.add(app.getAppName());
+            //appNames.add(app.getAppName());
+            appNames.add(new AppTestClass(app.getAppName(), app.isBlocked()));
         }
         Query query = databaseReference.child("childs").orderByChild("email").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -116,7 +125,56 @@ public class UploadAppsService extends JobService {
 
             }
         });
+
+
     }
 
+    private void updateAppState() {
+        Query query = databaseReference.child("childs").orderByChild("email").equalTo("child@child.com");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                final String key = nodeShot.getKey();
+                //TODO:: upload app icons
+                Query query = databaseReference.child("childs").child(key).child("apps").orderByChild("appName").equalTo("a Paper");
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
+                            HashMap<String, Object> update = new HashMap<>();
+                            update.put("blocked", "true");
+                            databaseReference.child("childs").child(key).child("apps").child(snapshot.getKey()).updateChildren(update);
+                            Log.i(TAG, "onDataChange: app is found");
+                            Log.i(TAG, "onDataChange: " + dataSnapshot.getValue());
+                            Log.i(TAG, "onDataChange: " + dataSnapshot.toString());
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                //databaseReference.child("childs").child(key).child("apps").setValue(appNames);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setAppState(String email, String appName, boolean state) {
+        //TODO:: this method should update the app state, blocked or not
+    }
+
+    private boolean getAppState(String email, String appName) {
+        //TODO:: this method should get the app state
+        return blocked;
+    }
 
 }

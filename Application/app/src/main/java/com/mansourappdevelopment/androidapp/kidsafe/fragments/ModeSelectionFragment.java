@@ -29,7 +29,7 @@ public class ModeSelectionFragment extends DialogFragment {
     private EditText txtParentEmail;
     private Switch switchMode;
     private boolean child = false;
-    private boolean isValid = false;
+    private boolean valid = false;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
@@ -67,10 +67,10 @@ public class ModeSelectionFragment extends DialogFragment {
         btnModeSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (child && validateForm() && isValid)
+                if (child && validateForm() && valid)
                     dismiss();
 
-                if (!child && !validateForm() && !isValid)
+                if (!child && !validateForm() && !valid)
                     dismiss();
             }
 
@@ -87,9 +87,9 @@ public class ModeSelectionFragment extends DialogFragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     txtParentEmail.setError("This email isn't registered as a parent");
-                    isValid = false;
+                    valid = false;
                 } else
-                    isValid = true;
+                    valid = true;
             }
 
             @Override

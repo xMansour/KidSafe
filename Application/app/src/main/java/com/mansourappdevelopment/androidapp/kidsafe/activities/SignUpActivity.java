@@ -59,7 +59,6 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
         txtSignUpEmail = (EditText) findViewById(R.id.txtSignUpEmail);
         txtSignUpPassword = (EditText) findViewById(R.id.txtSignUpPassword);
         txtSignUpName = (EditText) findViewById(R.id.txtSignUpName);
-        //TODO:: Name Should be uploaded to the database
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         //progressBar.setVisibility(View.GONE);
