@@ -29,7 +29,7 @@ import static com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSigne
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class UploadAppsService extends JobService {
-    public static final String TAG = "appFound";
+    public static final String TAG = "TAG";
     private boolean jobCancelled;
     private ArrayList<App> appsList;
     private List<ApplicationInfo> applicationInfoList;
