@@ -17,7 +17,6 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.AppTestClass;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,11 +105,6 @@ public class UploadAppsService extends JobService {
     }
 
     private void writeDataToDB() {
-        final ArrayList<AppTestClass> appNames = new ArrayList<>();
-        for (App app : appsList) {
-            //appNames.add(app.getAppName());
-            appNames.add(new AppTestClass(app.getAppName(), app.isBlocked()));
-        }
         Query query = databaseReference.child("childs").orderByChild("email").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -121,7 +115,7 @@ public class UploadAppsService extends JobService {
                 //appList contains drawables, that's why it can't be added to the database.
                 //for now i will upload the names only
                 //TODO:: upload app icons
-                databaseReference.child("childs").child(key).child("apps").setValue(appNames);
+                databaseReference.child("childs").child(key).child("apps").setValue(appsList);
             }
 
             @Override
@@ -151,9 +145,9 @@ public class UploadAppsService extends JobService {
                             HashMap<String, Object> update = new HashMap<>();
                             update.put("blocked", "true");
                             databaseReference.child("childs").child(key).child("apps").child(snapshot.getKey()).updateChildren(update);
-                            GenericTypeIndicator<List<AppTestClass>> indicator = new GenericTypeIndicator<List<AppTestClass>>() {
+                            GenericTypeIndicator<List<App>> indicator = new GenericTypeIndicator<List<App>>() {
                             };
-                            List<AppTestClass> app = dataSnapshot.getValue(indicator);
+                            List<App> app = dataSnapshot.getValue(indicator);
                             Log.i(TAG, "onDataChange: app is found");
                             Log.i(TAG, "onDataChange: " + dataSnapshot.getValue());
                             Log.i(TAG, "onDataChange: " + dataSnapshot.toString());
@@ -195,13 +189,13 @@ public class UploadAppsService extends JobService {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            GenericTypeIndicator<List<AppTestClass>> indicator = new GenericTypeIndicator<List<AppTestClass>>() {
+                            GenericTypeIndicator<List<App>> indicator = new GenericTypeIndicator<List<App>>() {
                             };
-                            List<AppTestClass> app = dataSnapshot.getValue(indicator);
-                            blocked = app.get(0).isBlocked();
+                            List<App> apps = dataSnapshot.getValue(indicator);
+                            blocked = apps.get(0).isBlocked();
                             Log.i(TAG, "onDataChange: app is found");
-                            Log.i(TAG, "onDataChange: " + String.valueOf(app.get(0).getAppName()));
-                            Log.i(TAG, "onDataChange: " + String.valueOf(app.get(0).isBlocked()));
+                            Log.i(TAG, "onDataChange: " + String.valueOf(apps.get(0).getAppName()));
+                            Log.i(TAG, "onDataChange: " + String.valueOf(apps.get(0).isBlocked()));
                         }
                     }
 

@@ -7,6 +7,14 @@ public class App {
     private Drawable appIcon;
     private boolean blocked;
 
+    public App() {
+    }
+
+    public App(String appName, boolean blocked) {
+        this.appName = appName;
+        this.blocked = blocked;
+    }
+
     public App(String appName, Drawable appIcon, boolean blocked) {
         this.appName = appName;
         this.appIcon = appIcon;
