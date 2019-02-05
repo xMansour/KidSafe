@@ -3,13 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#2dba4e</color>
-    <color name="blue">#1D4A7C</color>
-    <color name="lightBlue">#ADCEDF</color>
-    <color name="white">#ffffff</color>
-    <color name="black">#000000</color>
-    <color name="lightBlack">#5c5c5d</color>
 
-    <color name="bootstrap_red">#d9534f	</color>
+
+    <color name="bootstrap_red">#d9534f</color>
     <color name="bootstrap_white">#f9f9f9</color>
     <color name="bootstrap_light_blue">#5bc0de</color>
     <color name="bootstrap_green">#5cb85c</color>
@@ -22,8 +18,11 @@
     <color name="github_green">#2dba4e</color>
     <color name="github_light_green">#A0CEA9</color>
 
-
-
+    <color name="text_color_black_strong">@color/github_black</color>
+    <color name="text_color_black_light">@color/github_light_black</color>
+    <color name="text_color_white_strong">@color/github_dark_white</color>
+    <color name="text_color_white_light">@color/github_white</color>
+    <color name="circular_image_border_color">@color/github_green</color>
     <color name="dark_red">#B00020</color>
 
 </resources>

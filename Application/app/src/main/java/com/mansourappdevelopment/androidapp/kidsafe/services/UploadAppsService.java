@@ -53,15 +53,15 @@ public class UploadAppsService extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        jobCancelled = true;
+        //jobCancelled = true;
         //true for rescheduling
         return true;
     }
 
     private void uploadApps(JobParameters params) {
-        if (jobCancelled)
+        /*if (jobCancelled)
             return;
-
+            */
 
         new Thread(new Runnable() {
             @Override
@@ -81,7 +81,7 @@ public class UploadAppsService extends JobService {
         getInstalledApplication();
         for (ApplicationInfo applicationInfo : applicationInfoList) {
             if (applicationInfo.packageName != null) {
-                getAppState((String) applicationInfo.loadLabel(packageManager));
+                //getAppState((String) applicationInfo.loadLabel(packageManager));      //Asynchronous, will cause errors
                 Log.i(TAG, "prepareData: executed");
                 appsList.add(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.loadIcon(packageManager), blocked));
             }

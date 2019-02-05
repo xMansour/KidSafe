@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="circular_image_border">2dp</dimen>
+    <dimen name="circular_image_width">96dp</dimen>
+    <dimen name="circular_image_height">96dp</dimen>
+
+
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="big_margin">16dp</dimen>
+
+
+    <dimen name="text_small_size">8sp</dimen>
+    <dimen name="text_mid_size">16sp</dimen>
+    <dimen name="text_large_size">24sp</dimen>
+</resources>

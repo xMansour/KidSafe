@@ -22,11 +22,11 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:src="@drawable/ic_add_a_photo"
-                app:civ_border_color="@color/github_green"
-                app:civ_border_width="2dp" />
+                android:layout_width="@dimen/circular_image_width"
+                android:layout_height="@dimen/circular_image_height"
+                android:src="@drawable/ic_face"
+                app:civ_border_color="@color/circular_image_border_color"
+                app:civ_border_width="@dimen/circular_image_border" />
 
 
             <EditText
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_login"
                 android:text="Sign Up"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_white_light"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="143dp"

@@ -8,12 +8,47 @@
     android:orientation="vertical"
     tools:context=".activities.ParentSignedInActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="Parent Activity"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgParent"
+                android:layout_width="@dimen/circular_image_width"
+                android:layout_height="@dimen/circular_image_height"
+                android:layout_margin="@dimen/small_margin"
+                android:src="@drawable/ic_face"
+                app:civ_border_color="@color/circular_image_border_color"
+                app:civ_border_width="@dimen/circular_image_border" />
+
+            <TextView
+                android:id="@+id/txtParentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/parent_name"
+                android:textColor="@color/text_color_black_strong"
+                android:textSize="@dimen/text_mid_size"
+                android:textStyle="bold" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewChilds"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/small_margin" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </LinearLayout>

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">KidSafe</string>
     <string name="id">487946012349-brimdf043dkkn6de7uspdv91mo7rc9s0.apps.googleusercontent.com</string>
+    <string name="parent_name">Parent Name</string>
+
 </resources>
