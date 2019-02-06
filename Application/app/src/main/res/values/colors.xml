@@ -13,7 +13,7 @@
 
     <color name="github_black">#24292e</color>
     <color name="github_light_black">#2b3137</color>
-    <color name="github_dark_white">#fafbfc</color>
+    <color name="github_dark_white">#CFCFCF</color>
     <color name="github_white">#ffffff</color>
     <color name="github_green">#2dba4e</color>
     <color name="github_light_green">#A0CEA9</color>
@@ -23,6 +23,15 @@
     <color name="text_color_white_strong">@color/github_dark_white</color>
     <color name="text_color_white_light">@color/github_white</color>
     <color name="circular_image_border_color">@color/github_green</color>
+    <color name="edit_text_border_color">@color/github_green</color>
+    <color name="edit_text_disabled_border_color">@color/github_light_green</color>
+    <color name="edit_text_solid_color">@color/github_white</color>
+    <color name="login_button_solid_color">@color/github_green</color>
+    <color name="login_button_disabled_solid_color">@color/github_light_green</color>
+    <color name="sign_up_button_solid_color">@color/github_green</color>
+    <color name="sign_up_button_disabled_solid_color">@color/github_light_green</color>
+    <color name="recycler_view_background">@color/github_white</color>
+    <color name="recycler_view_border">@color/github_dark_white</color>
     <color name="dark_red">#B00020</color>
 
 </resources>

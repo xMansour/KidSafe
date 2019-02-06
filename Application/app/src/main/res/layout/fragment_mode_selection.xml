@@ -16,9 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="Select Mode:"
-            android:textColor="@color/black"
-            android:textSize="24dp"
+            android:text="@string/select_mode"
+            android:textColor="@color/text_color_black_light"
+            android:textSize="@dimen/text_mid_size"
             android:textStyle="bold" />
 
         <Switch
@@ -27,9 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="Parent"
-            android:textColor="@color/black"
-            android:textSize="24dp"
+            android:text="@string/parent"
+            android:textColor="@color/text_color_black_light"
+            android:textSize="@dimen/text_mid_size"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -41,22 +41,22 @@
         android:layout_margin="20dp"
         android:background="@drawable/edit_text_rounded_disabled"
         android:drawableLeft="@drawable/ic_mail"
-        android:drawablePadding="5dp"
+        android:drawablePadding="@dimen/small_padding"
         android:ems="10"
         android:enabled="false"
-        android:hint="Parent email"
+        android:hint="@string/parent_email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
-        android:padding="5dp" />
+        android:padding="@dimen/small_padding" />
 
     <Button
         android:id="@+id/btnModeSelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/big_margin"
         android:background="@drawable/button_login"
         android:text="OK"
-        android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textColor="@color/text_color_black_light"
+        android:textSize="@dimen/text_large_size"
         android:textStyle="bold" />
 </LinearLayout>

@@ -1,11 +1,19 @@
 package com.mansourappdevelopment.androidapp.kidsafe.utils;
 
+import java.util.ArrayList;
+
 public class User {
     private String name;
     private String email;
     private String password;
     private String parentEmail;
     private boolean child;
+    private ArrayList<App> apps = new ArrayList<>();
+
+    //TODO:: add user image field
+    public User() {
+
+    }
 
     public User(String name, String email, String password, String parentEmail, boolean child) {
         this.name = name;

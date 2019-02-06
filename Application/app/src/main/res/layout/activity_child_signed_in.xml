@@ -11,9 +11,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/small_margin"
         android:text="Child Activity"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_large_size"
         android:textStyle="bold" />
 </LinearLayout>

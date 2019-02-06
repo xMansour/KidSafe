@@ -30,39 +30,52 @@
                 tools:layout_editor_absoluteY="91dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
-
-            <EditText
-                android:id="@+id/txtLogInEmail"
-                android:layout_width="fill_parent"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:drawableStart="@drawable/ic_mail"
-                android:drawableLeft="@drawable/ic_mail"
-                android:drawablePadding="5dp"
-                android:hint="Email address"
-                android:inputType="textEmailAddress" />
+                android:layout_margin="@dimen/small_margin"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="1dp">
 
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
+                    <EditText
+                        android:id="@+id/txtLogInEmail"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableStart="@drawable/ic_mail"
+                        android:drawableLeft="@drawable/ic_mail"
+                        android:drawablePadding="5dp"
+                        android:hint="Email address"
+                        android:inputType="textEmailAddress" />
 
-            <EditText
-                android:id="@+id/txtLogInPassword"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:drawableStart="@drawable/ic_lock"
-                android:drawableLeft="@drawable/ic_lock"
-                android:drawablePadding="5dp"
-                android:hint="Password"
-                android:inputType="textPassword" />
+                    <EditText
+                        android:id="@+id/txtLogInPassword"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableStart="@drawable/ic_lock"
+                        android:drawableLeft="@drawable/ic_lock"
+                        android:drawablePadding="5dp"
+                        android:hint="Password"
+                        android:inputType="textPassword" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_login"
-                android:text="Login"
-                android:textColor="@color/white"
-                android:textSize="16sp"
+                android:text="@string/login_button"
+                android:textColor="@color/text_color_white_light"
+                android:textSize="@dimen/text_mid_size"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="143dp"
                 tools:layout_editor_absoluteY="499dp" />
@@ -72,8 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Forgot your password?"
-                android:textColor="@color/lightBlack"
+                android:text="@string/forgot_your_password"
+                android:textColor="@color/text_color_black_light"
                 tools:layout_editor_absoluteX="161dp"
                 tools:layout_editor_absoluteY="588dp" />
 
@@ -83,8 +96,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                android:text="OR"
-                android:textColor="@color/lightBlack"
+                android:text="@string/or"
+                android:textColor="@color/text_color_black_light"
                 tools:layout_editor_absoluteX="185dp"
                 tools:layout_editor_absoluteY="652dp" />
 

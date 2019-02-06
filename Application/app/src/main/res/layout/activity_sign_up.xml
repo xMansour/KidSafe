@@ -22,54 +22,68 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="@dimen/circular_image_width"
-                android:layout_height="@dimen/circular_image_height"
+                android:layout_width="@dimen/circular_image_width_large"
+                android:layout_height="@dimen/circular_image_height_large"
                 android:src="@drawable/ic_face"
                 app:civ_border_color="@color/circular_image_border_color"
-                app:civ_border_width="@dimen/circular_image_border" />
+                app:civ_border_width="@dimen/circular_image_border_large" />
 
-
-            <EditText
-                android:id="@+id/txtSignUpName"
-                android:layout_width="fill_parent"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:drawableStart="@drawable/ic_person"
-                android:drawableLeft="@drawable/ic_person"
-                android:drawablePadding="5dp"
-                android:hint="Name"
-                android:inputType="textPersonName" />
+                android:layout_margin="@dimen/small_margin"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="1dp">
 
-            <EditText
-                android:id="@+id/txtSignUpEmail"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:drawableStart="@drawable/ic_mail"
-                android:drawableLeft="@drawable/ic_mail"
-                android:drawablePadding="5dp"
-                android:hint="Email address"
-                android:inputType="textEmailAddress" />
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/txtSignUpPassword"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:drawableStart="@drawable/ic_lock"
-                android:drawableLeft="@drawable/ic_lock"
-                android:drawablePadding="5dp"
-                android:hint="Password"
-                android:inputType="textPassword" />
+                    <EditText
+                        android:id="@+id/txtSignUpName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/small_margin"
+                        android:drawableStart="@drawable/ic_person"
+                        android:drawableLeft="@drawable/ic_person"
+                        android:drawablePadding="@dimen/small_padding"
+                        android:hint="@string/name"
+                        android:inputType="textPersonName" />
+
+                    <EditText
+                        android:id="@+id/txtSignUpEmail"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/small_margin"
+                        android:drawableStart="@drawable/ic_mail"
+                        android:drawableLeft="@drawable/ic_mail"
+                        android:drawablePadding="@dimen/small_padding"
+                        android:hint="@string/email_address"
+                        android:inputType="textEmailAddress" />
+
+                    <EditText
+                        android:id="@+id/txtSignUpPassword"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/small_margin"
+                        android:drawableStart="@drawable/ic_lock"
+                        android:drawableLeft="@drawable/ic_lock"
+                        android:drawablePadding="@dimen/small_padding"
+                        android:hint="@string/password"
+                        android:inputType="textPassword" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
             <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_login"
-                android:text="Sign Up"
+                android:text="@string/sign_up"
                 android:textColor="@color/text_color_white_light"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_mid_size"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="143dp"
                 tools:layout_editor_absoluteY="499dp" />

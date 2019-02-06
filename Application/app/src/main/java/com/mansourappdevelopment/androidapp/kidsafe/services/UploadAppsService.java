@@ -28,7 +28,7 @@ import static com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSigne
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class UploadAppsService extends JobService {
-    public static final String TAG = "TAG";
+    public static final String TAG = "UploadAppsServiceTag";
     private boolean jobCancelled;
     private ArrayList<App> appsList;
     private List<ApplicationInfo> applicationInfoList;
@@ -105,6 +105,11 @@ public class UploadAppsService extends JobService {
     }
 
     private void writeDataToDB() {
+        final ArrayList<App> simpleAppInfo = new ArrayList<>();
+        for (App app : appsList) {
+            simpleAppInfo.add(new App(app.getAppName(), app.isBlocked()));
+        }
+
         Query query = databaseReference.child("childs").orderByChild("email").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -115,7 +120,7 @@ public class UploadAppsService extends JobService {
                 //appList contains drawables, that's why it can't be added to the database.
                 //for now i will upload the names only
                 //TODO:: upload app icons
-                databaseReference.child("childs").child(key).child("apps").setValue(appsList);
+                databaseReference.child("childs").child(key).child("apps").setValue(simpleAppInfo);
             }
 
             @Override
@@ -189,8 +194,7 @@ public class UploadAppsService extends JobService {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            GenericTypeIndicator<List<App>> indicator = new GenericTypeIndicator<List<App>>() {
-                            };
+                            GenericTypeIndicator<List<App>> indicator = new GenericTypeIndicator<List<App>>() {};
                             List<App> apps = dataSnapshot.getValue(indicator);
                             blocked = apps.get(0).isBlocked();
                             Log.i(TAG, "onDataChange: app is found");
