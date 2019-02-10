@@ -11,6 +11,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnAppClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 
 import java.util.ArrayList;
@@ -20,6 +21,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHolder> {
     private Context context;
     private ArrayList<App> apps;
+    private OnAppClickListener onAppClickListener;
+
+    public void setOnAppClickListener(OnAppClickListener onAppClickListener) {
+        this.onAppClickListener = onAppClickListener;
+    }
 
     public AppAdapter(Context context, ArrayList<App> apps) {
         this.context = context;
@@ -40,7 +46,8 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHo
             switchAppState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //TODO:: update the app state in the firebase database
+                    if (buttonView.isPressed())
+                        onAppClickListener.onItemClick(txtAppName.getText().toString(), isChecked);
                 }
             });
         }

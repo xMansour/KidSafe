@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/txtAppName"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/small_margin"
@@ -36,15 +36,9 @@
         <Switch
             android:id="@+id/switchAppState"
             android:layout_width="match_parent"
+            android:layout_gravity="center|end"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_margin="@dimen/small_margin"
-            android:gravity="center|end"
-            android:switchPadding="@dimen/small_padding"
-            android:text="@string/enabled"
-            android:textColor="@color/text_color_black_light"
-            android:textSize="@dimen/text_mid_size"
-            android:textStyle="bold" />
-
+            />
     </LinearLayout>
 </android.support.v7.widget.CardView>

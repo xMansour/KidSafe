@@ -10,15 +10,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.AppAdapter;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnAppClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 
 import java.util.ArrayList;
 
-public class AppsFragment extends Fragment {
+public class AppsFragment extends Fragment implements OnAppClickListener {
     ArrayList<App> apps;
     AppAdapter appAdapter;
     RecyclerView recyclerViewApps;
@@ -42,8 +44,9 @@ public class AppsFragment extends Fragment {
         recyclerViewApps = (RecyclerView) view.findViewById(R.id.recyclerViewApps);
         recyclerViewApps.setHasFixedSize(true);
         recyclerViewApps.setLayoutManager(new LinearLayoutManager(getContext()));
+
         getData();
-        initializeAdapter();
+        initializeAdapter(this);
 
     }
 
@@ -54,8 +57,17 @@ public class AppsFragment extends Fragment {
         }
     }
 
-    public void initializeAdapter() {
+    public void initializeAdapter(OnAppClickListener onAppClickListener) {
         appAdapter = new AppAdapter(context, apps);
+        appAdapter.setOnAppClickListener(onAppClickListener);
         recyclerViewApps.setAdapter(appAdapter);
+    }
+
+    @Override
+    public void onItemClick(String appName, boolean blocked) {
+        if (blocked)
+            Toast.makeText(context, appName + " blocked", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(context, appName + " enabled", Toast.LENGTH_SHORT).show();
     }
 }
