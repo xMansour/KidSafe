@@ -1,5 +1,6 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -111,6 +112,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ChildDetailsActivity.class);
+        startActivity(intent);
     }
 }

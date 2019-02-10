@@ -18,5 +18,8 @@
     <string name="number_of_childs">Number of children:</string>
     <string name="_0">0</string>
     <string name="child_name">Child Name</string>
+    <string name="stats">Stats</string>
+    <string name="apps">Apps</string>
+    <string name="location">Location</string>
 
 </resources>
