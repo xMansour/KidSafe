@@ -33,7 +33,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ParentSignedInActivity extends AppCompatActivity implements OnChildClickListener {
-    public static final String TAG = "ParentSignedInActivityTag";
+    public static final String TAG = "ParentSignedInActivity";
     public static final String APPS_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.APPS_EXTRA";
     public static final String CHILD_NAME_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_NAME_EXTRA";
     public static final String CHILD_EMAIL_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_EMAIL_EXTRA";
@@ -92,13 +92,6 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
                     }
 
                     initializeAdapter();
-
-                    //Log.i(TAG, "onDataChange: dataSnapshot children count: " + dataSnapshot.getChildrenCount());
-                    //Log.i(TAG, "onDataChange: dataSnapshot key: "+ dataSnapshot.getKey());
-                    //Log.i(TAG, "onDataChange: dataSnapshot Children: "+ dataSnapshot.getChildren());
-                    //Log.i(TAG, "onDataChange: dataSnapshot Ref: "+ dataSnapshot.getRef());
-                    //Log.i(TAG, "onDataChange: dataSnapshot Value: " + dataSnapshot.getValue());
-                    //Log.i(TAG, "onDataChange: dataSnapshot As String: "+ dataSnapshot.toString());
 
                 }
             }

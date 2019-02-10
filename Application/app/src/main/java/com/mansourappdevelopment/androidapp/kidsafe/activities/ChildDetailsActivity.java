@@ -20,7 +20,7 @@ import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSign
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_NAME_EXTRA;
 
 public class ChildDetailsActivity extends AppCompatActivity {
-    ArrayList<App> apps;
+    private ArrayList<App> apps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
