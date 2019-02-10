@@ -42,7 +42,7 @@ public class ChildSignedInActivity extends AppCompatActivity {
         JobInfo jobInfo = new JobInfo.Builder(JOB_ID, componentName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPersisted(true)
-                .setPeriodic(24 * 60 * 60 * 1000)
+                .setPeriodic(15 * 60 * 1000)
                 .setExtras(bundle)
                 .build();
         JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);

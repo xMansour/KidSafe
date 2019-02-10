@@ -62,4 +62,8 @@ public class User {
     public boolean isChild() {
         return child;
     }
+
+    public ArrayList<App> getApps() {
+        return apps;
+    }
 }

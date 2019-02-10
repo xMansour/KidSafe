@@ -27,12 +27,18 @@ import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ParentSignedInActivity extends AppCompatActivity implements OnChildClickListener {
     public static final String TAG = "ParentSignedInActivityTag";
+    public static final String APPS_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.APPS_EXTRA";
+    public static final String CHILD_NAME_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_NAME_EXTRA";
+    public static final String CHILD_EMAIL_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_EMAIL_EXTRA";
+    public static final String PARENT_EMAIL_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.PARENT_EMAIL_EXTRA";
+    public static final String CHILD_IMG_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_IMG_EXTRA";
     private RecyclerView recyclerViewChilds;
     private ChildAdapter childAdapter;
     private ArrayList<User> childs;
@@ -112,7 +118,20 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
     @Override
     public void onItemClick(View view, int position) {
+        User child = childs.get(position);
         Intent intent = new Intent(this, ChildDetailsActivity.class);
+        /*String listString = "";
+        for (App app : child.getApps()) {
+            listString += app.getAppName();
+            listString += ": " + app.isBlocked() + ", ";
+        }
+        Log.i(TAG, "onItemClick: Apps: " + listString);*/
+        intent.putExtra(APPS_EXTRA, child.getApps());
+        intent.putExtra(PARENT_EMAIL_EXTRA, user.getEmail());
+        intent.putExtra(CHILD_NAME_EXTRA, child.getName());
+        intent.putExtra(CHILD_EMAIL_EXTRA, child.getEmail());
+        //TODO:: put child's image as an extra
+
         startActivity(intent);
     }
 }

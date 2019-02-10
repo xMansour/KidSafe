@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="start"
         android:layout_margin="@dimen/small_margin"
-        android:text="Apps Fragment"
-        android:textAlignment="center"
+        android:text="@string/available_apps"
+        android:textColor="@color/text_color_black_strong"
         android:textSize="@dimen/text_large_size"
         android:textStyle="bold" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewApps"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/small_margin"
+        android:background="@drawable/recycler_view"
+        android:padding="@dimen/very_small_padding" />
+
 
 </LinearLayout>

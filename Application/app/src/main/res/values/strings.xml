@@ -21,5 +21,8 @@
     <string name="stats">Stats</string>
     <string name="apps">Apps</string>
     <string name="location">Location</string>
+    <string name="child_app_name">App name</string>
+    <string name="enabled">Enabled</string>
+    <string name="available_apps">Available Apps</string>
 
 </resources>
