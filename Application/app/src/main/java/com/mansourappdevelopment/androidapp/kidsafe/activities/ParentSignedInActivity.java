@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +46,9 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
     private ArrayList<User> childs;
     private CircleImageView imgParent;
     private TextView txtParentName;
-    private TextView txtChildCount;
+    //private TextView txtChildCount;
+    private ProgressBar progressBar;
+    private LinearLayout linearLayout;
     private FirebaseAuth auth;
     private FirebaseUser user;
     private FirebaseDatabase firebaseDatabase;
@@ -62,29 +66,29 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
         imgParent = findViewById(R.id.imgParent);
         txtParentName = findViewById(R.id.txtParentName);
-        txtChildCount = findViewById(R.id.txtChildCount);
+        //txtChildCount = findViewById(R.id.txtChildCount);
+        linearLayout = findViewById(R.id.linearLayoutParentSignedInActivity);
+        progressBar = findViewById(R.id.progressBarParentSignedInActivity);
+        progressBar.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.GONE);
 
         recyclerViewChilds = findViewById(R.id.recyclerViewChilds);
         recyclerViewChilds.setHasFixedSize(true);
         recyclerViewChilds.setLayoutManager(new LinearLayoutManager(this));
-        getChilds();
+        String parentEmail = user.getEmail();
+        getChilds(parentEmail);
+        getParentName(parentEmail);
 
     }
 
-    public void getChilds() {
-        String parentEmail = user.getEmail();
-        //TODO:: query the parent with that email and get his name
-        //String parentName = user.getDisplayName();    from the database
-        //txtParentName.setText(parentName);
-        txtParentName.setText(parentEmail);
-
+    public void getChilds(String parentEmail) {
         Query query = databaseReference.child("childs").orderByChild("parentEmail").equalTo(parentEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    long childCount = dataSnapshot.getChildrenCount();
-                    txtChildCount.setText(String.valueOf(childCount));
+                    //long childCount = dataSnapshot.getChildrenCount();
+                    //txtChildCount.setText(String.valueOf(childCount));
 
                     childs = new ArrayList<>();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -109,16 +113,32 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         recyclerViewChilds.setAdapter(childAdapter);
     }
 
+    public void getParentName(String parentEmail) {
+        Query query = databaseReference.child("parents").orderByChild("email").equalTo(parentEmail);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                //String key = dataSnapshot.getKey();
+                User parent = nodeShot.getValue(User.class);
+                String parentName = parent.getName();
+                progressBar.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
+                txtParentName.setText(parentName);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     @Override
     public void onItemClick(View view, int position) {
         User child = childs.get(position);
         Intent intent = new Intent(this, ChildDetailsActivity.class);
-        /*String listString = "";
-        for (App app : child.getApps()) {
-            listString += app.getAppName();
-            listString += ": " + app.isBlocked() + ", ";
-        }
-        Log.i(TAG, "onItemClick: Apps: " + listString);*/
         intent.putExtra(APPS_EXTRA, child.getApps());
         intent.putExtra(PARENT_EMAIL_EXTRA, user.getEmail());
         intent.putExtra(CHILD_NAME_EXTRA, child.getName());
@@ -127,4 +147,5 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
         startActivity(intent);
     }
+
 }

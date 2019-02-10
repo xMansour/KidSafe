@@ -6,22 +6,25 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_margin="@dimen/small_margin"
-        android:text="@string/available_apps"
-        android:textColor="@color/text_color_black_strong"
-        android:textSize="@dimen/text_large_size"
-        android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/small_margin"
-        android:layout_marginRight="@dimen/small_margin"
-        android:background="@color/github_light_black" />
+    <!--
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_margin="@dimen/small_margin"
+            android:text="@string/available_apps"
+            android:textColor="@color/text_color_black_strong"
+            android:textSize="@dimen/text_large_size"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:layout_marginRight="@dimen/small_margin"
+            android:background="@color/github_light_black" />
+    -->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewApps"

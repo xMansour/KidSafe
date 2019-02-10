@@ -32,7 +32,7 @@ public class ChildDetailsActivity extends AppCompatActivity {
         apps = intent.getParcelableArrayListExtra(APPS_EXTRA);
 
 
-        setTitle(childName);
+        setTitle(childName + "'s device");
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new AppsFragment()).commit();
 
         BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottomNav);
