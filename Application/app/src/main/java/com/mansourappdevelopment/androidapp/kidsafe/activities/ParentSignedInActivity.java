@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.ChildAdapter;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
@@ -27,7 +30,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ParentSignedInActivity extends AppCompatActivity {
+public class ParentSignedInActivity extends AppCompatActivity implements OnChildClickListener {
     public static final String TAG = "ParentSignedInActivityTag";
     private RecyclerView recyclerViewChilds;
     private ChildAdapter childAdapter;
@@ -102,6 +105,12 @@ public class ParentSignedInActivity extends AppCompatActivity {
 
     public void initializeAdapter() {
         childAdapter = new ChildAdapter(this, childs);
+        childAdapter.setOnChildClickListener(this);
         recyclerViewChilds.setAdapter(childAdapter);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 }

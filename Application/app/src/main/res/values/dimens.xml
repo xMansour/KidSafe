@@ -20,5 +20,5 @@
     <dimen name="edit_text_stroke_width">2dp</dimen>
     <dimen name="small_padding">5dp</dimen>
     <dimen name="recycler_view_stroke_width">2dp</dimen>
-    <dimen name="recycler_view_corner_radius">4dp</dimen>
+    <dimen name="recycler_view_corner_radius">2dp</dimen>
 </resources>

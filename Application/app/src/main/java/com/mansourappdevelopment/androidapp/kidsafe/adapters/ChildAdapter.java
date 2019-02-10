@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
 import java.util.ArrayList;
@@ -17,6 +18,11 @@ import java.util.ArrayList;
 public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapterViewHolder> {
     private Context context;
     private ArrayList<User> childs;
+    private OnChildClickListener onChildClickListener;
+
+    public void setOnChildClickListener(OnChildClickListener listener) {
+        this.onChildClickListener = listener;
+    }
 
     public ChildAdapter(Context context, ArrayList<User> childs) {
         this.context = context;
@@ -31,6 +37,16 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
             super(itemView);
             imgChild = itemView.findViewById(R.id.imgChild);
             txtChildName = itemView.findViewById(R.id.txtChildName);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onChildClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                            onChildClickListener.onItemClick(v, position);
+                    }
+                }
+            });
         }
     }
 
@@ -43,7 +59,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChildAdapterViewHolder childAdapterViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ChildAdapterViewHolder childAdapterViewHolder, int i) {
         User child = childs.get(i);
         childAdapterViewHolder.txtChildName.setText(child.getName());
         //TODO:: get the image from the user class
