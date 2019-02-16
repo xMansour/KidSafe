@@ -1,13 +1,19 @@
 package com.mansourappdevelopment.androidapp.kidsafe.services;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +31,8 @@ import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity.CHILD_EMAIL;
 import static com.mansourappdevelopment.androidapp.kidsafe.utils.NotificationChannelCreator.CHANNEL_ID;
@@ -79,7 +87,7 @@ public class UpdateAppStatsForegroundService extends Service {
             }
         });
 
-        return START_REDELIVER_INTENT;
+        return START_STICKY;
     }
 
     @Override
@@ -98,10 +106,10 @@ public class UpdateAppStatsForegroundService extends Service {
             Log.i(TAG, "onDataChange: app name: " + app.getAppName() + ", blocked: " + app.isBlocked() + "\n");
         }*/
         Log.i(TAG, "updateAppStats: executed");
+        Toast.makeText(this, "Updated the app list", Toast.LENGTH_SHORT).show();
+        //TODO:: block the apps which have a blocked attribute = true
 
-
-
-
+        //Toast.makeText(this, "Current App: " + getForegroundApp(), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -136,4 +144,32 @@ public class UpdateAppStatsForegroundService extends Service {
     }
 
 
+    /*private String getForegroundApp() {
+        String currentApp = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            UsageStatsManager usageStatsManager = (UsageStatsManager) this.getSystemService(Context.USAGE_STATS_SERVICE);
+            long time = System.currentTimeMillis();
+            List<UsageStats> appList = usageStatsManager.queryUsageStats(
+                    UsageStatsManager.INTERVAL_DAILY,
+                    time - 1000 * 1000,
+                    time);
+            if (appList != null && appList.size() > 0) {
+                SortedMap<Long, UsageStats> sortedMap = new TreeMap<Long, UsageStats>();
+                for (UsageStats usageStats : appList) {
+                    sortedMap.put(usageStats.getLastTimeUsed(), usageStats);
+                }
+
+                if (sortedMap != null && !sortedMap.isEmpty()) {        //not needed
+                    currentApp = sortedMap.get(sortedMap.lastKey()).getPackageName();
+                }
+            }
+        } else {
+            ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningAppProcessInfo> appList = activityManager.getRunningAppProcesses();
+            currentApp = appList.get(0).processName;
+
+        }
+
+        return currentApp;
+    }*/
 }
