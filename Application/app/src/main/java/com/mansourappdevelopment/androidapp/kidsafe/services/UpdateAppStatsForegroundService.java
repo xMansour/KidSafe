@@ -32,11 +32,7 @@ import static com.mansourappdevelopment.androidapp.kidsafe.utils.NotificationCha
 public class UpdateAppStatsForegroundService extends Service {
     public static final int NOTIFICATION_ID = 27;
     public static final String TAG = "UpdateAppStatsService";
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private FirebaseAuth auth;
-    private FirebaseUser user;
-    private ArrayList<App> apps;
 
     @Override
     public void onCreate() {
@@ -48,9 +44,10 @@ public class UpdateAppStatsForegroundService extends Service {
         //String childEmail = intent.getStringExtra(CHILD_EMAIL);
         //String notificationContent = "Monitoring device";
 
-        auth = FirebaseAuth.getInstance();      //Now you get the user email even after reboot
-        user = auth.getCurrentUser();
-        String childEmail = user.getEmail();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        final String childEmail = user.getEmail();
+        final String uid = user.getUid();
 
         Intent notificationIntent = new Intent(this, ChildSignedInActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -63,10 +60,24 @@ public class UpdateAppStatsForegroundService extends Service {
 
         startForeground(NOTIFICATION_ID, notification);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
 
-        getApps(childEmail);
+        Query query = databaseReference.child("childs").child(uid);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    getApps(childEmail);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         return START_REDELIVER_INTENT;
     }
@@ -82,7 +93,15 @@ public class UpdateAppStatsForegroundService extends Service {
     }
 
 
-    private void updateAppStats(String childEmail) {
+    private void updateAppStats(ArrayList<App> apps) {
+        /*for (App app : apps) {
+            Log.i(TAG, "onDataChange: app name: " + app.getAppName() + ", blocked: " + app.isBlocked() + "\n");
+        }*/
+        Log.i(TAG, "updateAppStats: executed");
+
+
+
+
 
     }
 
@@ -97,18 +116,14 @@ public class UpdateAppStatsForegroundService extends Service {
                     //Log.i(TAG, "onDataChange: dataSnapshot children: " + dataSnapshot.getChildren());
                     //Log.i(TAG, "onDataChange: dataSnapshot key: " + dataSnapshot.getKey());
 
-                    apps = new ArrayList<>();
+                    ArrayList<App> apps;
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
                     User child = nodeShot.getValue(User.class);
                     apps = child.getApps();
 
-                    Log.i(TAG, "onDataChange: child name: "+child.getName());
+                    Log.i(TAG, "onDataChange: child name: " + child.getName());
 
-                    for (App app : apps) {
-                        Log.i(TAG, "onDataChange: app name: " + app.getAppName() + ", blocked: " + app.isBlocked() + "\n");
-                    }
-
-                    updateAppStats(childEmail);
+                    updateAppStats(apps);
 
                 }
             }

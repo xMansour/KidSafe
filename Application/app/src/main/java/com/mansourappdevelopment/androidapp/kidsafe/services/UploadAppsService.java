@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +19,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,26 +27,30 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity.CHILD_EMAIL;
-
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class UploadAppsService extends JobService {
-    public static final String TAG = "UploadAppsServiceTag";
+    public static final String TAG = "UploadAppsService";
     private boolean jobCancelled;
-    private ArrayList<App> appsList;
+
+
+    private ArrayList<App> apps;            //read from the database
     private List<ApplicationInfo> applicationInfoList;
     private PackageManager packageManager;
-    private FirebaseDatabase firebaseDatabase;
+
+
     private DatabaseReference databaseReference;
-    private boolean blocked = false;
-    private String email;
+    private String childEmail;
 
 
     @Override
     public boolean onStartJob(JobParameters params) {
 
-        email = params.getExtras().getString(CHILD_EMAIL);
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        childEmail = user.getEmail();
+
+        //childEmail = params.getExtras().getString(CHILD_EMAIL);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
 
         uploadApps(params);
@@ -67,8 +74,7 @@ public class UploadAppsService extends JobService {
             @Override
             public void run() {
                 //upload apps to the database
-                prepareData();
-                writeDataToDB();
+                getRecentAppStats();
             }
         }).start();
 
@@ -76,19 +82,41 @@ public class UploadAppsService extends JobService {
         jobFinished(params, false);
     }
 
-    private void prepareData() {
-        appsList = new ArrayList<>();
+    private void prepareData(ArrayList<App> apps) {
+
+        ArrayList<App> appsList = new ArrayList<>();
         getInstalledApplication();
+
         for (ApplicationInfo applicationInfo : applicationInfoList) {
             if (applicationInfo.packageName != null) {
-                //getAppState((String) applicationInfo.loadLabel(packageManager));      //Asynchronous, will cause errors
-                Log.i(TAG, "prepareData: executed");
-                appsList.add(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.loadIcon(packageManager), blocked));
+                if (apps.isEmpty()) {       //online appList will be empty for the first time, used for initialization
+                    Log.i(TAG, "prepareData: online appsList empty");
+                    appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), false));
+
+                } else {
+
+                    for (App app : apps) {
+                        if (app.getAppName().equals((String) applicationInfo.loadLabel(packageManager))) {
+                            appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), app.isBlocked()));
+                            Log.i(TAG, "prepareData: if executed");
+                        }
+                    }
+
+                    //TODO:: add new apps which aren't listed in that list
+                    /*for (App app : appsList) {
+                        if (!apps.contains(app)) {
+                            //appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), false));
+                            Log.i(TAG, "prepareData: new app added: " + (String) applicationInfo.loadLabel(packageManager));
+                        }
+                    }*/
+                }
             }
         }
+
+        writeDataToDB(appsList);
     }
 
-    private List<ApplicationInfo> getInstalledApplication() {
+    private void getInstalledApplication() {
         packageManager = getPackageManager();
         applicationInfoList = packageManager.getInstalledApplications(0);
         Collections.sort(applicationInfoList, new ApplicationInfo.DisplayNameComparator(packageManager));
@@ -101,26 +129,53 @@ public class UploadAppsService extends JobService {
                 iterator.remove();
             }
         }
-        return applicationInfoList;
     }
 
-    private void writeDataToDB() {
-        final ArrayList<App> simpleAppInfo = new ArrayList<>();
-        for (App app : appsList) {
-            simpleAppInfo.add(new App(app.getAppName(), app.isBlocked()));
-        }
-
-        Query query = databaseReference.child("childs").orderByChild("email").equalTo(email);
+    private void getRecentAppStats() {
+        Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //update the child's database and add the appsList
-                DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                String key = nodeShot.getKey();
-                //appList contains drawables, that's why it can't be added to the database.
-                //for now i will upload the names only
-                //TODO:: upload app icons
-                databaseReference.child("childs").child(key).child("apps").setValue(simpleAppInfo);
+                if (dataSnapshot.exists()) {
+                    apps = new ArrayList<>();
+                    DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                    User child = nodeShot.getValue(User.class);
+                    apps = child.getApps();
+
+                    prepareData(apps);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void writeDataToDB(ArrayList<App> appsList) {
+        final ArrayList<App> simpleAppInfo = new ArrayList<>();
+        for (App app : appsList) {
+            simpleAppInfo.add(new App(app.getAppName(), app.getPackageName(), app.isBlocked()));
+        }
+
+        Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Log.i(TAG, "onDataChange: executed");
+                    //update the child's database and add the appsList
+                    DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                    String key = nodeShot.getKey();
+                    //appList contains drawables, that's why it can't be added to the database.
+                    //for now i will upload the names only
+                    //TODO:: upload app icons
+                    databaseReference.child("childs").child(key).child("apps").setValue(simpleAppInfo);
+                    //databaseReference.child("childs").child(key).child("apps").removeValue();
+
+                }
             }
 
             @Override
@@ -132,8 +187,10 @@ public class UploadAppsService extends JobService {
 
     }
 
+
+/*
     private void updateAppState() {
-        Query query = databaseReference.child("childs").orderByChild("email").equalTo("child@child.com");
+        Query query = databaseReference.child("childs").orderByChild("childEmail").equalTo("child@child.com");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -180,10 +237,11 @@ public class UploadAppsService extends JobService {
         //TODO:: this method should update the app state, blocked or not
     }
 
+
     //TODO:: this method is asynchronous, needs a fix
     private boolean getAppState(final String appName) {
         Log.i(TAG, "getAppState: " + appName);
-        Query query = databaseReference.child("childs").orderByChild("email").equalTo(email);
+        Query query = databaseReference.child("childs").orderByChild("childEmail").equalTo(childEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -194,7 +252,8 @@ public class UploadAppsService extends JobService {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            GenericTypeIndicator<List<App>> indicator = new GenericTypeIndicator<List<App>>() {};
+                            GenericTypeIndicator<List<App>> indicator = new GenericTypeIndicator<List<App>>() {
+                            };
                             List<App> apps = dataSnapshot.getValue(indicator);
                             blocked = apps.get(0).isBlocked();
                             Log.i(TAG, "onDataChange: app is found");
@@ -217,5 +276,6 @@ public class UploadAppsService extends JobService {
         });
         return blocked;
     }
+*/
 
 }

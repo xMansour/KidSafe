@@ -7,19 +7,22 @@ import android.os.Parcelable;
 //Serializable to send the apps as an intent parameter
 public class App implements Parcelable {
     private String appName;
+    private String packageName;
     private Drawable appIcon;
     private boolean blocked;
 
     public App() {
     }
 
-    public App(String appName, boolean blocked) {
+    public App(String appName, String packageName, boolean blocked) {
         this.appName = appName;
+        this.packageName = packageName;
         this.blocked = blocked;
     }
 
-    public App(String appName, Drawable appIcon, boolean blocked) {
+    public App(String appName, String packageName, Drawable appIcon, boolean blocked) {
         this.appName = appName;
+        this.packageName = packageName;
         this.appIcon = appIcon;
         this.blocked = blocked;
     }
@@ -29,6 +32,7 @@ public class App implements Parcelable {
         appName = in.readString();
         blocked = in.readByte() != 0;
     }
+
 
     public static final Creator<App> CREATOR = new Creator<App>() {
         @Override
@@ -44,6 +48,14 @@ public class App implements Parcelable {
 
     public String getAppName() {
         return appName;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     public Drawable getAppIcon() {
