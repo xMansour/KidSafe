@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +34,8 @@ public class UpdateAppStatsForegroundService extends Service {
     public static final String TAG = "UpdateAppStatsService";
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     private ArrayList<App> apps;
 
     @Override
@@ -41,9 +45,12 @@ public class UpdateAppStatsForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String childEmail = intent.getStringExtra(CHILD_EMAIL);
+        //String childEmail = intent.getStringExtra(CHILD_EMAIL);
         //String notificationContent = "Monitoring device";
 
+        auth = FirebaseAuth.getInstance();      //Now you get the user email even after reboot
+        user = auth.getCurrentUser();
+        String childEmail = user.getEmail();
 
         Intent notificationIntent = new Intent(this, ChildSignedInActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
