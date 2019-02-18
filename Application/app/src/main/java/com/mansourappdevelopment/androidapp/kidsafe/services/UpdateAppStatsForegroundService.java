@@ -1,18 +1,28 @@
 package com.mansourappdevelopment.androidapp.kidsafe.services;
 
+import android.Manifest;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,10 +36,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity;
+import com.mansourappdevelopment.androidapp.kidsafe.activities.MainActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -101,7 +113,7 @@ public class UpdateAppStatsForegroundService extends Service {
     }
 
 
-    private void updateAppStats(ArrayList<App> apps) {
+    private void updateAppStats(final ArrayList<App> apps) {
         /*for (App app : apps) {
             Log.i(TAG, "onDataChange: app name: " + app.getAppName() + ", blocked: " + app.isBlocked() + "\n");
         }*/
@@ -110,6 +122,42 @@ public class UpdateAppStatsForegroundService extends Service {
         //TODO:: block the apps which have a blocked attribute = true
 
         //Toast.makeText(this, "Current App: " + getForegroundApp(), Toast.LENGTH_SHORT).show();
+
+        new Thread((new Runnable() {
+            @Override
+            public void run() {
+                while (!Thread.interrupted())
+                    //Log.i(TAG, "run: thread started");
+                    try {
+                        //Log.i(TAG, "run: thread interrupted");
+                        Thread.sleep(5000);
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Log.i(TAG, "run: fired");
+                                String foregroundAppPackageName = getTopAppPackageName();
+                                for (App app : apps) {
+                                    //if (getTopAppPackageName().equals(app.getPackageName())) {
+                                    if (foregroundAppPackageName.equals(app.getPackageName())) {
+                                        Log.i(TAG, "run: " + app.getPackageName() + " is running");
+                                        if (app.isBlocked()) {
+                                            Log.i(TAG, "run: alert dialog shown");
+                                            //showBlockedAlertDialog();     //TODO:: fix the error here
+                                            Toast.makeText(UpdateAppStatsForegroundService.this, "This app \"" + app.getAppName() + "\" is blocked", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }
+
+                        });
+                    } catch (
+                            InterruptedException e) {
+                        e.printStackTrace();
+                    }
+            }
+        })).
+
+                start();
 
     }
 
@@ -143,33 +191,70 @@ public class UpdateAppStatsForegroundService extends Service {
         });
     }
 
-
-    /*private String getForegroundApp() {
-        String currentApp = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            UsageStatsManager usageStatsManager = (UsageStatsManager) this.getSystemService(Context.USAGE_STATS_SERVICE);
-            long time = System.currentTimeMillis();
-            List<UsageStats> appList = usageStatsManager.queryUsageStats(
-                    UsageStatsManager.INTERVAL_DAILY,
-                    time - 1000 * 1000,
-                    time);
-            if (appList != null && appList.size() > 0) {
-                SortedMap<Long, UsageStats> sortedMap = new TreeMap<Long, UsageStats>();
-                for (UsageStats usageStats : appList) {
-                    sortedMap.put(usageStats.getLastTimeUsed(), usageStats);
-                }
-
-                if (sortedMap != null && !sortedMap.isEmpty()) {        //not needed
-                    currentApp = sortedMap.get(sortedMap.lastKey()).getPackageName();
-                }
+    public String getTopAppPackageName() {
+        String appPackageName = "";
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                appPackageName = getLollipopForegroundAppPackageName();
             }
-        } else {
-            ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
-            List<ActivityManager.RunningAppProcessInfo> appList = activityManager.getRunningAppProcesses();
-            currentApp = appList.get(0).processName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appPackageName;
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+    private String getLollipopForegroundAppPackageName() {
+        //Log.i(TAG, "getLollipopForegroundAppPackageName: executed");
+        try {
+            UsageStatsManager usageStatsManager = (UsageStatsManager) this.getSystemService(USAGE_STATS_SERVICE);
+            long milliSecs = 60 * 1000;
+            Date date = new Date();
+            List<UsageStats> foregroundApps = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, date.getTime() - milliSecs, date.getTime());
+            if (foregroundApps.size() == 0) {
+                Log.i(TAG, "getLollipopForegroundAppPackageName: queryUsageSize: empty");
+            }
+
+
+            long recentTime = 0;
+            String recentPkg = "";
+            for (UsageStats stats : foregroundApps) {
+                /*if (i == 0 && !"com.mansourappdevelopment.androidapp.kidsafe".equals(stats.getPackageName())) {
+                    Log.i(TAG, "PackageName: " + stats.getPackageName() + " " + stats.getLastTimeStamp());
+                }*/
+                if (stats.getLastTimeStamp() > recentTime) {
+                    recentTime = stats.getLastTimeStamp();
+                    recentPkg = stats.getPackageName();
+                }
+
+            }
+
+            //Log.i(TAG, "getLollipopForegroundAppPackageName: appPackageName: " + recentPkg);
+            return recentPkg;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return currentApp;
-    }*/
+
+        return "";
+    }
+
+
+    private void showBlockedAlertDialog() {
+        AlertDialog blockedAlertDialog = new AlertDialog.Builder(this)
+                .setTitle("Blocked")
+                .setMessage("This app is blocked by your parents")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+        blockedAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        blockedAlertDialog.show();
+    }
+
+
 }
