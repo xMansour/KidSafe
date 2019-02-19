@@ -142,8 +142,9 @@ public class UpdateAppStatsForegroundService extends Service {
                                         Log.i(TAG, "run: " + app.getPackageName() + " is running");
                                         if (app.isBlocked()) {
                                             Log.i(TAG, "run: alert dialog shown");
-                                            //showBlockedAlertDialog();     //TODO:: fix the error here
-                                            Toast.makeText(UpdateAppStatsForegroundService.this, "This app \"" + app.getAppName() + "\" is blocked", Toast.LENGTH_SHORT).show();
+                                            showBlockedAlertDialog();
+                                            killAppByPackageName(app.getPackageName());
+                                            //Toast.makeText(UpdateAppStatsForegroundService.this, "This app \"" + app.getAppName() + "\" is blocked", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
@@ -241,7 +242,7 @@ public class UpdateAppStatsForegroundService extends Service {
 
 
     private void showBlockedAlertDialog() {
-        AlertDialog blockedAlertDialog = new AlertDialog.Builder(this)
+        AlertDialog blockedAlertDialog = new AlertDialog.Builder(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
                 .setTitle("Blocked")
                 .setMessage("This app is blocked by your parents")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -252,8 +253,21 @@ public class UpdateAppStatsForegroundService extends Service {
                 })
                 .create();
 
-        blockedAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            blockedAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+        else
+            blockedAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+
         blockedAlertDialog.show();
+    }
+
+
+    private void killAppByPackageName(String packageName) {
+        //int defaultTimeOut = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 60000);
+        //Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 1);
+        Log.i(TAG, "killAppByPackageName: package name: " + packageName);
+        ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+        activityManager.killBackgroundProcesses(packageName);
     }
 
 
