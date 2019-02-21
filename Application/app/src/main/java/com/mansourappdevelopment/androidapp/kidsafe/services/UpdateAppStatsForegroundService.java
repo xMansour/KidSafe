@@ -35,6 +35,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.activities.BlockedAppActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.MainActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
@@ -45,6 +46,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity.CHILD_EMAIL;
 import static com.mansourappdevelopment.androidapp.kidsafe.utils.NotificationChannelCreator.CHANNEL_ID;
@@ -52,11 +56,21 @@ import static com.mansourappdevelopment.androidapp.kidsafe.utils.NotificationCha
 public class UpdateAppStatsForegroundService extends Service {
     public static final int NOTIFICATION_ID = 27;
     public static final String TAG = "UpdateAppStatsService";
+    public static final String BLOCKED_APP_NAME_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.services.BLOCKED_APP_NAME_EXTRA";
     private DatabaseReference databaseReference;
+    private ExecutorService executorService;
+    private ActivityManager activityManager;
+    private ArrayList<App> apps;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
+        executorService = Executors.newSingleThreadExecutor();
+        activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        LockerThread thread = new LockerThread();
+        executorService.submit(thread);
+        Log.i(TAG, "onCreate: executed");
     }
 
     @Override
@@ -82,7 +96,6 @@ public class UpdateAppStatsForegroundService extends Service {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
-
         Query query = databaseReference.child("childs").child(uid);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -105,61 +118,14 @@ public class UpdateAppStatsForegroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (executorService != null) {
+            executorService.shutdown();
+        }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-
-    private void updateAppStats(final ArrayList<App> apps) {
-        /*for (App app : apps) {
-            Log.i(TAG, "onDataChange: app name: " + app.getAppName() + ", blocked: " + app.isBlocked() + "\n");
-        }*/
-        Log.i(TAG, "updateAppStats: executed");
-        Toast.makeText(this, "Updated the app list", Toast.LENGTH_SHORT).show();
-        //TODO:: block the apps which have a blocked attribute = true
-
-        //Toast.makeText(this, "Current App: " + getForegroundApp(), Toast.LENGTH_SHORT).show();
-
-        new Thread((new Runnable() {
-            @Override
-            public void run() {
-                while (!Thread.interrupted())
-                    //Log.i(TAG, "run: thread started");
-                    try {
-                        //Log.i(TAG, "run: thread interrupted");
-                        Thread.sleep(5000);
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Log.i(TAG, "run: fired");
-                                String foregroundAppPackageName = getTopAppPackageName();
-                                for (App app : apps) {
-                                    //if (getTopAppPackageName().equals(app.getPackageName())) {
-                                    if (foregroundAppPackageName.equals(app.getPackageName())) {
-                                        Log.i(TAG, "run: " + app.getPackageName() + " is running");
-                                        if (app.isBlocked()) {
-                                            Log.i(TAG, "run: alert dialog shown");
-                                            showBlockedAlertDialog();
-                                            killAppByPackageName(app.getPackageName());
-                                            //Toast.makeText(UpdateAppStatsForegroundService.this, "This app \"" + app.getAppName() + "\" is blocked", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                }
-                            }
-
-                        });
-                    } catch (
-                            InterruptedException e) {
-                        e.printStackTrace();
-                    }
-            }
-        })).
-
-                start();
-
     }
 
     public void getApps(final String childEmail) {
@@ -173,14 +139,13 @@ public class UpdateAppStatsForegroundService extends Service {
                     //Log.i(TAG, "onDataChange: dataSnapshot children: " + dataSnapshot.getChildren());
                     //Log.i(TAG, "onDataChange: dataSnapshot key: " + dataSnapshot.getKey());
 
-                    ArrayList<App> apps;
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
                     User child = nodeShot.getValue(User.class);
                     apps = child.getApps();
 
                     Log.i(TAG, "onDataChange: child name: " + child.getName());
 
-                    updateAppStats(apps);
+                    //updateAppStats(apps);
 
                 }
             }
@@ -240,35 +205,43 @@ public class UpdateAppStatsForegroundService extends Service {
         return "";
     }
 
+    class LockerThread implements Runnable {
 
-    private void showBlockedAlertDialog() {
-        AlertDialog blockedAlertDialog = new AlertDialog.Builder(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-                .setTitle("Blocked")
-                .setMessage("This app is blocked by your parents")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+        Intent intnet = null;
+
+        public LockerThread() {
+            intnet = new Intent(UpdateAppStatsForegroundService.this, BlockedAppActivity.class);
+            intnet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                Log.i(TAG, "run: thread running");
+
+                if (apps != null) {
+
+                    String foregroundAppPackageName = getTopAppPackageName();
+                    Log.i(TAG, "run: foreground app: " + foregroundAppPackageName);
+
+                    //TODO:: need to handle com.google.android.gsf &  com.sec.android.provider.badge
+                    for (final App app : apps) {
+                        //Log.i(TAG, "run: app name: " + app.getAppName() + " blocked: " + app.isBlocked() + "\n");
+                        if (foregroundAppPackageName.equals(app.getPackageName()) && app.isBlocked()) {
+                            //Log.i(TAG, "run: " + app.getPackageName() + " is running");
+                            intnet.putExtra(BLOCKED_APP_NAME_EXTRA, app.getAppName());
+                            startActivity(intnet);
+                        }
+
                     }
-                })
-                .create();
+                }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            blockedAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
-        else
-            blockedAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-
-        blockedAlertDialog.show();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
-
-
-    private void killAppByPackageName(String packageName) {
-        //int defaultTimeOut = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 60000);
-        //Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 1);
-        Log.i(TAG, "killAppByPackageName: package name: " + packageName);
-        ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
-        activityManager.killBackgroundProcesses(packageName);
-    }
-
-
 }

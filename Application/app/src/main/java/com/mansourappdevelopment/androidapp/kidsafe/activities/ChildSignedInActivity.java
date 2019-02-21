@@ -40,7 +40,7 @@ public class ChildSignedInActivity extends AppCompatActivity {
         String email = user.getEmail();
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString(CHILD_EMAIL, email);
-
+/*
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.PACKAGE_USAGE_STATS) != PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             startActivity(intent);
@@ -60,7 +60,7 @@ public class ChildSignedInActivity extends AppCompatActivity {
                 startActivity(intent);
 
             }
-        }
+        }*/
 
         schedualJob(bundle);
         startUpdateAppStatsForegroundService(email);

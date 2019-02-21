@@ -87,33 +87,34 @@ public class UploadAppsService extends JobService {
         ArrayList<App> appsList = new ArrayList<>();
         getInstalledApplication();
 
-        for (ApplicationInfo applicationInfo : applicationInfoList) {
-            if (applicationInfo.packageName != null) {
-                if (apps.isEmpty()) {       //online appList will be empty for the first time, used for initialization
-                    Log.i(TAG, "prepareData: online appsList empty");
+        if (apps.isEmpty()) {       //online appList will be empty for the first time, used for initialization
+            Log.i(TAG, "prepareData: online appsList empty");
+            for (ApplicationInfo applicationInfo : applicationInfoList) {
+                if (applicationInfo.packageName != null) {
                     appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), false));
-
-                } else {
-
-                    for (App app : apps) {
-                        if (app.getAppName().equals((String) applicationInfo.loadLabel(packageManager))) {
-                            appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), app.isBlocked()));
-                            Log.i(TAG, "prepareData: if executed");
-                        }
-                    }
-
-                    //TODO:: add new apps which aren't listed in that list
-                    /*for (App app : appsList) {
-                        if (!apps.contains(app)) {
-                            //appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), false));
-                            Log.i(TAG, "prepareData: new app added: " + (String) applicationInfo.loadLabel(packageManager));
-                        }
-                    }*/
                 }
             }
+        } else {
+            for (ApplicationInfo applicationInfo : applicationInfoList) {
+                for (App app : apps) {
+                    if (app.getPackageName().equals((String) applicationInfo.packageName)) {
+                        appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), app.isBlocked()));
+                        Log.i(TAG, "prepareData: if executed");
+                    }
+                }
+
+            }
+
+            //TODO:: add new apps which aren't listed in that list
+            /*for (ApplicationInfo applicationInfo : applicationInfoList){
+                if (appsList.contains(new App()))
+            }*/
+
         }
 
+
         writeDataToDB(appsList);
+
     }
 
     private void getInstalledApplication() {

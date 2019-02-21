@@ -24,5 +24,6 @@
     <string name="child_app_name">App name</string>
     <string name="enabled">Enabled</string>
     <string name="available_apps">Available Apps</string>
+    <string name="this_app_is_blocked_by_your_parents">Is blocked by your parents</string>
 
 </resources>
