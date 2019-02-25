@@ -9,6 +9,7 @@ public class User {
     private String parentEmail;
     private boolean child;
     private ArrayList<App> apps = new ArrayList<>();
+    private Location location;
 
     //TODO:: add user image field
     public User() {
@@ -65,5 +66,9 @@ public class User {
 
     public ArrayList<App> getApps() {
         return apps;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 }

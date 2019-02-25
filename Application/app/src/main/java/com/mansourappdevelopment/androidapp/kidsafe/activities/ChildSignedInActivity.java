@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,6 +63,11 @@ public class ChildSignedInActivity extends AppCompatActivity {
             }
         }*/
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+            return;
+        }
+
         schedualJob(bundle);
         startUpdateAppStatsForegroundService(email);
     }
@@ -97,5 +103,10 @@ public class ChildSignedInActivity extends AppCompatActivity {
         intent.putExtra(CHILD_EMAIL, email);
         ContextCompat.startForegroundService(this, intent);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //do nothing
     }
 }

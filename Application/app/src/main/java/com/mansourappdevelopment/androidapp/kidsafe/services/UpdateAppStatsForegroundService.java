@@ -12,13 +12,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -43,6 +48,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -57,17 +63,17 @@ public class UpdateAppStatsForegroundService extends Service {
     public static final int NOTIFICATION_ID = 27;
     public static final String TAG = "UpdateAppStatsService";
     public static final String BLOCKED_APP_NAME_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.services.BLOCKED_APP_NAME_EXTRA";
+    public static final int LOCATION_UPDATE_INTERVAL = 5000;    //every 5 seconds
+    public static final int LOCATION_UPDATE_DISPLACEMENT = 10;  //every 10 meters
     private DatabaseReference databaseReference;
     private ExecutorService executorService;
-    private ActivityManager activityManager;
     private ArrayList<App> apps;
-
 
     @Override
     public void onCreate() {
         super.onCreate();
         executorService = Executors.newSingleThreadExecutor();
-        activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         LockerThread thread = new LockerThread();
         executorService.submit(thread);
         Log.i(TAG, "onCreate: executed");
@@ -94,6 +100,8 @@ public class UpdateAppStatsForegroundService extends Service {
 
         startForeground(NOTIFICATION_ID, notification);
 
+        getUserLocation(uid);
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
         Query query = databaseReference.child("childs").child(uid);
@@ -102,7 +110,6 @@ public class UpdateAppStatsForegroundService extends Service {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     getApps(childEmail);
-
                 }
             }
 
@@ -243,5 +250,56 @@ public class UpdateAppStatsForegroundService extends Service {
                 }
             }
         }
+    }
+
+    private void getUserLocation(final String uid) {
+        Log.i(TAG, "getUserLocation: executed");
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                if (location != null) {
+                    Log.i(TAG, "onLocationChanged: latitude: " + location.getLatitude());
+                    Log.i(TAG, "onLocationChanged: longitude: " + location.getLongitude());
+                    addUserLocationToDatabase(location, uid);
+                } else {
+                    Log.i(TAG, "onLocationChanged: location is null");
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        //these two statements will be only executed when the permission is granted.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_INTERVAL, LOCATION_UPDATE_DISPLACEMENT, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_INTERVAL, LOCATION_UPDATE_DISPLACEMENT, locationListener);
+            return;
+        }
+
+    }
+
+    private void addUserLocationToDatabase(Location location, String uid) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        HashMap<String, Object> update = new HashMap<>();
+        update.put("latitude", latitude);
+        update.put("longitude", longitude);
+        databaseReference.child("childs").child(uid).child("location").updateChildren(update);
     }
 }
