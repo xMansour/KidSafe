@@ -17,6 +17,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 import java.util.ArrayList;
 
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.APPS_EXTRA;
+import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_EMAIL_EXTRA;
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_NAME_EXTRA;
 
 public class ChildDetailsActivity extends AppCompatActivity {
@@ -29,7 +30,8 @@ public class ChildDetailsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String childName = intent.getStringExtra(CHILD_NAME_EXTRA);
-        apps = intent.getParcelableArrayListExtra(APPS_EXTRA);
+        //final String childEmail = intent.getStringExtra(CHILD_EMAIL_EXTRA);
+        //apps = intent.getParcelableArrayListExtra(APPS_EXTRA);
 
 
         setTitle(childName + "'s device");
@@ -41,15 +43,18 @@ public class ChildDetailsActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Fragment selectedFragment = null;
 
+                Bundle bundle = new Bundle();
+
                 switch (menuItem.getItemId()) {
                     case R.id.navApps:
                         selectedFragment = new AppsFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList(APPS_EXTRA, apps);
-                        selectedFragment.setArguments(bundle);
+                        //bundle.putParcelableArrayList(APPS_EXTRA, apps);  //not needed since we're sending it from
+                        //selectedFragment.setArguments(bundle);            //the ParentSignedInActivity
                         break;
                     case R.id.navLocation:
                         selectedFragment = new LocationFragment();
+                        //bundle.putString(CHILD_EMAIL_EXTRA, childEmail);
+                        //selectedFragment.setArguments(bundle);
                         break;
                     case R.id.navStats:
                         selectedFragment = new StatsFragment();

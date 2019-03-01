@@ -5,13 +5,8 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small_margin"
-        android:text="Location Fragment"
-        android:textAlignment="center"
-        android:textSize="@dimen/text_large_size"
-        android:textStyle="bold" />
-
+        android:layout_height="match_parent" />
 </LinearLayout>
