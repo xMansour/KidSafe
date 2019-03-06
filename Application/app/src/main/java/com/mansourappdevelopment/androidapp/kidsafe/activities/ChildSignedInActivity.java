@@ -68,6 +68,17 @@ public class ChildSignedInActivity extends AppCompatActivity {
             return;
         }
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 0);
+            return;
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 0);
+            return;
+        }
+
+
         schedualJob(bundle);
         startUpdateAppStatsForegroundService(email);
     }

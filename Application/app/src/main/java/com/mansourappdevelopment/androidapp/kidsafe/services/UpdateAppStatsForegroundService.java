@@ -11,6 +11,7 @@ import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -26,6 +27,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -43,6 +45,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.BlockedAppActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.MainActivity;
+import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.PhoneStateReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
@@ -68,6 +71,8 @@ public class UpdateAppStatsForegroundService extends Service {
     private DatabaseReference databaseReference;
     private ExecutorService executorService;
     private ArrayList<App> apps;
+    private PhoneStateReceiver phoneStateReceiver;
+
 
     @Override
     public void onCreate() {
@@ -104,6 +109,7 @@ public class UpdateAppStatsForegroundService extends Service {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
+
         Query query = databaseReference.child("childs").child(uid);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -119,6 +125,10 @@ public class UpdateAppStatsForegroundService extends Service {
             }
         });
 
+        phoneStateReceiver = new PhoneStateReceiver(user);
+        IntentFilter intentFilter = new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
+        registerReceiver(phoneStateReceiver, intentFilter);
+
         return START_STICKY;
     }
 
@@ -127,6 +137,9 @@ public class UpdateAppStatsForegroundService extends Service {
         super.onDestroy();
         if (executorService != null) {
             executorService.shutdown();
+        }
+        if (phoneStateReceiver != null) {
+            unregisterReceiver(phoneStateReceiver);
         }
     }
 
@@ -250,6 +263,7 @@ public class UpdateAppStatsForegroundService extends Service {
                 }
             }
         }
+
     }
 
     private void getUserLocation(final String uid) {

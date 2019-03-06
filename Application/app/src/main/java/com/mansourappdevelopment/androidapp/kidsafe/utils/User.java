@@ -1,6 +1,7 @@
 package com.mansourappdevelopment.androidapp.kidsafe.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User {
     private String name;
@@ -10,6 +11,7 @@ public class User {
     private boolean child;
     private ArrayList<App> apps = new ArrayList<>();
     private Location location;
+    private HashMap<String, Object> activityLog = new HashMap<>();
 
     //TODO:: add user image field
     public User() {
@@ -22,6 +24,10 @@ public class User {
         this.password = password;
         this.parentEmail = parentEmail;
         this.child = child;
+    }
+
+    public HashMap<String, Object> getActivityLog() {
+        return activityLog;
     }
 
     public void setName(String name) {

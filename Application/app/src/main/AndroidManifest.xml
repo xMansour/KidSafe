@@ -21,6 +21,10 @@
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".utils.NotificationChannelCreator"
         android:allowBackup="true"
@@ -54,6 +58,7 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".services.UpdateAppStatsForegroundService" />
 
+
         <receiver android:name=".broadcasts.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -61,6 +66,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+
+        <!--<receiver android:name=".broadcasts.PhoneStateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+        </receiver>-->
     </application>
 
 </manifest>
