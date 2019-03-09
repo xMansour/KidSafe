@@ -26,14 +26,17 @@ public class PhoneStateReceiver extends BroadcastReceiver {
     private DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser user;
-    private HashMap<String, Object> activityLog;
+    private HashMap<String, Object> calls;
     private Context context;
     private double startCallTime;
     private double endCallTime;
 
     public PhoneStateReceiver(FirebaseUser user) {
         this.user = user;
-        this.activityLog = new HashMap<>();
+        this.calls = new HashMap<>();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
+
     }
 
     @Override
@@ -46,9 +49,6 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             Log.i(TAG, "onReceive: phoneState: " + phoneState);
             String uid = user.getUid();
 
-            firebaseDatabase = FirebaseDatabase.getInstance();
-            databaseReference = firebaseDatabase.getReference("users");
-
             String phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             String contactName = getContactName(phoneNumber);
 
@@ -59,11 +59,11 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             if (phoneState.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 startCallTime = System.currentTimeMillis();
 
-                activityLog.clear();
-                activityLog.put("call", "Incoming Call");
-                activityLog.put("phoneNumber", phoneNumber);
-                activityLog.put("contactName", contactName);
-                activityLog.put("callTime", callTime);
+                calls.clear();
+                calls.put("call", "Incoming Call");
+                calls.put("phoneNumber", phoneNumber);
+                calls.put("contactName", contactName);
+                calls.put("callTime", callTime);
 
                 Log.i(TAG, "onReceive: incoming call from: " + phoneNumber + " and the state is: " + phoneState + " and the name is: " + contactName);
 
@@ -71,19 +71,19 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             } else if (phoneState.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                 startCallTime = System.currentTimeMillis();
 
-                activityLog.clear();
-                activityLog.put("call", "Outgoing Call");
-                activityLog.put("phoneNumber", phoneNumber);
-                activityLog.put("contactName", contactName);
-                activityLog.put("callTime", callTime);
+                calls.clear();
+                calls.put("call", "Outgoing Call");
+                calls.put("phoneNumber", phoneNumber);
+                calls.put("contactName", contactName);
+                calls.put("callTime", callTime);
 
                 Log.i(TAG, "onReceive: outgoing call to: " + phoneNumber + " and the state is: " + phoneState + " and the name is: " + contactName);
 
             } else if (phoneState.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                 endCallTime = System.currentTimeMillis();
                 double callDuration = (endCallTime - startCallTime) / 1000;
-                activityLog.put("callDurationInSeconds", callDuration);
-                databaseReference.child("childs").child(uid).child("activityLog").push().setValue(activityLog);
+                calls.put("callDurationInSeconds", callDuration);
+                databaseReference.child("childs").child(uid).child("activityLog").child("calls").push().setValue(calls);
 
             }
 
@@ -95,7 +95,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
     private String getContactName(String phoneNumber) {
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
         String[] projection = new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME};
-        String contactName = null;
+        String contactName = "Unknown Number";
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
 
         if (cursor != null) {

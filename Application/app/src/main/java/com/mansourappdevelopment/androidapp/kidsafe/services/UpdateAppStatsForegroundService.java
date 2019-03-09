@@ -46,6 +46,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.activities.BlockedAppActivit
 import com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.MainActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.PhoneStateReceiver;
+import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.SmsReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
@@ -72,6 +73,7 @@ public class UpdateAppStatsForegroundService extends Service {
     private ExecutorService executorService;
     private ArrayList<App> apps;
     private PhoneStateReceiver phoneStateReceiver;
+    private SmsReceiver smsReceiver;
 
 
     @Override
@@ -126,8 +128,12 @@ public class UpdateAppStatsForegroundService extends Service {
         });
 
         phoneStateReceiver = new PhoneStateReceiver(user);
-        IntentFilter intentFilter = new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
-        registerReceiver(phoneStateReceiver, intentFilter);
+        IntentFilter callIntentFilter = new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
+        registerReceiver(phoneStateReceiver, callIntentFilter);
+
+        smsReceiver = new SmsReceiver(user);
+        IntentFilter smsIntentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        registerReceiver(smsReceiver, smsIntentFilter);
 
         return START_STICKY;
     }
