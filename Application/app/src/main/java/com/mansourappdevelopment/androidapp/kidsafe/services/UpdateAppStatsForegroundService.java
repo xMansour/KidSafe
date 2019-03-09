@@ -45,6 +45,8 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.BlockedAppActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.MainActivity;
+import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AppInstalledReceiver;
+import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AppRemovedReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.PhoneStateReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.SmsReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
@@ -74,6 +76,8 @@ public class UpdateAppStatsForegroundService extends Service {
     private ArrayList<App> apps;
     private PhoneStateReceiver phoneStateReceiver;
     private SmsReceiver smsReceiver;
+    private AppInstalledReceiver appInstalledReceiver;
+    private AppRemovedReceiver appRemovedReceiver;
 
 
     @Override
@@ -135,6 +139,20 @@ public class UpdateAppStatsForegroundService extends Service {
         IntentFilter smsIntentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         registerReceiver(smsReceiver, smsIntentFilter);
 
+        appInstalledReceiver = new AppInstalledReceiver(user);
+        IntentFilter appInstalledIntentFilter = new IntentFilter();
+        appInstalledIntentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        appInstalledIntentFilter.addAction(Intent.ACTION_PACKAGE_INSTALL);
+        appInstalledIntentFilter.addDataScheme("package");
+        registerReceiver(appInstalledReceiver, appInstalledIntentFilter);
+
+        appRemovedReceiver = new AppRemovedReceiver(user);
+        IntentFilter appRemovedIntentFilter = new IntentFilter();
+        appRemovedIntentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        appRemovedIntentFilter.addDataScheme("package");
+        registerReceiver(appRemovedReceiver, appRemovedIntentFilter);
+
+
         return START_STICKY;
     }
 
@@ -146,6 +164,15 @@ public class UpdateAppStatsForegroundService extends Service {
         }
         if (phoneStateReceiver != null) {
             unregisterReceiver(phoneStateReceiver);
+        }
+        if (smsReceiver != null) {
+            unregisterReceiver(smsReceiver);
+        }
+        if (appInstalledReceiver != null) {
+            unregisterReceiver(appInstalledReceiver);
+        }
+        if (appRemovedReceiver != null) {
+            unregisterReceiver(appRemovedReceiver);
         }
     }
 

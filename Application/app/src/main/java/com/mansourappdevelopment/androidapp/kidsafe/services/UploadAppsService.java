@@ -32,7 +32,7 @@ public class UploadAppsService extends JobService {
     public static final String TAG = "UploadAppsService";
     private boolean jobCancelled;
 
-
+    //TODO:: get rid of this service and add it's functionality to the main foreground service and use PACKAGE_ADDED and PACKAGE_REMOVED broadcast receivers to update the online list...
     private ArrayList<App> apps;            //read from the database
     private List<ApplicationInfo> applicationInfoList;
     private PackageManager packageManager;
@@ -87,13 +87,15 @@ public class UploadAppsService extends JobService {
         ArrayList<App> appsList = new ArrayList<>();
         getInstalledApplication();
 
-        if (apps.isEmpty()) {       //online appList will be empty for the first time, used for initialization
+        //online appList will be empty for the first time, used for initialization
+        if (apps.isEmpty()) {
             Log.i(TAG, "prepareData: online appsList empty");
             for (ApplicationInfo applicationInfo : applicationInfoList) {
                 if (applicationInfo.packageName != null) {
                     appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), false));
                 }
             }
+            //if not, check the app's blocked attribute and update it.
         } else {
             for (ApplicationInfo applicationInfo : applicationInfoList) {
                 for (App app : apps) {
@@ -105,10 +107,13 @@ public class UploadAppsService extends JobService {
 
             }
 
-            //TODO:: add new apps which aren't listed in that list
-            /*for (ApplicationInfo applicationInfo : applicationInfoList){
-                if (appsList.contains(new App()))
-            }*/
+            //if the app is in the offline list but not in the online one, add it.
+            for (ApplicationInfo applicationInfo : applicationInfoList) {
+                if (!apps.contains(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.packageName, false))
+                        && !apps.contains(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.packageName, true))) {
+                    appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), false));
+                }
+            }
 
         }
 
