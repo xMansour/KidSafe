@@ -41,7 +41,8 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
     public static final String CHILD_EMAIL_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_EMAIL_EXTRA";
     public static final String PARENT_EMAIL_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.PARENT_EMAIL_EXTRA";
     public static final String CHILD_IMG_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_IMG_EXTRA";
-    public static final String CHILD_ACTIVITY_LOG_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_ACTIVITY_LOG_EXTRA";
+    public static final String CHILD_MESSAGES_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_MESSAGES_EXTRA";
+    public static final String CHILD_CALLS_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_CALLS_EXTRA";
     private RecyclerView recyclerViewChilds;
     private ChildAdapter childAdapter;
     private ArrayList<User> childs;
@@ -144,7 +145,14 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         intent.putExtra(PARENT_EMAIL_EXTRA, user.getEmail());
         intent.putExtra(CHILD_NAME_EXTRA, child.getName());
         intent.putExtra(CHILD_EMAIL_EXTRA, child.getEmail());
-        intent.putExtra(CHILD_ACTIVITY_LOG_EXTRA, child.getActivityLog());
+
+        intent.putExtra(CHILD_MESSAGES_EXTRA, child.getMessages());
+        intent.putExtra(CHILD_CALLS_EXTRA, child.getCalls());
+
+        /*Bundle bundle = new Bundle();
+        bundle.putSerializable(CHILD_MESSAGES_EXTRA, child.getMessages());
+        bundle.putSerializable(CHILD_CALLS_EXTRA, child.getCalls());
+        intent.putExtras(bundle);*/
         //TODO:: put child's image as an extra
 
         startActivity(intent);

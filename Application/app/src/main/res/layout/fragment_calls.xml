@@ -5,14 +5,10 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewCalls"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small_margin"
-        android:text="Stats Fragment"
-        android:textAlignment="center"
-        android:textSize="@dimen/text_large_size"
-        android:textStyle="bold" />
-
+        android:layout_height="match_parent"
+        android:padding="@dimen/very_small_padding" />
 
 </LinearLayout>

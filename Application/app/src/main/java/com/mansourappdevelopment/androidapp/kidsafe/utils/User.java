@@ -11,7 +11,8 @@ public class User {
     private boolean child;
     private ArrayList<App> apps = new ArrayList<>();
     private Location location;
-    private HashMap<String, Object> activityLog = new HashMap<>();
+    private HashMap<String, Message> messages = new HashMap<>();
+    private HashMap<String, Call> calls = new HashMap<>();
 
     //TODO:: add user image field
     public User() {
@@ -24,10 +25,6 @@ public class User {
         this.password = password;
         this.parentEmail = parentEmail;
         this.child = child;
-    }
-
-    public HashMap<String, Object> getActivityLog() {
-        return activityLog;
     }
 
     public void setName(String name) {
@@ -76,5 +73,29 @@ public class User {
 
     public Location getLocation() {
         return location;
+    }
+
+    public void setApps(ArrayList<App> apps) {
+        this.apps = apps;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public HashMap<String, Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(HashMap<String, Message> messages) {
+        this.messages = messages;
+    }
+
+    public HashMap<String, Call> getCalls() {
+        return calls;
+    }
+
+    public void setCalls(HashMap<String, Call> calls) {
+        this.calls = calls;
     }
 }

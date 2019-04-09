@@ -76,7 +76,7 @@ public class SmsReceiver extends BroadcastReceiver {
         messeges.put("messageBody", messageBody);
         messeges.put("timeReceived", timeReceived);
 
-        databaseReference.child("childs").child(uid).child("activityLog").child("messages").push().setValue(messeges);
+        databaseReference.child("childs").child(uid).child("messages").push().setValue(messeges);
 
 
     }

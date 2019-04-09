@@ -11,13 +11,11 @@ import android.view.MenuItem;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.AppsFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.LocationFragment;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.StatsFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.ActivityLogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 
 import java.util.ArrayList;
 
-import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.APPS_EXTRA;
-import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_EMAIL_EXTRA;
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_NAME_EXTRA;
 
 public class ChildDetailsActivity extends AppCompatActivity {
@@ -56,8 +54,8 @@ public class ChildDetailsActivity extends AppCompatActivity {
                         //bundle.putString(CHILD_EMAIL_EXTRA, childEmail);
                         //selectedFragment.setArguments(bundle);
                         break;
-                    case R.id.navStats:
-                        selectedFragment = new StatsFragment();
+                    case R.id.navActivityLog:
+                        selectedFragment = new ActivityLogFragment();
                         break;
 
                 }

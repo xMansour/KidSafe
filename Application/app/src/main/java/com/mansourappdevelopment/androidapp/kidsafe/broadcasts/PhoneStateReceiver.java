@@ -83,7 +83,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 endCallTime = System.currentTimeMillis();
                 double callDuration = (endCallTime - startCallTime) / 1000;
                 calls.put("callDurationInSeconds", callDuration);
-                databaseReference.child("childs").child(uid).child("activityLog").child("calls").push().setValue(calls);
+                databaseReference.child("childs").child(uid)/*.child("activityLog")*/.child("calls").push().setValue(calls);
 
             }
 

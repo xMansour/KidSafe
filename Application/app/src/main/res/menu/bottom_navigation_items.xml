@@ -10,8 +10,8 @@
         android:title="@string/location" />
 
     <item
-        android:id="@+id/navStats"
+        android:id="@+id/navActivityLog"
         android:icon="@drawable/ic_stats"
-        android:title="@string/stats" />
+        android:title="@string/activity_log" />
 
 </menu>
