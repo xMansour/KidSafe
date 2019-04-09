@@ -1,17 +1,23 @@
 package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.adapters.AppAdapter;
+import com.mansourappdevelopment.androidapp.kidsafe.adapters.MessageAdapter;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Message;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_MESSAGES_EXTRA;
@@ -19,6 +25,7 @@ import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSign
 public class MessagesFragment extends Fragment {
     private static final String TAG = "MessagesFragmentTAG";
     private HashMap<String, Message> messages;
+    private RecyclerView recyclerViewMessages;
 
 
     @Nullable
@@ -32,19 +39,25 @@ public class MessagesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getData();
+        recyclerViewMessages = (RecyclerView) view.findViewById(R.id.recyclerViewMessages);
+        recyclerViewMessages.setHasFixedSize(true);
+        recyclerViewMessages.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        initializeAdapter(getData());
     }
 
-    private void getData() {
+    private ArrayList<Message> getData() {
         Bundle bundle = getActivity().getIntent().getExtras();
         if (bundle != null) {
             messages = (HashMap<String, Message>) bundle.getSerializable(CHILD_MESSAGES_EXTRA);
+            return new ArrayList<>(messages.values());
         }
 
-        for (String key : messages.keySet()) {
-            Log.i(TAG, "getData: messageBody: " + messages.get(key).getMessageBody());
-            Log.i(TAG, "getData: senderPhoneNumber: " + messages.get(key).getSenderPhoneNumber());
-            Log.i(TAG, "getData: timeReceived: " + messages.get(key).getTimeReceived());
-        }
+        return null;
+    }
+
+    private void initializeAdapter(ArrayList<Message> messages) {
+        MessageAdapter messageAdapter = new MessageAdapter(getContext(), messages);
+        recyclerViewMessages.setAdapter(messageAdapter);
     }
 }

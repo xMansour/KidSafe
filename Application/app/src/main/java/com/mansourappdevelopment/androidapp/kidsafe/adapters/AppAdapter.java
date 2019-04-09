@@ -57,7 +57,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHo
     @NonNull
     @Override
     public AppAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.app_card, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_app, viewGroup, false);
         return new AppAdapterViewHolder(view);
     }
 

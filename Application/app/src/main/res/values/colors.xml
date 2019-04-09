@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#2dba4e</color>
+    <color name="colorPrimary">#039BE5</color>
+    <color name="colorPrimaryDark">#1E88E5</color>
+    <color name="colorAccent">#00ACC1</color>
 
 
-    <color name="bootstrap_red">#d9534f</color>
-    <color name="bootstrap_white">#f9f9f9</color>
-    <color name="bootstrap_light_blue">#5bc0de</color>
-    <color name="bootstrap_green">#5cb85c</color>
-    <color name="bootstrap_blue">#428bca</color>
+    <color name="red">#FF3D51</color>
+    <color name="white">#FFFFFF</color>
+    <color name="dark_white">#F4F4F7</color>
+    <color name="blue">#1E88E5</color>
+    <color name="black">#757575</color>
 
     <color name="github_black">#24292e</color>
     <color name="github_light_black">#2b3137</color>
@@ -33,5 +33,8 @@
     <color name="recycler_view_background">@color/github_white</color>
     <color name="recycler_view_border">@color/github_dark_white</color>
     <color name="dark_red">#B00020</color>
+
+    <color name="card_background_color">@color/white</color>
+    <color name="background_color">@color/dark_white</color>
 
 </resources>

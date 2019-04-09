@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/small_margin"
+    app:cardBackgroundColor="@color/card_background_color"
     app:cardCornerRadius="3dp"
     app:cardElevation="1dp">
 
@@ -19,8 +20,8 @@
             android:layout_height="@dimen/circular_image_height_small"
             android:layout_margin="@dimen/small_margin"
             android:src="@drawable/ic_face"
-            app:civ_border_width="@dimen/circular_image_border_small"
-            app:civ_border_color="@color/circular_image_border_color"/>
+            app:civ_border_color="@color/circular_image_border_color"
+            app:civ_border_width="@dimen/circular_image_border_small" />
 
         <TextView
             android:id="@+id/txtChildName"
