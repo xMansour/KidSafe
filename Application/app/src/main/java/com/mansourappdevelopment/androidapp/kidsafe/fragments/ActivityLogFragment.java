@@ -3,13 +3,17 @@ package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.adapters.ActivityLogFragmentPagerAdapter;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Call;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Message;
 
@@ -32,7 +36,14 @@ public class ActivityLogFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        getData();
+        //getData();
+
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.activityLogViewPager);
+        viewPager.setAdapter(setupActivityLogFragmentPagerAdapter());
+
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.activityLogTabLayout);
+        tabLayout.setupWithViewPager(viewPager);
+
 
     }
 
@@ -48,5 +59,14 @@ public class ActivityLogFragment extends Fragment {
             Log.i(TAG, "getData: senderPhoneNumber: " + messages.get(key).getSenderPhoneNumber());
             Log.i(TAG, "getData: timeReceived: " + messages.get(key).getTimeReceived());
         }
+    }
+
+    private PagerAdapter setupActivityLogFragmentPagerAdapter() {
+        ActivityLogFragmentPagerAdapter pagerAdapter = new ActivityLogFragmentPagerAdapter(getActivity().getSupportFragmentManager());
+        pagerAdapter.addFragment(new CallsFragment(), "Calls");
+        pagerAdapter.addFragment(new MessagesFragment(), "Messages");
+        //TODO:: add one for the history
+
+        return pagerAdapter;
     }
 }
