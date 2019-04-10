@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnMessageDeleteClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Message;
 
 import java.util.ArrayList;
@@ -16,6 +18,11 @@ import java.util.ArrayList;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageAdapterViewHolder> {
     private Context context;
     private ArrayList<Message> messages;
+    private OnMessageDeleteClickListener onMessageDeleteClickListener;
+
+    public void setOnMessageDeleteClickListener(OnMessageDeleteClickListener onMessageDeleteClickListener) {
+        this.onMessageDeleteClickListener = onMessageDeleteClickListener;
+    }
 
     public MessageAdapter(Context context, ArrayList<Message> messages) {
         this.context = context;
@@ -26,6 +33,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
         private TextView txtSenderPhoneNumber;
         private TextView txtMessageBody;
         private TextView txtTimeReceived;
+        private Button btnDeleteMessage;
 
 
         public MessageAdapterViewHolder(@NonNull View itemView) {
@@ -33,7 +41,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
             txtSenderPhoneNumber = (TextView) itemView.findViewById(R.id.txtSenderPhoneNumber);
             txtMessageBody = (TextView) itemView.findViewById(R.id.txtMessageBody);
             txtTimeReceived = (TextView) itemView.findViewById(R.id.txtTimeReceived);
-
+            btnDeleteMessage = (Button) itemView.findViewById(R.id.btnDeleteMessage);
+            btnDeleteMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getPosition();
+                    onMessageDeleteClickListener.onMessageDeleteClick(messages.get(position));
+                    deleteMessage(position);
+                }
+            });
 
         }
     }
@@ -56,5 +72,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
     @Override
     public int getItemCount() {
         return messages.size();
+    }
+
+    private void deleteMessage(int position) {
+        messages.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, messages.size());
     }
 }
