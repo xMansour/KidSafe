@@ -28,5 +28,10 @@
     <string name="sender_phone_number">Sender Phone Number:</string>
     <string name="message_body">Message Body:</string>
     <string name="time_received">Time Received:</string>
+    <string name="caller_phone_number">Caller Phone Number:</string>
+    <string name="call_type">Call Type:</string>
+    <string name="contact_name">Contact Name:</string>
+    <string name="call_time">Call Time:</string>
+    <string name="call_duration">Call Duration:</string>
 
 </resources>

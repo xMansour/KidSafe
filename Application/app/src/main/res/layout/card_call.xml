@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/small_margin"
+    app:cardBackgroundColor="@color/card_background_color"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/call_type"
+                android:textColor="@color/text_color_black_strong"
+                android:textSize="@dimen/text_mid_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCallType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:textColor="@color/text_color_black_light"
+                android:textSize="@dimen/text_mid_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/caller_phone_number"
+                android:textColor="@color/text_color_black_strong"
+                android:textSize="@dimen/text_mid_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCallerPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:textColor="@color/text_color_black_light"
+                android:textSize="@dimen/text_mid_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/contact_name"
+                android:textColor="@color/text_color_black_strong"
+                android:textSize="@dimen/text_mid_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtContactName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:textColor="@color/text_color_black_light"
+                android:textSize="@dimen/text_mid_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/call_time"
+                android:textColor="@color/text_color_black_strong"
+                android:textSize="@dimen/text_mid_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCallTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:textColor="@color/text_color_black_light"
+                android:textSize="@dimen/text_mid_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/call_duration"
+                android:textColor="@color/text_color_black_strong"
+                android:textSize="@dimen/text_mid_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCallDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:textColor="@color/text_color_black_light"
+                android:textSize="@dimen/text_mid_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

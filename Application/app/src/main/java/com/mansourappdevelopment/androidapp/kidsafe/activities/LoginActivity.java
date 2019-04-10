@@ -38,7 +38,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordFra
 
 public class LoginActivity extends AppCompatActivity {
     public static final int RC_SIGN_IN = 29;
-    public static final String TAG = "TAG";
+    public static final String TAG = "LoginActivityTAG";
     private EditText txtLogInEmail;
     private EditText txtLogInPassword;
     private Button btnLogin;
@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                                 default:
                                     Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
                             }
+                            //TODO:: check if the google play services exists or not.
                         }
                     }
                 });

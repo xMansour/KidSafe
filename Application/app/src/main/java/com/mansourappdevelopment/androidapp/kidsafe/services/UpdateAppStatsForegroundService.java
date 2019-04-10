@@ -193,7 +193,7 @@ public class UpdateAppStatsForegroundService extends Service {
                     //Log.i(TAG, "onDataChange: dataSnapshot key: " + dataSnapshot.getKey());
 
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                    User child = nodeShot.getValue(User.class);
+                    User child = nodeShot.getValue(User.class);     //TODO:: Failed to convert value of type java.lang.Double to String
                     apps = child.getApps();
 
                     Log.i(TAG, "onDataChange: child name: " + child.getName());

@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,12 +24,12 @@ public class SmsReceiver extends BroadcastReceiver {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser user;
     private SmsManager smsManager;
-    private HashMap<String, Object> messeges;
+    //private HashMap<String, Object> messeges;
 
 
     public SmsReceiver(FirebaseUser user) {
         this.user = user;
-        this.messeges = new HashMap<>();
+        //this.messeges = new HashMap<>();
         this.smsManager = SmsManager.getDefault();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
@@ -70,13 +71,14 @@ public class SmsReceiver extends BroadcastReceiver {
         Log.i(TAG, "uploadMessage: senderPhoneNumber" + senderPhoneNumber);
         Log.i(TAG, "uploadMessage: timeReceived" + timeReceived);
 
-        messeges.clear();
-        //messeges.put("message", "Incoming Call");
+        /*messeges.clear();
         messeges.put("senderPhoneNumber", senderPhoneNumber);
         messeges.put("messageBody", messageBody);
         messeges.put("timeReceived", timeReceived);
+        databaseReference.child("childs").child(uid).child("messages").push().setValue(messeges);*/
 
-        databaseReference.child("childs").child(uid).child("messages").push().setValue(messeges);
+        Message message = new Message(senderPhoneNumber, messageBody, timeReceived);
+        databaseReference.child("childs").child(uid).child("messages").push().setValue(message);
 
 
     }
