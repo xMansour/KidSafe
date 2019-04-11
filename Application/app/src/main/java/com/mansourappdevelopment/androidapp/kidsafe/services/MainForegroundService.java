@@ -131,6 +131,21 @@ public class MainForegroundService extends Service {
             }
         });
 
+        Query locationQuery = databaseReference.child("childs").child(uid).child("location");
+        locationQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    setFence(dataSnapshot);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Query webFilterQuery = databaseReference.child("childs").child(uid).child("webFilter");
         webFilterQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -439,5 +454,68 @@ public class MainForegroundService extends Service {
     private void writeDataToDB(ArrayList<App> appsList) {
         databaseReference.child("childs").child(uid).child("apps").setValue(appsList);
         Log.i(TAG, "writeDataToDB: done");
+    }
+
+    private void setFence(DataSnapshot dataSnapshot) {
+        final com.mansourappdevelopment.androidapp.kidsafe.utils.Location childLocation = dataSnapshot.getValue(com.mansourappdevelopment.androidapp.kidsafe.utils.Location.class);
+        Log.i(TAG, "setFence: getLatitude " + childLocation.getLatitude());
+        Log.i(TAG, "setFence: getLongitude " + childLocation.getLongitude());
+        Log.i(TAG, "setFence: isGeoFence " + childLocation.isGeoFence());
+        Log.i(TAG, "setFence: isOutOfFence " + childLocation.isOutOfFence());
+        Log.i(TAG, "setFence: getFenceCenterLatitude " + childLocation.getFenceCenterLatitude());
+        Log.i(TAG, "setFence: getFenceCenterLongitude " + childLocation.getFenceCenterLongitude());
+        Log.i(TAG, "setFence: getFenceDiameter " + childLocation.getFenceDiameter());
+
+        if (childLocation.isGeoFence()) {
+            Log.i(TAG, "setFence: true");
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            LocationListener locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    Log.i(TAG, "setFence: changed");
+                    if (location != null) {
+                        float[] distanceInMeters = new float[1];
+                        Location.distanceBetween(childLocation.getFenceCenterLatitude(), childLocation.getFenceCenterLongitude()
+                                , location.getLatitude(), location.getLongitude(), distanceInMeters);
+
+                        boolean outOfFence = distanceInMeters[0] > childLocation.getFenceDiameter();
+                        if (outOfFence) {
+                            Log.i(TAG, "setFence: OUT OF FENCE");
+                            databaseReference.child("childs").child(uid).child("location").child("outOfFence").setValue(true);
+                        } else {
+                            databaseReference.child("childs").child(uid).child("location").child("outOfFence").setValue(false);
+                        }
+                    } else {
+                        Log.i(TAG, "setFence: location is null");
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            };
+
+            //these two statements will be only executed when the permission is granted.
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_INTERVAL, LOCATION_UPDATE_DISPLACEMENT, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_INTERVAL, LOCATION_UPDATE_DISPLACEMENT, locationListener);
+                return;
+            }
+
+
+        }
+
     }
 }
