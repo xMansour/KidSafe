@@ -59,7 +59,7 @@
         <service
             android:name=".services.UploadAppsService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service android:name=".services.UpdateAppStatsForegroundService" />
+        <service android:name=".services.MainForegroundService" />
 
 
         <receiver android:name=".broadcasts.BootCompleteReceiver">

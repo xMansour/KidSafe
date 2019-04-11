@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 
-import static com.mansourappdevelopment.androidapp.kidsafe.services.UpdateAppStatsForegroundService.BLOCKED_APP_NAME_EXTRA;
+import static com.mansourappdevelopment.androidapp.kidsafe.services.MainForegroundService.BLOCKED_APP_NAME_EXTRA;
 
 public class BlockedAppActivity extends AppCompatActivity {
     private TextView txtBlockedAppName;

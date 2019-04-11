@@ -13,6 +13,8 @@ public class User {
     private Location location;
     private HashMap<String, Message> messages = new HashMap<>();
     private HashMap<String, Call> calls = new HashMap<>();
+    private boolean webFilter;
+
 
     //TODO:: add user image field
     public User() {
@@ -97,5 +99,13 @@ public class User {
 
     public void setCalls(HashMap<String, Call> calls) {
         this.calls = calls;
+    }
+
+    public boolean isWebFilter() {
+        return webFilter;
+    }
+
+    public void setWebFilter(boolean webFilter) {
+        this.webFilter = webFilter;
     }
 }

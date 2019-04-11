@@ -92,7 +92,7 @@ public class UploadAppsService extends JobService {
             Log.i(TAG, "prepareData: online appsList empty");
             for (ApplicationInfo applicationInfo : applicationInfoList) {
                 if (applicationInfo.packageName != null) {
-                    appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), false));
+                    appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, false));
                 }
             }
             //if not, check the app's blocked attribute and update it.
@@ -100,7 +100,7 @@ public class UploadAppsService extends JobService {
             for (ApplicationInfo applicationInfo : applicationInfoList) {
                 for (App app : apps) {
                     if (app.getPackageName().equals((String) applicationInfo.packageName)) {
-                        appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), app.isBlocked()));
+                        appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, app.isBlocked()));
                         Log.i(TAG, "prepareData: if executed");
                     }
                 }
@@ -111,7 +111,7 @@ public class UploadAppsService extends JobService {
             for (ApplicationInfo applicationInfo : applicationInfoList) {
                 if (!apps.contains(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.packageName, false))
                         && !apps.contains(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.packageName, true))) {
-                    appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, applicationInfo.loadIcon(packageManager), false));
+                    appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, false));
                 }
             }
 

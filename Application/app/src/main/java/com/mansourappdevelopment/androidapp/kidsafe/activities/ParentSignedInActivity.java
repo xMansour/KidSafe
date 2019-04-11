@@ -158,4 +158,45 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         startActivity(intent);
     }
 
+    @Override
+    public void onWebFilterClick(boolean checked, User child) {
+        String childEmail = child.getEmail();
+        if (checked) {
+            Toast.makeText(this, "Web Filter Enabled", Toast.LENGTH_SHORT).show();
+            Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                        nodeShot.getRef().child("webFilter").setValue(true);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            Toast.makeText(this, "Web Filter Disabled", Toast.LENGTH_SHORT).show();
+            Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                        nodeShot.getRef().child("webFilter").setValue(false);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+    }
+
 }

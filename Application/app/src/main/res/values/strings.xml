@@ -34,5 +34,6 @@
     <string name="call_time">Call Time:</string>
     <string name="call_duration">Call Duration:</string>
     <string name="delete">Delete</string>
+    <string name="web_filter">Web Filter</string>
 
 </resources>

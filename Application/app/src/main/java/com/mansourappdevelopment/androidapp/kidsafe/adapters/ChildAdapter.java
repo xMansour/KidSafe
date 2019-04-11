@@ -6,7 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
@@ -32,11 +34,24 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
     public class ChildAdapterViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgChild;
         private TextView txtChildName;
+        private Switch switchWebFilter;
 
         public ChildAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             imgChild = itemView.findViewById(R.id.imgChild);
             txtChildName = itemView.findViewById(R.id.txtChildName);
+            switchWebFilter = (Switch) itemView.findViewById(R.id.switchWebFilter);
+            switchWebFilter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (buttonView.isPressed()) {
+                        int position = getPosition();
+                        onChildClickListener.onWebFilterClick(isChecked, childs.get(position));
+                    }
+
+                }
+            });
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

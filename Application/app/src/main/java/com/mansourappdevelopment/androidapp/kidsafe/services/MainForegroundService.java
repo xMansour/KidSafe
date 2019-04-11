@@ -2,35 +2,28 @@ package com.mansourappdevelopment.androidapp.kidsafe.services;
 
 import android.Manifest;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,13 +31,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.BlockedAppActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity;
-import com.mansourappdevelopment.androidapp.kidsafe.activities.MainActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AppInstalledReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AppRemovedReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.PhoneStateReceiver;
@@ -53,31 +44,33 @@ import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-import static com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActivity.CHILD_EMAIL;
 import static com.mansourappdevelopment.androidapp.kidsafe.utils.NotificationChannelCreator.CHANNEL_ID;
 
-public class UpdateAppStatsForegroundService extends Service {
+public class MainForegroundService extends Service {
     public static final int NOTIFICATION_ID = 27;
-    public static final String TAG = "UpdateAppStatsService";
+    public static final String TAG = "MainServiceTAG";
     public static final String BLOCKED_APP_NAME_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.services.BLOCKED_APP_NAME_EXTRA";
-    public static final int LOCATION_UPDATE_INTERVAL = 5000;    //every 5 seconds
-    public static final int LOCATION_UPDATE_DISPLACEMENT = 10;  //every 10 meters
-    private DatabaseReference databaseReference;
+    public static final int LOCATION_UPDATE_INTERVAL = 1;    //every 5 seconds
+    public static final int LOCATION_UPDATE_DISPLACEMENT = 5;  //every 10 meters
     private ExecutorService executorService;
     private ArrayList<App> apps;
     private PhoneStateReceiver phoneStateReceiver;
     private SmsReceiver smsReceiver;
     private AppInstalledReceiver appInstalledReceiver;
     private AppRemovedReceiver appRemovedReceiver;
+    private String uid;
+    private String childEmail;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference("users");
 
 
     @Override
@@ -87,6 +80,12 @@ public class UpdateAppStatsForegroundService extends Service {
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         LockerThread thread = new LockerThread();
         executorService.submit(thread);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getInstalledApplications();
+            }
+        }).start();
         Log.i(TAG, "onCreate: executed");
     }
 
@@ -97,8 +96,8 @@ public class UpdateAppStatsForegroundService extends Service {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
-        final String childEmail = user.getEmail();
-        final String uid = user.getUid();
+        childEmail = user.getEmail();
+        uid = user.getUid();
 
         Intent notificationIntent = new Intent(this, ChildSignedInActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -111,17 +110,49 @@ public class UpdateAppStatsForegroundService extends Service {
 
         startForeground(NOTIFICATION_ID, notification);
 
-        getUserLocation(uid);
+        getUserLocation();
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
+        /*FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");*/
 
-        Query query = databaseReference.child("childs").child(uid);
-        query.addValueEventListener(new ValueEventListener() {
+        Query appsQuery = databaseReference.child("childs").child(uid).child("apps");
+        appsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    getApps(childEmail);
+                    getApps();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        Query webFilterQuery = databaseReference.child("childs").child(uid).child("webFilter");
+        webFilterQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    boolean checked = (boolean) dataSnapshot.getValue();
+                    if (checked) {
+                        /*String primaryDNS = "185.228.168.168";
+                        String secondaryDNS = "185.228.169.168";
+                        changeDNS(primaryDNS, secondaryDNS);
+                        String newDNS1 = Settings.System.getString(getContentResolver(), Settings.System.WIFI_STATIC_DNS1);
+                        String newDNS2 = Settings.System.getString(getContentResolver(), Settings.System.WIFI_STATIC_DNS2);
+                        Log.i(TAG, "onDataChange: new DNS1: " + newDNS1);
+                        Log.i(TAG, "onDataChange: new DNS2: " + newDNS2);*/
+                    } else {
+                        /*String primaryDNS = "0.0.0.0";
+                        String secondaryDNS = "0.0.0.0";
+                        changeDNS(primaryDNS, secondaryDNS);
+                        String newDNS1 = Settings.System.getString(getContentResolver(), Settings.System.WIFI_STATIC_DNS1);
+                        String newDNS2 = Settings.System.getString(getContentResolver(), Settings.System.WIFI_STATIC_DNS2);
+                        Log.i(TAG, "onDataChange: new DNS1: " + newDNS1);
+                        Log.i(TAG, "onDataChange: new DNS2: " + newDNS2);*/
+                    }
                 }
             }
 
@@ -181,7 +212,7 @@ public class UpdateAppStatsForegroundService extends Service {
         return null;
     }
 
-    public void getApps(final String childEmail) {
+    public void getApps() {
         Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -263,7 +294,7 @@ public class UpdateAppStatsForegroundService extends Service {
         Intent intnet = null;
 
         public LockerThread() {
-            intnet = new Intent(UpdateAppStatsForegroundService.this, BlockedAppActivity.class);
+            intnet = new Intent(MainForegroundService.this, BlockedAppActivity.class);
             intnet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
@@ -299,7 +330,7 @@ public class UpdateAppStatsForegroundService extends Service {
 
     }
 
-    private void getUserLocation(final String uid) {
+    private void getUserLocation() {
         Log.i(TAG, "getUserLocation: executed");
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -348,5 +379,62 @@ public class UpdateAppStatsForegroundService extends Service {
         update.put("latitude", latitude);
         update.put("longitude", longitude);
         databaseReference.child("childs").child(uid).child("location").updateChildren(update);
+    }
+
+    /*private void changeDNS(String primaryDNS, String secondaryDNS) {
+        Settings.System.putString(getContentResolver(), Settings.System.WIFI_STATIC_DNS1, primaryDNS);  //TODO:: DEPRECATED
+        Settings.System.putString(getContentResolver(), Settings.System.WIFI_STATIC_DNS2, secondaryDNS);
+    }*/
+
+    private void getInstalledApplications(/*ArrayList<App> onlineAppsList*/) {
+        PackageManager packageManager = getPackageManager();
+        List<ApplicationInfo> applicationInfoList = packageManager.getInstalledApplications(0);
+        Collections.sort(applicationInfoList, new ApplicationInfo.DisplayNameComparator(packageManager));
+        Iterator<ApplicationInfo> iterator = applicationInfoList.iterator();
+        while (iterator.hasNext()) {
+            ApplicationInfo applicationInfo = iterator.next();
+            if (applicationInfo.packageName.contains("com.google") || applicationInfo.packageName.matches("com.android.chrome"))
+                continue;
+            if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                iterator.remove();
+            }
+        }
+        prepareData(applicationInfoList, packageManager/*, onlineAppsList*/);
+    }
+
+    private void prepareData(List<ApplicationInfo> applicationInfoList, PackageManager packageManager/*, ArrayList<App> onlineAppsList*/) {
+        ArrayList<App> appsList = new ArrayList<>();
+        for (ApplicationInfo applicationInfo : applicationInfoList) {
+            if (applicationInfo.packageName != null) {
+                appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, false));
+            }
+        }
+        /*if (onlineAppsList.isEmpty()) {
+            Log.i(TAG, "prepareData: online appsList empty");
+            for (ApplicationInfo applicationInfo : applicationInfoList) {
+                if (applicationInfo.packageName != null) {
+                    appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, false));
+                }
+            }
+            //if not, check the app's blocked attribute and update it.
+        } else {
+            for (ApplicationInfo applicationInfo : applicationInfoList) {
+                for (App app : onlineAppsList) {
+                    if (app.getPackageName().equals((String) applicationInfo.packageName)) {
+                        appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, app.isBlocked()));
+                    }
+                }
+
+            }
+
+        }*/
+
+        writeDataToDB(appsList);
+
+    }
+
+    private void writeDataToDB(ArrayList<App> appsList) {
+        databaseReference.child("childs").child(uid).child("apps").setValue(appsList);
+        Log.i(TAG, "writeDataToDB: done");
     }
 }

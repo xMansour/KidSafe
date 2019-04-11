@@ -5,16 +5,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AppRemovedReceiver extends BroadcastReceiver {
     public static final String TAG = "AppRemovedReceiver";
     private FirebaseUser user;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private String uid;
+    private String childEmail;
 
     public AppRemovedReceiver(FirebaseUser user) {
         this.user = user;
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
+        uid = user.getUid();
+        childEmail = user.getEmail();
     }
 
     @Override
@@ -39,9 +59,32 @@ public class AppRemovedReceiver extends BroadcastReceiver {
         Log.i(TAG, "onReceive: action: " + action);
         Log.i(TAG, "onReceive: packageName: " + packageName);
         Log.i(TAG, "onReceive: appName: " + appName);
-        Log.i(TAG, "onReceive: componentPackage: " + componentPackage);
+        Log.i(TAG, "onReceive: componentPackage: " + componentPackage);         //package name
         Log.i(TAG, "onReceive: " + intent.getData().getScheme());
         Log.i(TAG, "onReceive: " + intent.getData());
 
+        removeApp(componentPackage);
+
     }
+
+    private void removeApp(final String packageName) {
+
+        Query query = databaseReference.child("childs").child(uid).child("apps").orderByChild("packageName").equalTo(packageName);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
+                    databaseReference.child("childs").child(uid).child("apps").child(snapshot.getKey()).removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 }

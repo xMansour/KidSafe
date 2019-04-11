@@ -5,17 +5,38 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Message;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
+
+import java.util.ArrayList;
 
 
 public class AppInstalledReceiver extends BroadcastReceiver {
     public static final String TAG = "AppInstalledReceiver";
     private FirebaseUser user;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private String uid;
+    private String childEmail;
 
     public AppInstalledReceiver(FirebaseUser user) {
         this.user = user;
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
+        uid = user.getUid();
+        childEmail = user.getEmail();
+
     }
 
     @Override
@@ -41,6 +62,34 @@ public class AppInstalledReceiver extends BroadcastReceiver {
         Log.i(TAG, "onReceive: packageName: " + packageName);
         Log.i(TAG, "onReceive: appName: " + appName);
 
+        App newApp = new App(appName, packageName, false);
+        getApps(newApp);
 
+    }
+
+    public void getApps(final App newApp) {
+        Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    ArrayList<App> apps;
+                    DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                    User child = nodeShot.getValue(User.class);
+                    apps = child.getApps();
+                    addNewApp(apps, newApp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void addNewApp(ArrayList<App> apps, App newApp){
+        apps.add(newApp);
+        databaseReference.child("childs").child(uid).child("apps").setValue(apps);
     }
 }

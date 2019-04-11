@@ -8,31 +8,63 @@
     app:cardCornerRadius="3dp"
     app:cardElevation="1dp">
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgChild"
-            android:layout_width="@dimen/circular_image_width_small"
-            android:layout_height="@dimen/circular_image_height_small"
-            android:layout_margin="@dimen/small_margin"
-            android:src="@drawable/ic_face"
-            app:civ_border_color="@color/circular_image_border_color"
-            app:civ_border_width="@dimen/circular_image_border_small" />
-
-        <TextView
-            android:id="@+id/txtChildName"
-            android:layout_width="wrap_content"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/small_margin"
-            android:text="@string/child_name"
-            android:textColor="@color/text_color_black_light"
-            android:textSize="@dimen/text_mid_size"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgChild"
+                android:layout_width="@dimen/circular_image_width_small"
+                android:layout_height="@dimen/circular_image_height_small"
+                android:layout_margin="@dimen/small_margin"
+                android:src="@drawable/ic_face"
+                app:civ_border_color="@color/circular_image_border_color"
+                app:civ_border_width="@dimen/circular_image_border_small" />
+
+            <TextView
+                android:id="@+id/txtChildName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/child_name"
+                android:textColor="@color/text_color_black_light"
+                android:textSize="@dimen/text_mid_size"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="64dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/web_filter"
+                android:textColor="@color/text_color_black_light"
+                android:textSize="@dimen/text_mid_size"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/switchWebFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_margin="@dimen/small_margin" />
+        </LinearLayout>
 
     </LinearLayout>
+
+
 </android.support.v7.widget.CardView>

@@ -8,7 +8,7 @@ import android.os.Parcelable;
 public class App implements Parcelable {
     private String appName;
     private String packageName;
-    private Drawable appIcon;
+    //private Drawable appIcon;
     private boolean blocked;
 
     public App() {
@@ -20,12 +20,12 @@ public class App implements Parcelable {
         this.blocked = blocked;
     }
 
-    public App(String appName, String packageName, Drawable appIcon, boolean blocked) {
+    /*public App(String appName, String packageName, Drawable appIcon, boolean blocked) {
         this.appName = appName;
         this.packageName = packageName;
         this.appIcon = appIcon;
         this.blocked = blocked;
-    }
+    }*/
 
 
     protected App(Parcel in) {
@@ -58,16 +58,8 @@ public class App implements Parcelable {
         this.packageName = packageName;
     }
 
-    public Drawable getAppIcon() {
-        return appIcon;
-    }
-
     public void setAppName(String appName) {
         this.appName = appName;
-    }
-
-    public void setAppIcon(Drawable appIcon) {
-        this.appIcon = appIcon;
     }
 
     public void setBlocked(boolean blocked) {
