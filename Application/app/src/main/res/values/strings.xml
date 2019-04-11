@@ -35,5 +35,15 @@
     <string name="call_duration">Call Duration:</string>
     <string name="delete">Delete</string>
     <string name="web_filter">Web Filter</string>
+    <string name="setup_a_geofence">Setup a GeoFence On</string>
+    <string name="select_geofence_s_center">Center</string>
+    <string name="geofence_s_diameter">Diameter</string>
+    <string name="diameter_in_meters">Diameter in meters</string>
+    <string name="set_geofence">Set GeoFence</string>
+
+    <string-array name="geo_fence_entries">
+        <item>You</item>
+        <item>Him</item>
+    </string-array>
 
 </resources>

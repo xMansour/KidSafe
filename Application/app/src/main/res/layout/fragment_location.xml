@@ -6,8 +6,28 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <org.osmdroid.views.MapView
-        android:id="@+id/mapView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:id="@+id/fabGeoFence"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_geo_fence"
+            android:layout_margin="@dimen/big_margin"/>
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </org.osmdroid.views.MapView>
+
+
+    </FrameLayout>
+
+
 </LinearLayout>

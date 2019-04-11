@@ -24,6 +24,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -69,8 +70,8 @@ public class MainForegroundService extends Service {
     private AppRemovedReceiver appRemovedReceiver;
     private String uid;
     private String childEmail;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = firebaseDatabase.getReference("users");
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference("users");
 
 
     @Override
@@ -137,6 +138,7 @@ public class MainForegroundService extends Service {
                 if (dataSnapshot.exists()) {
                     boolean checked = (boolean) dataSnapshot.getValue();
                     if (checked) {
+                        Toast.makeText(MainForegroundService.this, "Web Filter Enabled", Toast.LENGTH_SHORT).show();
                         /*String primaryDNS = "185.228.168.168";
                         String secondaryDNS = "185.228.169.168";
                         changeDNS(primaryDNS, secondaryDNS);
@@ -145,6 +147,7 @@ public class MainForegroundService extends Service {
                         Log.i(TAG, "onDataChange: new DNS1: " + newDNS1);
                         Log.i(TAG, "onDataChange: new DNS2: " + newDNS2);*/
                     } else {
+                        Toast.makeText(MainForegroundService.this, "Web Filter Disabled", Toast.LENGTH_SHORT).show();
                         /*String primaryDNS = "0.0.0.0";
                         String secondaryDNS = "0.0.0.0";
                         changeDNS(primaryDNS, secondaryDNS);
