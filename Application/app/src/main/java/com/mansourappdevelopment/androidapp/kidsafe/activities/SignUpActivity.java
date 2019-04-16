@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.ModeSelectionCloseListener;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
+import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

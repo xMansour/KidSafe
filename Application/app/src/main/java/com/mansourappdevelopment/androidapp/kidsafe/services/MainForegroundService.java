@@ -41,8 +41,8 @@ import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AppInstalledRecei
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AppRemovedReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.PhoneStateReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.SmsReceiver;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
+import com.mansourappdevelopment.androidapp.kidsafe.models.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +54,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-import static com.mansourappdevelopment.androidapp.kidsafe.utils.NotificationChannelCreator.CHANNEL_ID;
+import static com.mansourappdevelopment.androidapp.kidsafe.NotificationChannelCreator.CHANNEL_ID;
 
 public class MainForegroundService extends Service {
     public static final int NOTIFICATION_ID = 27;
@@ -309,11 +309,11 @@ public class MainForegroundService extends Service {
 
     class LockerThread implements Runnable {
 
-        Intent intnet = null;
+        Intent intent = null;
 
         public LockerThread() {
-            intnet = new Intent(MainForegroundService.this, BlockedAppActivity.class);
-            intnet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent = new Intent(MainForegroundService.this, BlockedAppActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
         @Override
@@ -331,8 +331,8 @@ public class MainForegroundService extends Service {
                         //Log.i(TAG, "run: app name: " + app.getAppName() + " blocked: " + app.isBlocked() + "\n");
                         if (foregroundAppPackageName.equals(app.getPackageName()) && app.isBlocked()) {
                             //Log.i(TAG, "run: " + app.getPackageName() + " is running");
-                            intnet.putExtra(BLOCKED_APP_NAME_EXTRA, app.getAppName());
-                            startActivity(intnet);
+                            intent.putExtra(BLOCKED_APP_NAME_EXTRA, app.getAppName());
+                            startActivity(intent);
                         }
 
                     }
@@ -457,7 +457,7 @@ public class MainForegroundService extends Service {
     }
 
     private void setFence(DataSnapshot dataSnapshot) {
-        final com.mansourappdevelopment.androidapp.kidsafe.utils.Location childLocation = dataSnapshot.getValue(com.mansourappdevelopment.androidapp.kidsafe.utils.Location.class);
+        final com.mansourappdevelopment.androidapp.kidsafe.models.Location childLocation = dataSnapshot.getValue(com.mansourappdevelopment.androidapp.kidsafe.models.Location.class);
         Log.i(TAG, "setFence: getLatitude " + childLocation.getLatitude());
         Log.i(TAG, "setFence: getLongitude " + childLocation.getLongitude());
         Log.i(TAG, "setFence: isGeoFence " + childLocation.isGeoFence());

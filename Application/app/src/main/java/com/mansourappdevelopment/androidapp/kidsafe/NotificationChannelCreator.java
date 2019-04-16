@@ -1,4 +1,4 @@
-package com.mansourappdevelopment.androidapp.kidsafe.utils;
+package com.mansourappdevelopment.androidapp.kidsafe;
 
 import android.app.Application;
 import android.app.NotificationChannel;

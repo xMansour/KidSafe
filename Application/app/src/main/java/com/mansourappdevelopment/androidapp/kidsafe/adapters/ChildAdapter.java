@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
+import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import java.util.ArrayList;
 

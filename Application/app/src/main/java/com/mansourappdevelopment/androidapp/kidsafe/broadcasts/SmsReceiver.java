@@ -11,11 +11,10 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.Message;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class SmsReceiver extends BroadcastReceiver {

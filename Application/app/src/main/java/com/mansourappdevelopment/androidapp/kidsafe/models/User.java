@@ -1,4 +1,4 @@
-package com.mansourappdevelopment.androidapp.kidsafe.utils;
+package com.mansourappdevelopment.androidapp.kidsafe.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;

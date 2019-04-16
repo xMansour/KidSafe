@@ -12,7 +12,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.AppsFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.LocationFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.ActivityLogFragment;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 
 import java.util.ArrayList;
 

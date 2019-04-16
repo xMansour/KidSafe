@@ -124,7 +124,7 @@ public class ChildSignedInActivity extends AppCompatActivity {
 
 
         //schedualJob(bundle);
-        startUpdateAppStatsForegroundService(email);
+        startMainForegroundService(email);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -153,7 +153,7 @@ public class ChildSignedInActivity extends AppCompatActivity {
         //Job cancelled
     }
 
-    private void startUpdateAppStatsForegroundService(String email) {
+    private void startMainForegroundService(String email) {
         Intent intent = new Intent(this, MainForegroundService.class);
         intent.putExtra(CHILD_EMAIL, email);
         ContextCompat.startForegroundService(this, intent);

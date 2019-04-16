@@ -1,4 +1,4 @@
-package com.mansourappdevelopment.androidapp.kidsafe.utils;
+package com.mansourappdevelopment.androidapp.kidsafe.models;
 
 public class Location {
     private double latitude;

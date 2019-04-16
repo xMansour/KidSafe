@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.ActivityLogFragmentPagerAdapter;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.Call;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.Message;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Call;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Message;
 
 import java.util.HashMap;
 

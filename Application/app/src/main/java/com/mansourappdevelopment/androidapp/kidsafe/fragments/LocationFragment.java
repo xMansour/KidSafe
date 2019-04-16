@@ -3,14 +3,12 @@ package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,12 +16,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.DisplayMetrics;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,10 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
-import com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnGeoFenceSettingListener;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.Location;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
+import com.mansourappdevelopment.androidapp.kidsafe.services.GeoFencingForegroundService;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Location;
+import com.mansourappdevelopment.androidapp.kidsafe.models.User;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -44,11 +42,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.MinimapOverlay;
-import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.compass.CompassOverlay;
-import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -60,8 +53,8 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
     public static final int requestCode = 10;
     public static final String TAG = "LocationFragmentTAG";
     public static final int REQUEST_CODE = 922;
-    public static final int LOCATION_UPDATE_INTERVAL = 1;    //every 5 seconds
-    public static final int LOCATION_UPDATE_DISPLACEMENT = 5;  //every 10 meters
+    public static final int LOCATION_UPDATE_INTERVAL = 1;    //every second
+    public static final int LOCATION_UPDATE_DISPLACEMENT = 1;  //every meter
     private DatabaseReference databaseReference;
     private MapView mapView;
     private FloatingActionButton fabGeoFence;
@@ -203,6 +196,15 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
     }
 
     private void addMarkerForParent(Location location) {
+        /*GeoPoint parentGeoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+
+        Marker parentMarker = new Marker(mapView);
+        parentMarker.setPosition(parentGeoPoint);
+        parentMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        parentMarker.setTitle("You");
+        parentMarker.setIcon(getResources().getDrawable(R.drawable.ic_parent));      //TODO:: should add the child's picture instead.
+        mapView.getOverlays().add(parentMarker);
+        mapController.setCenter(parentGeoPoint);*/
 
     }
 
@@ -262,6 +264,14 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
                         databaseReference.child("childs").child(key).child("location").setValue(location);
 
                     }
+
+                    //TODO:: stop the service if we re-started it
+                    Intent serviceIntent = new Intent(getActivity(), GeoFencingForegroundService.class);
+                    serviceIntent.putExtra(Constant.CHILD_EMAIL_EXTRA, childEmail);
+                    serviceIntent.putExtra(Constant.CHILD_NAME_EXTRA, childName);
+
+                    ContextCompat.startForegroundService(getContext(), serviceIntent);
+
                 }
             }
 

@@ -15,9 +15,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.Message;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
+import com.mansourappdevelopment.androidapp.kidsafe.models.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,6 @@
 package com.mansourappdevelopment.androidapp.kidsafe.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -16,12 +15,10 @@ import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnAppClickListener;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHolder> {
     private Context context;

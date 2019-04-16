@@ -15,11 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.User;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AppRemovedReceiver extends BroadcastReceiver {
     public static final String TAG = "AppRemovedReceiver";

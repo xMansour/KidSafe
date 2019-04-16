@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnCallDeleteClickListener;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.Call;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Call;
 
 import java.util.ArrayList;
 

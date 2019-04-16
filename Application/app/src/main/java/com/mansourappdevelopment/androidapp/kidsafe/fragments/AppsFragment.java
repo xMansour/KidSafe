@@ -23,7 +23,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.AppAdapter;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnAppClickListener;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 
 import java.util.ArrayList;
 import java.util.HashMap;
