@@ -46,4 +46,8 @@
         <item>Him</item>
     </string-array>
 
+    <string name="device_admin_description">Allow KidSafe to lock the device</string>
+    <string name="device_admin">KidSafe</string>
+    <string name="device_admin_explanation">KidSafe need to be device admin to function properly</string>
+
 </resources>

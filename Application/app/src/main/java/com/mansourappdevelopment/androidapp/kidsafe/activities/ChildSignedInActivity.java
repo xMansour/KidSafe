@@ -1,39 +1,52 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.Manifest;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
+import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AdminReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.services.MainForegroundService;
-import com.mansourappdevelopment.androidapp.kidsafe.services.UploadAppsService;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 public class ChildSignedInActivity extends AppCompatActivity {
+    private static final String TAG = "ChildSignedInTAG";
     public static final int JOB_ID = 38;
     public static final String CHILD_EMAIL = "childEmail";
     private FirebaseAuth auth;
     private FirebaseUser user;
+    private DevicePolicyManager devicePolicyManager;
+    private ComponentName componentName;
+    private boolean adminActive;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_signed_in);
+
+        devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        componentName = new ComponentName(this, AdminReceiver.class);
+        adminActive = devicePolicyManager.isAdminActive(componentName);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -125,9 +138,44 @@ public class ChildSignedInActivity extends AppCompatActivity {
 
         //schedualJob(bundle);
         startMainForegroundService(email);
+
+        TextView tx = (TextView) findViewById(R.id.txtChildSignedIn);
+        tx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (adminActive)
+                    disableDeviceAdmin();
+                else
+                    enableDeviceAdmin();
+            }
+        });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void enableDeviceAdmin() {
+        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, getResources().getString(R.string.device_admin_explanation));
+        startActivityForResult(intent, Constant.DEVICE_ADMIN_REQUEST_CODE);
+        Log.i(TAG, "enableDeviceAdmin: DONE");
+
+    }
+
+    private void disableDeviceAdmin() {
+        devicePolicyManager.removeActiveAdmin(componentName);
+        Log.i(TAG, "disableDeviceAdmin: DONE");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.DEVICE_ADMIN_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Log.i(TAG, "onActivityResult: DONE");
+            }
+        }
+    }
+
+    /*@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void schedualJob(PersistableBundle bundle) {
         ComponentName componentName = new ComponentName(this, UploadAppsService.class);
         JobInfo jobInfo = new JobInfo.Builder(JOB_ID, componentName)
@@ -144,14 +192,14 @@ public class ChildSignedInActivity extends AppCompatActivity {
         } else {
             //Failure
         }
-    }
+    }*/
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    /*@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void cancelJob() {
         JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
         jobScheduler.cancel(JOB_ID);
         //Job cancelled
-    }
+    }*/
 
     private void startMainForegroundService(String email) {
         Intent intent = new Intent(this, MainForegroundService.class);

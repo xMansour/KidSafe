@@ -40,6 +40,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.activities.ChildSignedInActi
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AppInstalledReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AppRemovedReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.PhoneStateReceiver;
+import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.ScreenTimeReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.SmsReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
@@ -68,6 +69,7 @@ public class MainForegroundService extends Service {
     private SmsReceiver smsReceiver;
     private AppInstalledReceiver appInstalledReceiver;
     private AppRemovedReceiver appRemovedReceiver;
+    private ScreenTimeReceiver screenTimeReceiver;
     private String uid;
     private String childEmail;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -202,6 +204,13 @@ public class MainForegroundService extends Service {
         registerReceiver(appRemovedReceiver, appRemovedIntentFilter);
 
 
+        screenTimeReceiver = new ScreenTimeReceiver(user);
+        IntentFilter screenTimeIntentFilter = new IntentFilter();
+        screenTimeIntentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        screenTimeIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(screenTimeReceiver, screenTimeIntentFilter);
+
+
         return START_STICKY;
     }
 
@@ -222,6 +231,9 @@ public class MainForegroundService extends Service {
         }
         if (appRemovedReceiver != null) {
             unregisterReceiver(appRemovedReceiver);
+        }
+        if (screenTimeReceiver != null) {
+            unregisterReceiver(screenTimeReceiver);
         }
     }
 
@@ -305,47 +317,6 @@ public class MainForegroundService extends Service {
 
 
         return "";
-    }
-
-    class LockerThread implements Runnable {
-
-        Intent intent = null;
-
-        public LockerThread() {
-            intent = new Intent(MainForegroundService.this, BlockedAppActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-
-        @Override
-        public void run() {
-            while (true) {
-                Log.i(TAG, "run: thread running");
-
-                if (apps != null) {
-
-                    String foregroundAppPackageName = getTopAppPackageName();
-                    Log.i(TAG, "run: foreground app: " + foregroundAppPackageName);
-
-                    //TODO:: need to handle com.google.android.gsf &  com.sec.android.provider.badge
-                    for (final App app : apps) {
-                        //Log.i(TAG, "run: app name: " + app.getAppName() + " blocked: " + app.isBlocked() + "\n");
-                        if (foregroundAppPackageName.equals(app.getPackageName()) && app.isBlocked()) {
-                            //Log.i(TAG, "run: " + app.getPackageName() + " is running");
-                            intent.putExtra(BLOCKED_APP_NAME_EXTRA, app.getAppName());
-                            startActivity(intent);
-                        }
-
-                    }
-                }
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
     }
 
     private void getUserLocation() {
@@ -518,4 +489,63 @@ public class MainForegroundService extends Service {
         }
 
     }
+
+    class LockerThread implements Runnable {
+
+        private Intent intent = null;
+
+        public LockerThread() {
+            intent = new Intent(MainForegroundService.this, BlockedAppActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                Log.i(TAG, "run: thread running");
+
+                if (apps != null) {
+
+                    String foregroundAppPackageName = getTopAppPackageName();
+                    Log.i(TAG, "run: foreground app: " + foregroundAppPackageName);
+
+                    //TODO:: need to handle com.google.android.gsf &  com.sec.android.provider.badge
+                    for (final App app : apps) {
+                        //Log.i(TAG, "run: app name: " + app.getAppName() + " blocked: " + app.isBlocked() + "\n");
+                        if (foregroundAppPackageName.equals(app.getPackageName()) && app.isBlocked()) {
+                            //Log.i(TAG, "run: " + app.getPackageName() + " is running");
+                            intent.putExtra(BLOCKED_APP_NAME_EXTRA, app.getAppName());
+                            startActivity(intent);
+                        }
+
+                    }
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    class ScreenTimeThread implements Runnable {
+
+        @Override
+        public void run() {
+            while (true) {
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+    }
+
 }

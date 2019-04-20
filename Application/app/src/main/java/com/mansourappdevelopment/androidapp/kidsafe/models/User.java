@@ -14,6 +14,7 @@ public class User {
     private HashMap<String, Message> messages = new HashMap<>();
     private HashMap<String, Call> calls = new HashMap<>();
     private boolean webFilter;
+    private long screenTime;
 
 
     //TODO:: add user image field

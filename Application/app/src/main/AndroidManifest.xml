@@ -21,6 +21,7 @@
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -62,7 +63,6 @@
         <service android:name=".services.MainForegroundService" />
         <service android:name=".services.GeoFencingForegroundService" />
 
-
         <receiver android:name=".broadcasts.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -71,36 +71,22 @@
             </intent-filter>
         </receiver>
 
-        <!--<receiver android:name=".broadcasts.PhoneStateReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-                <category android:name="android.intent.category.DEFAULT" />
+        <receiver
+            android:name=".broadcasts.AdminReceiver"
+            android:description="@string/device_admin_description"
+            android:label="@string/device_admin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
 
-            </intent-filter>
-        </receiver>-->
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_policies" />
 
-        <!--<receiver android:name=".broadcasts.SmsReceiver">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
--->
 
-        <!--        <receiver android:name=".broadcasts.AppInstalledReceiver">
-                    <intent-filter>
-                        <action android:name="android.intent.action.PACKAGE_ADDED" />
-                        <action android:name="android.intent.action.PACKAGE_INSTALL" />
 
-                        <data android:scheme="package" />
-                    </intent-filter>
-                </receiver>-->
-
-        <!--<receiver android:name=".broadcasts.AppRemovedReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-                <data android:scheme="package"/>
-            </intent-filter>
-        </receiver>-->
     </application>
 
 </manifest>
