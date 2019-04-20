@@ -45,6 +45,7 @@ public class RecoverPasswordFragment extends DialogFragment {
         });
     }
 
+    //TODO:: need to validate if the email exists
     private boolean validateForm() {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (txtRecoveryEmail.getText().toString().equals("")) {

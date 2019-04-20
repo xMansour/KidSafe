@@ -72,7 +72,7 @@
                 android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_login"
+                android:background="@drawable/button"
                 android:text="@string/login_button"
                 android:textColor="@color/text_color_white_light"
                 android:textSize="@dimen/text_mid_size"

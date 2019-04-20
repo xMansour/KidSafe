@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/small_margin"
+    android:background="@color/white"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/card_elevation">
 
@@ -22,12 +23,12 @@
                 android:id="@+id/txtAppBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/app_background"
+                android:gravity="center"
+                android:textAlignment="center"
                 android:textColor="@color/text_color_white_light"
                 android:textSize="@dimen/text_mid_size"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:background="@drawable/app_background"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView

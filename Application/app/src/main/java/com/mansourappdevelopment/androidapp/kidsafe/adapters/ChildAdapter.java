@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListe
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapterViewHolder> {
     private Context context;
@@ -32,14 +35,15 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
     }
 
     public class ChildAdapterViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgChild;
+        private CircleImageView imgChild;
         private TextView txtChildName;
         private Switch switchWebFilter;
+        private Switch switchLockPhone;
 
         public ChildAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgChild = itemView.findViewById(R.id.imgChild);
-            txtChildName = itemView.findViewById(R.id.txtChildName);
+            imgChild = (CircleImageView) itemView.findViewById(R.id.imgChild);
+            txtChildName = (TextView) itemView.findViewById(R.id.txtChildName);
             switchWebFilter = (Switch) itemView.findViewById(R.id.switchWebFilter);
             switchWebFilter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -59,6 +63,18 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
                             onChildClickListener.onItemClick(v, position);
+                    }
+                }
+            });
+
+            switchLockPhone = (Switch) itemView.findViewById(R.id.switchLockPhone);
+            switchLockPhone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (buttonView.isPressed()) {
+                        int position = getPosition();
+                        onChildClickListener.onBtnLockClick(isChecked, childs.get(position));
+
                     }
                 }
             });

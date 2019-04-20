@@ -2,6 +2,7 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.ChildAdapter;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.PhoneLockFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
@@ -157,7 +159,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
     public void onWebFilterClick(boolean checked, User child) {
         String childEmail = child.getEmail();
         if (checked) {
-            Toast.makeText(this, "Web Filter Enabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.web_filter_enabled), Toast.LENGTH_SHORT).show();
             Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -174,7 +176,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
                 }
             });
         } else {
-            Toast.makeText(this, "Web Filter Disabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.web_filter_disabled), Toast.LENGTH_SHORT).show();
             Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -193,5 +195,38 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         }
 
     }
+
+    @Override
+    public void onBtnLockClick(boolean checked, User child) {
+        String childEmail = child.getEmail();
+        if (checked) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            PhoneLockFragment phoneLockFragment = new PhoneLockFragment();
+            phoneLockFragment.setCancelable(false);//TODO:: add this to all the other dialog fragments
+            phoneLockFragment.show(fragmentManager, "PhoneLockFragment");
+        } else {
+            Toast.makeText(this, getString(R.string.phone_unlocked), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onLockPhoneSet(int hours, int minutes) {
+        if (hours == 0 && minutes == 0) {
+            Toast.makeText(this, getString(R.string.phone_locked), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.lock_timer_set_after) + " " + hours + " " + getString(R.string.hours) + " "
+                    + getString(R.string.and) + " " + minutes + " " + getString(R.string.minutes), Toast.LENGTH_SHORT).show();
+        }
+
+        //TODO:: update the database
+    }
+
+    @Override
+    public void onLockCanceled() {
+        Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+        initializeAdapter();//TODO:: don't know if it is the best solution
+
+    }
+
 
 }

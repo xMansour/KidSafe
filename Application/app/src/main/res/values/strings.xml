@@ -46,8 +46,35 @@
         <item>Him</item>
     </string-array>
 
+    <string-array name="timer_entries">
+        <item>Immediately</item>
+        <item>Specify a period</item>
+    </string-array>
+
     <string name="device_admin_description">Allow KidSafe to lock the device</string>
     <string name="device_admin">KidSafe</string>
     <string name="device_admin_explanation">KidSafe need to be device admin to function properly</string>
+    <string name="device_admin_enabled">Device Admin Enabled</string>
+    <string name="device_admin_disabled">Device Admin Disabled</string>
+    <string name="lock_phone">Lock Phone</string>
+    <string name="timer">Timer</string>
+    <string name="ok">OK</string>
+    <string name="hour">hour</string>
+    <string name="phone_unlocked">Phone Unlocked</string>
+    <string name="phone_locked">Phone Locked</string>
+    <string name="lock_timer_set_after">Phone will be locked after</string>
+    <string name="hours">hours</string>
+    <string name="web_filter_disabled">Web filter disabled</string>
+    <string name="web_filter_enabled">Web filter enabled</string>
+    <string name="hh">HH</string>
+    <string name="two_dots">:</string>
+    <string name="mm">MM</string>
+    <string name="and">and</string>
+    <string name="minutes">minutes</string>
+    <string name="maximum_is_23_hours">Maximum is 23 hours</string>
+    <string name="maximum_is_59_minutes">Maximum is 59 minutes</string>
+    <string name="enter_a_valid_number">Enter a valid number</string>
+    <string name="cancel">Cancel</string>
+    <string name="canceled">Canceled</string>
 
 </resources>

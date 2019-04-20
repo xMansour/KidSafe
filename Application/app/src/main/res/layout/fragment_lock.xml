@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/small_padding">
+
+    <TextView
+        android:id="@+id/txtGeoFenceHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_margin"
+        android:text="@string/lock_phone"
+        android:textAlignment="center"
+        android:textColor="@color/text_color_black_light"
+        android:textSize="@dimen/text_mid_size"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spinnerLockEntries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_margin"
+        android:entries="@array/timer_entries"
+        android:textAlignment="center" />
+
+
+    <LinearLayout
+        android:id="@+id/layoutLockTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_margin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <EditText
+            android:id="@+id/txtLockHours"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hh"
+            android:inputType="number"
+            android:maxLength="2"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/two_dots"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_mid_size" />
+
+        <EditText
+            android:id="@+id/txtLockMinutes"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/mm"
+            android:inputType="number"
+            android:maxLength="2"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnLock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_margin"
+        android:background="@drawable/button"
+        android:text="@string/ok"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color_white_light"
+        android:textSize="@dimen/text_mid_size"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnCancelLock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_margin"
+        android:background="@drawable/button_disabled"
+        android:text="@string/cancel"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color_white_light"
+        android:textSize="@dimen/text_mid_size"
+        android:textStyle="bold" />
+</LinearLayout>

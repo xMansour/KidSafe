@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void logIn(String email, String password) {
         //if (validateForm()) {
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);//TODO:: validate to avoid exceptions
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

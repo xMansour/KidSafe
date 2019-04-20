@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/big_margin"
-        android:background="@drawable/button_login"
+        android:background="@drawable/button"
         android:text="@string/set_geofence"
         android:textAlignment="center"
         android:textAllCaps="false"

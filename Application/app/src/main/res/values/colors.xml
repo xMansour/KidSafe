@@ -5,10 +5,10 @@
     <color name="colorAccent">#00ACC1</color>
 
 
-    <color name="red">#FF3D51</color>
+    <color name="red">#B00020</color>
     <color name="white">#FFFFFF</color>
-    <color name="dark_white">#F4F4F7</color>
-    <color name="blue">#1E88E5</color>
+    <color name="dark_white">#F2F2F2</color>
+    <color name="blue">#2F9CF6</color>
     <color name="black">#757575</color>
 
     <color name="github_black">#24292e</color>
@@ -22,7 +22,7 @@
     <color name="text_color_black_light">@color/github_light_black</color>
     <color name="text_color_white_strong">@color/github_dark_white</color>
     <color name="text_color_white_light">@color/github_white</color>
-    <color name="circular_image_border_color">@color/github_green</color>
+    <color name="circular_image_border_color">@color/blue</color>
     <color name="edit_text_border_color">@color/github_green</color>
     <color name="edit_text_disabled_border_color">@color/github_light_green</color>
     <color name="edit_text_solid_color">@color/github_white</color>
