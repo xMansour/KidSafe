@@ -43,6 +43,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.PhoneStateReceive
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.ScreenTimeReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.SmsReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import java.util.ArrayList;
@@ -182,6 +183,38 @@ public class MainForegroundService extends Service {
             }
         });
 
+        Query screenTimeQuery = databaseReference.child("childs").child(uid).child("screenLock");
+        screenTimeQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    ScreenLock screenLock = dataSnapshot.getValue(ScreenLock.class);
+                    Log.i(TAG, "onDataChangeX: hours: " + screenLock.getHours());
+                    Log.i(TAG, "onDataChangeX: minutes: " + screenLock.getMinutes());
+                    Log.i(TAG, "onDataChangeX: isLocked: " + screenLock.isLocked());
+
+                    if (screenLock.isLocked()) {
+                        int hours = screenLock.getHours();
+                        int minutes = screenLock.getMinutes();
+                        screenTimeReceiver = new ScreenTimeReceiver(hours, minutes);
+                        IntentFilter screenTimeIntentFilter = new IntentFilter();
+                        screenTimeIntentFilter.addAction(Intent.ACTION_SCREEN_ON);
+                        screenTimeIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+                        registerReceiver(screenTimeReceiver, screenTimeIntentFilter);
+                    } else {
+                        if (screenTimeReceiver != null) {
+                            unregisterReceiver(screenTimeReceiver);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         phoneStateReceiver = new PhoneStateReceiver(user);
         IntentFilter callIntentFilter = new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
         registerReceiver(phoneStateReceiver, callIntentFilter);
@@ -193,7 +226,7 @@ public class MainForegroundService extends Service {
         appInstalledReceiver = new AppInstalledReceiver(user);
         IntentFilter appInstalledIntentFilter = new IntentFilter();
         appInstalledIntentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
-        appInstalledIntentFilter.addAction(Intent.ACTION_PACKAGE_INSTALL);
+        //appInstalledIntentFilter.addAction(Intent.ACTION_PACKAGE_INSTALL);
         appInstalledIntentFilter.addDataScheme("package");
         registerReceiver(appInstalledReceiver, appInstalledIntentFilter);
 
@@ -204,11 +237,11 @@ public class MainForegroundService extends Service {
         registerReceiver(appRemovedReceiver, appRemovedIntentFilter);
 
 
-        screenTimeReceiver = new ScreenTimeReceiver(user);
+        /*screenTimeReceiver = new ScreenTimeReceiver(user);
         IntentFilter screenTimeIntentFilter = new IntentFilter();
         screenTimeIntentFilter.addAction(Intent.ACTION_SCREEN_ON);
         screenTimeIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(screenTimeReceiver, screenTimeIntentFilter);
+        registerReceiver(screenTimeReceiver, screenTimeIntentFilter);*/
 
 
         return START_STICKY;

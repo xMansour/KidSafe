@@ -25,6 +25,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.ChildAdapter;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.PhoneLockFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
+import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
     private FirebaseUser user;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private String childEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,7 +200,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
     @Override
     public void onBtnLockClick(boolean checked, User child) {
-        String childEmail = child.getEmail();
+        childEmail = child.getEmail();
         if (checked) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             PhoneLockFragment phoneLockFragment = new PhoneLockFragment();
@@ -206,11 +208,30 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
             phoneLockFragment.show(fragmentManager, "PhoneLockFragment");
         } else {
             Toast.makeText(this, getString(R.string.phone_unlocked), Toast.LENGTH_SHORT).show();
+
+            final ScreenLock screenLock = new ScreenLock(0, 0, false);
+            Query childQuery = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
+            childQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                        String uid = nodeShot.getKey();
+                        databaseReference.child("childs").child(uid).child("screenLock").setValue(screenLock);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
     @Override
     public void onLockPhoneSet(int hours, int minutes) {
+        final ScreenLock screenLock = new ScreenLock(hours, minutes, true);
         if (hours == 0 && minutes == 0) {
             Toast.makeText(this, getString(R.string.phone_locked), Toast.LENGTH_SHORT).show();
         } else {
@@ -218,7 +239,22 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
                     + getString(R.string.and) + " " + minutes + " " + getString(R.string.minutes), Toast.LENGTH_SHORT).show();
         }
 
-        //TODO:: update the database
+        Query childQuery = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
+        childQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                    String uid = nodeShot.getKey();
+                    databaseReference.child("childs").child(uid).child("screenLock").setValue(screenLock);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

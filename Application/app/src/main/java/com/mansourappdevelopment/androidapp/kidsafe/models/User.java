@@ -14,7 +14,7 @@ public class User {
     private HashMap<String, Message> messages = new HashMap<>();
     private HashMap<String, Call> calls = new HashMap<>();
     private boolean webFilter;
-    private long screenTime;
+    private ScreenLock screenLock;
 
 
     //TODO:: add user image field
@@ -108,5 +108,13 @@ public class User {
 
     public void setWebFilter(boolean webFilter) {
         this.webFilter = webFilter;
+    }
+
+    public ScreenLock getScreenLock() {
+        return screenLock;
+    }
+
+    public void setScreenLock(ScreenLock screenLock) {
+        this.screenLock = screenLock;
     }
 }
