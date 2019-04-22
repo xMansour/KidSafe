@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
@@ -16,9 +17,11 @@ import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 
 import java.util.ArrayList;
 
+import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.APPS_EXTRA;
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_NAME_EXTRA;
 
 public class ChildDetailsActivity extends AppCompatActivity {
+    private static final String TAG = "ChildDetailsTAG";
     private ArrayList<App> apps;
 
     @Override
@@ -29,8 +32,11 @@ public class ChildDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String childName = intent.getStringExtra(CHILD_NAME_EXTRA);
         //final String childEmail = intent.getStringExtra(CHILD_EMAIL_EXTRA);
-        //apps = intent.getParcelableArrayListExtra(APPS_EXTRA);
+        apps = intent.getParcelableArrayListExtra(APPS_EXTRA);
+        for (App app : apps) {
+            Log.i(TAG, "onItemClick: appName: " + app.getAppName() + " " + "packageName" + app.getPackageName());
 
+        }
 
         setTitle(childName + "'s device");
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new AppsFragment()).commit();

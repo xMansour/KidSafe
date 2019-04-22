@@ -9,18 +9,18 @@
     android:padding="@dimen/small_padding">
 
     <TextView
-        android:id="@+id/txtLockPhoneHeader"
+        android:id="@+id/txtLockAppHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/big_margin"
-        android:text="@string/lock_phone"
+        android:text="@string/lock_appname"
         android:textAlignment="center"
         android:textColor="@color/text_color_black_light"
         android:textSize="@dimen/text_mid_size"
         android:textStyle="bold" />
 
     <Spinner
-        android:id="@+id/spinnerLockEntries"
+        android:id="@+id/spinnerLockAppEntries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/big_margin"
@@ -29,7 +29,7 @@
 
 
     <LinearLayout
-        android:id="@+id/layoutLockTime"
+        android:id="@+id/layoutLockAppTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/big_margin"
@@ -39,7 +39,7 @@
         tools:visibility="visible">
 
         <EditText
-            android:id="@+id/txtLockHours"
+            android:id="@+id/txtLockAppHours"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:hint="@string/hh"
@@ -55,7 +55,7 @@
             android:textSize="@dimen/text_mid_size" />
 
         <EditText
-            android:id="@+id/txtLockMinutes"
+            android:id="@+id/txtLockAppMinutes"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:hint="@string/mm"
@@ -67,7 +67,7 @@
 
 
     <Button
-        android:id="@+id/btnLock"
+        android:id="@+id/btnLockApp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/big_margin"
@@ -80,7 +80,7 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/btnCancelLock"
+        android:id="@+id/btnCancelLockApp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/big_margin"

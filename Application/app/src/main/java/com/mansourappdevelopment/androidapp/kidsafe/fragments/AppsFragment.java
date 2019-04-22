@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInAct
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.AppAdapter;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnAppClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +34,7 @@ import java.util.HashMap;
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_EMAIL_EXTRA;
 
 public class AppsFragment extends Fragment implements OnAppClickListener {
-    public static final String TAG = "AppsFragment";
+    public static final String TAG = "AppsFragmentTAG";
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ArrayList<App> apps;
@@ -39,6 +42,8 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
     private RecyclerView recyclerViewApps;
     private Context context;
     private String childEmail;
+    private String appName;
+    private String packageName;
     private Bundle bundle;
 
 
@@ -71,6 +76,11 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
         if (bundle != null) {
             apps = bundle.getParcelableArrayList(ParentSignedInActivity.APPS_EXTRA);
             childEmail = bundle.getString(CHILD_EMAIL_EXTRA);
+
+            for (App app: apps){
+                Log.i(TAG, "onItemClick: appName: " + app.getAppName() + " " + "packageName" + app.getPackageName());
+
+            }
         }
     }
 
@@ -81,8 +91,8 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
     }
 
     @Override
-    public void onItemClick(String appName, boolean blocked) {
-        if (blocked) {
+    public void onItemClick(final String packageName, String appName, boolean blocked) {
+        /*if (blocked) {
             Toast.makeText(context, appName + " blocked", Toast.LENGTH_SHORT).show();
             updateAppState(appName, blocked);
 
@@ -90,10 +100,100 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
             Toast.makeText(context, appName + " enabled", Toast.LENGTH_SHORT).show();
             updateAppState(appName, blocked);
 
+        }*/
+        this.appName = appName;
+        this.packageName = packageName;
+
+        if (blocked) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.CHILD_APP_NAME_EXTRA, appName);
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            AppLockFragment appLockFragment = new AppLockFragment();
+            appLockFragment.setCancelable(false);//TODO:: add this to all the other dialog fragments
+            appLockFragment.setArguments(bundle);
+            appLockFragment.setTargetFragment(AppsFragment.this, Constant.APP_LOCK_FRAGMENT_REQUEST_CODE);
+            appLockFragment.show(fragmentManager, "AppLockFragment");
+        } else {
+            Toast.makeText(context, appName + " " + getString(R.string.enabled), Toast.LENGTH_SHORT).show();
+            final ScreenLock screenLock = new ScreenLock(0, 0, false);
+            updateAppLockState(screenLock);
         }
     }
 
-    private void updateAppState(final String appName, final boolean blocked) {
+
+    @Override
+    public void onLockAppSet(int hours, int minutes) {
+        if (hours == 0 && minutes == 0) {
+            Toast.makeText(context, appName + " " + getString(R.string.blocked), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, appName + " " + getString(R.string.will_be_blocked_after) + " " + hours + " " + getString(R.string.hours) + " "
+                    + getString(R.string.and) + " " + minutes + " " + getString(R.string.minutes), Toast.LENGTH_SHORT).show();
+
+        }
+
+        ScreenLock screenLock = new ScreenLock(hours, minutes, true);
+        updateAppLockState(screenLock);
+
+
+    }
+
+    @Override
+    public void onLockCanceled() {
+        Toast.makeText(context, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+        initializeAdapter(this);//TODO:: don't know if it is the best solution
+
+    }
+
+
+    private void updateAppLockState(final ScreenLock screenLock) {
+        Query childQuery = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
+        childQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.i(TAG, "onDataChange: DONE");
+                if (dataSnapshot.exists()) {
+                    DataSnapshot childNodeShot = dataSnapshot.getChildren().iterator().next();
+                    final String childKey = childNodeShot.getKey();
+                    Log.i(TAG, "onDataChange: childKey: " + childKey);
+                    Log.i(TAG, "onDataChange: packageName: " + packageName);
+                    Query appQuery = databaseReference.child("childs").child(childKey).child("apps").orderByChild("packageName").equalTo(packageName);  //changed from appName
+                    appQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.i(TAG, "onDataChange: DONE 2");
+                            Log.i(TAG, "onDataChange: dataSnapShotValue: " + dataSnapshot.getValue());
+                            Log.i(TAG, "onDataChange: dataSnapShotChildren: " + dataSnapshot.getChildren());
+                            if (dataSnapshot.exists()) {
+                                DataSnapshot appNodeShot = dataSnapshot.getChildren().iterator().next();
+                                String appKey = appNodeShot.getKey();
+                                Log.i(TAG, "onDataChange: appKey: " + appKey);
+                                Log.i(TAG, "onDataChange: appNodeShotValue: " + appNodeShot.getValue());
+                                Log.i(TAG, "onDataChange: appNodeShotChildren: " + appNodeShot.getChildren());
+
+                                databaseReference.child("childs").child(childKey).child("apps").child(appKey).child("screenLock").setValue(screenLock);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+    private void updateAppState(final String packageName, final boolean blocked) {
         Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -101,7 +201,7 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
                 DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
                 final String key = nodeShot.getKey();
                 Log.i(TAG, "onDataChange: key: " + key);
-                Query query = databaseReference.child("childs").child(key).child("apps").orderByChild("appName").equalTo(appName);
+                Query query = databaseReference.child("childs").child(key).child("apps").orderByChild("packageName").equalTo(packageName);  //changed from appName
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -110,6 +210,7 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
                             HashMap<String, Object> update = new HashMap<>();
                             update.put("blocked", blocked);
                             databaseReference.child("childs").child(key).child("apps").child(snapshot.getKey()).updateChildren(update);
+
                         }
                     }
 

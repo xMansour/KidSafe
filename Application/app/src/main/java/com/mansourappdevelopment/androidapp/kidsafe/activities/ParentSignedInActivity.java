@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -25,6 +26,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.ChildAdapter;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.PhoneLockFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
+import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
@@ -154,6 +156,9 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         intent.putExtras(bundle);*/
         //TODO:: put child's image as an extra
 
+        for (App app : child.getApps()) {
+            Log.i(TAG, "onItemClick: appName: " + app.getAppName() + " " + "packageName" + app.getPackageName());
+        }
         startActivity(intent);
     }
 
@@ -209,36 +214,31 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         } else {
             Toast.makeText(this, getString(R.string.phone_unlocked), Toast.LENGTH_SHORT).show();
 
-            final ScreenLock screenLock = new ScreenLock(0, 0, false);
-            Query childQuery = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
-            childQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                        String uid = nodeShot.getKey();
-                        databaseReference.child("childs").child(uid).child("screenLock").setValue(screenLock);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+            ScreenLock screenLock = new ScreenLock(0, 0, false);
+            updatePhoneLock(screenLock);
         }
     }
 
     @Override
     public void onLockPhoneSet(int hours, int minutes) {
-        final ScreenLock screenLock = new ScreenLock(hours, minutes, true);
         if (hours == 0 && minutes == 0) {
             Toast.makeText(this, getString(R.string.phone_locked), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, getString(R.string.lock_timer_set_after) + " " + hours + " " + getString(R.string.hours) + " "
                     + getString(R.string.and) + " " + minutes + " " + getString(R.string.minutes), Toast.LENGTH_SHORT).show();
         }
+        ScreenLock screenLock = new ScreenLock(hours, minutes, true);
+        updatePhoneLock(screenLock);
+    }
 
+    @Override
+    public void onLockCanceled() {
+        Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+        initializeAdapter();//TODO:: don't know if it is the best solution
+
+    }
+
+    private void updatePhoneLock(final ScreenLock screenLock) {
         Query childQuery = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
         childQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -255,12 +255,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
             }
         });
-    }
 
-    @Override
-    public void onLockCanceled() {
-        Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
-        initializeAdapter();//TODO:: don't know if it is the best solution
 
     }
 

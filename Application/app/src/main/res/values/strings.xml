@@ -22,7 +22,6 @@
     <string name="apps">Apps</string>
     <string name="location">Location</string>
     <string name="child_app_name">App name</string>
-    <string name="enabled">Enabled</string>
     <string name="available_apps">Available Apps</string>
     <string name="this_app_is_blocked_by_your_parents">Is blocked by your parents</string>
     <string name="sender_phone_number">Sender Phone Number:</string>
@@ -76,5 +75,9 @@
     <string name="enter_a_valid_number">Enter a valid number</string>
     <string name="cancel">Cancel</string>
     <string name="canceled">Canceled</string>
+    <string name="lock_appname">Lock AppName</string>
+    <string name="blocked">Blocked</string>
+    <string name="enabled">Enabled</string>
+    <string name="will_be_blocked_after">will be blocked after</string>
 
 </resources>

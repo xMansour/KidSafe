@@ -533,12 +533,12 @@ public class MainForegroundService extends Service {
         @Override
         public void run() {
             while (true) {
-                Log.i(TAG, "run: thread running");
+                //Log.i(TAG, "run: thread running");
 
                 if (apps != null) {
 
                     String foregroundAppPackageName = getTopAppPackageName();
-                    Log.i(TAG, "run: foreground app: " + foregroundAppPackageName);
+                    //Log.i(TAG, "run: foreground app: " + foregroundAppPackageName);
 
                     //TODO:: need to handle com.google.android.gsf &  com.sec.android.provider.badge
                     for (final App app : apps) {
@@ -547,6 +547,16 @@ public class MainForegroundService extends Service {
                             //Log.i(TAG, "run: " + app.getPackageName() + " is running");
                             intent.putExtra(BLOCKED_APP_NAME_EXTRA, app.getAppName());
                             startActivity(intent);
+                        } else if (foregroundAppPackageName.equals(app.getPackageName()) && !app.isBlocked()) {
+                            if (app.getScreenLock() != null) {
+                                if (app.getScreenLock().isLocked() && app.getScreenLock().getTimeInSeconds() > 0) {
+                                    app.getScreenLock().setTimeInSeconds(app.getScreenLock().getTimeInSeconds() - 1);
+                                } else if (app.getScreenLock().isLocked() && app.getScreenLock().getTimeInSeconds() <= 0) {
+                                    app.setBlocked(true);
+                                    //TODO:: write it to the database
+                                }
+                            } else
+                                Log.i(TAG, "run: ScreenLock is null");
                         }
 
                     }

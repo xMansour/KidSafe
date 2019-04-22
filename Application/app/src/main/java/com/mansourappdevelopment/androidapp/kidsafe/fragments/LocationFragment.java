@@ -87,6 +87,7 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
                 FragmentManager fragmentManager = getFragmentManager();
                 GeoFenceSettingFragment geoFenceSettingFragment = new GeoFenceSettingFragment();
                 geoFenceSettingFragment.setTargetFragment(LocationFragment.this, REQUEST_CODE);
+                geoFenceSettingFragment.setCancelable(false);
                 geoFenceSettingFragment.show(fragmentManager, "GeoFence Dialog Fragment");
             }
         });

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHolder> {
+    private static final String TAG = "AppAdapterTAG";
     private Context context;
     private ArrayList<App> apps;
     private OnAppClickListener onAppClickListener;
@@ -50,8 +52,12 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHo
             switchAppState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (buttonView.isPressed())
-                        onAppClickListener.onItemClick(txtAppName.getText().toString(), isChecked);
+                    if (buttonView.isPressed()) {
+                        onAppClickListener.onItemClick(apps.get(getAdapterPosition()).getPackageName(), apps.get(getAdapterPosition()).getAppName(), isChecked); //changed from txtAppName.getText()
+                        Log.i(TAG, "onCheckedChanged: packageName: " + apps.get(getAdapterPosition()).getPackageName());
+                        Log.i(TAG, "onCheckedChanged: appName: " + apps.get(getAdapterPosition()).getAppName());
+                    }
+
                 }
             });
         }

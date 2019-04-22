@@ -9,6 +9,7 @@ public class App implements Parcelable {
     private String packageName;
     //private Drawable appIcon;
     private boolean blocked;
+    private ScreenLock screenLock;
 
     public App() {
     }
@@ -29,9 +30,9 @@ public class App implements Parcelable {
 
     protected App(Parcel in) {
         appName = in.readString();
+        packageName = in.readString();
         blocked = in.readByte() != 0;
     }
-
 
     public static final Creator<App> CREATOR = new Creator<App>() {
         @Override
@@ -69,6 +70,15 @@ public class App implements Parcelable {
         return blocked;
     }
 
+    public ScreenLock getScreenLock() {
+        return screenLock;
+    }
+
+    public void setScreenLock(ScreenLock screenLock) {
+        this.screenLock = screenLock;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -77,6 +87,7 @@ public class App implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(appName);
+        dest.writeString(packageName);
         dest.writeByte((byte) (blocked ? 1 : 0));
     }
 }
