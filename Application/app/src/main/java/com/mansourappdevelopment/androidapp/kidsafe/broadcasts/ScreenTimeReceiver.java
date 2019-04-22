@@ -26,12 +26,10 @@ public class ScreenTimeReceiver extends BroadcastReceiver {
     private DevicePolicyManager devicePolicyManager;
 
 
-    public ScreenTimeReceiver(int allowedHours, int allowedMinutes) {
-        allowedTime = allowedHours * 60 * 60 + allowedMinutes * 60;
+    public ScreenTimeReceiver(ScreenLock screenLock) {
+        allowedTime = screenLock.getTimeInSeconds();
         calendar = Calendar.getInstance();
         Log.i(TAG, "ScreenTimeReceiver: allowedTime: " + allowedTime);
-        Log.i(TAG, "ScreenTimeReceiver: allowedHours: " + allowedHours);
-        Log.i(TAG, "ScreenTimeReceiver: allowedMinutes: " + allowedMinutes);
     }
 
     @Override

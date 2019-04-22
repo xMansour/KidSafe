@@ -194,9 +194,7 @@ public class MainForegroundService extends Service {
                     Log.i(TAG, "onDataChangeX: isLocked: " + screenLock.isLocked());
 
                     if (screenLock.isLocked()) {
-                        int hours = screenLock.getHours();
-                        int minutes = screenLock.getMinutes();
-                        screenTimeReceiver = new ScreenTimeReceiver(hours, minutes);
+                        screenTimeReceiver = new ScreenTimeReceiver(screenLock);
                         IntentFilter screenTimeIntentFilter = new IntentFilter();
                         screenTimeIntentFilter.addAction(Intent.ACTION_SCREEN_ON);
                         screenTimeIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
