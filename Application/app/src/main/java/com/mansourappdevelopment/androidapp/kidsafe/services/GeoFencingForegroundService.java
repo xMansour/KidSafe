@@ -110,9 +110,13 @@ public class GeoFencingForegroundService extends Service {
 
         //TODO:: show a notification instead
 
-        if ((boolean) dataSnapshot.getValue())
-
+        if ((boolean) dataSnapshot.getValue()){
             Toast.makeText(this, childName + " is out of the fence", Toast.LENGTH_SHORT).show();
+            closeService();
+        }
+    }
 
+    private void closeService(){
+        stopSelf();
     }
 }
