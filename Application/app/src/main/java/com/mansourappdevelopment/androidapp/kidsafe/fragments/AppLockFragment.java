@@ -71,14 +71,14 @@ public class AppLockFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (spinnerLockAppEntries.getSelectedItemPosition() == 0) {
-                    onAppClickListener.onLockAppSet(0, 0);
+                    //onAppClickListener.onLockAppSet(0, 0);
                     dismiss();
 
                 } else if (spinnerLockAppEntries.getSelectedItemPosition() == 1) {
                     if (isValid()) {
                         int hours = Integer.parseInt(txtLockAppHours.getText().toString());
                         int minutes = Integer.parseInt(txtLockAppMinutes.getText().toString());
-                        onAppClickListener.onLockAppSet(hours, minutes);
+                        //onAppClickListener.onLockAppSet(hours, minutes);
                         dismiss();
                     }
 
@@ -89,7 +89,7 @@ public class AppLockFragment extends DialogFragment {
         btnCancelLockApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onAppClickListener.onLockCanceled();
+                //onAppClickListener.onLockCanceled();
                 dismiss();
             }
         });

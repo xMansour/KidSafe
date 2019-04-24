@@ -538,7 +538,7 @@ public class MainForegroundService extends Service {
                 if (apps != null) {
 
                     String foregroundAppPackageName = getTopAppPackageName();
-                    //Log.i(TAG, "run: foreground app: " + foregroundAppPackageName);
+                    Log.i(TAG, "run: foreground app: " + foregroundAppPackageName);
 
                     //TODO:: need to handle com.google.android.gsf &  com.sec.android.provider.badge
                     for (final App app : apps) {
@@ -547,17 +547,19 @@ public class MainForegroundService extends Service {
                             //Log.i(TAG, "run: " + app.getPackageName() + " is running");
                             intent.putExtra(BLOCKED_APP_NAME_EXTRA, app.getAppName());
                             startActivity(intent);
-                        } else if (foregroundAppPackageName.equals(app.getPackageName()) && !app.isBlocked()) {
+                        } /*else if (foregroundAppPackageName.equals(app.getPackageName()) && !app.isBlocked()) {
                             if (app.getScreenLock() != null) {
                                 if (app.getScreenLock().isLocked() && app.getScreenLock().getTimeInSeconds() > 0) {
                                     app.getScreenLock().setTimeInSeconds(app.getScreenLock().getTimeInSeconds() - 1);
+                                    Log.i(TAG, "run: TimeInSeconds: " + app.getScreenLock().getTimeInSeconds());
                                 } else if (app.getScreenLock().isLocked() && app.getScreenLock().getTimeInSeconds() <= 0) {
                                     app.setBlocked(true);
+                                    Log.i(TAG, "run: blocked");
                                     //TODO:: write it to the database
                                 }
                             } else
                                 Log.i(TAG, "run: ScreenLock is null");
-                        }
+                        }*/
 
                     }
                 }
@@ -572,21 +574,5 @@ public class MainForegroundService extends Service {
 
     }
 
-    class ScreenTimeThread implements Runnable {
-
-        @Override
-        public void run() {
-            while (true) {
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }
-    }
 
 }

@@ -77,7 +77,7 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
             apps = bundle.getParcelableArrayList(ParentSignedInActivity.APPS_EXTRA);
             childEmail = bundle.getString(CHILD_EMAIL_EXTRA);
 
-            for (App app: apps){
+            for (App app : apps) {
                 Log.i(TAG, "onItemClick: appName: " + app.getAppName() + " " + "packageName" + app.getPackageName());
 
             }
@@ -92,16 +92,16 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
 
     @Override
     public void onItemClick(final String packageName, String appName, boolean blocked) {
-        /*if (blocked) {
+        if (blocked) {
             Toast.makeText(context, appName + " blocked", Toast.LENGTH_SHORT).show();
-            updateAppState(appName, blocked);
+            updateAppState(packageName, blocked);
 
         } else {
             Toast.makeText(context, appName + " enabled", Toast.LENGTH_SHORT).show();
-            updateAppState(appName, blocked);
+            updateAppState(packageName, blocked);
 
-        }*/
-        this.appName = appName;
+        }
+        /*this.appName = appName;
         this.packageName = packageName;
 
         if (blocked) {
@@ -118,11 +118,11 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
             Toast.makeText(context, appName + " " + getString(R.string.enabled), Toast.LENGTH_SHORT).show();
             final ScreenLock screenLock = new ScreenLock(0, 0, false);
             updateAppLockState(screenLock);
-        }
+        }*/
     }
 
 
-    @Override
+/*    @Override
     public void onLockAppSet(int hours, int minutes) {
         if (hours == 0 && minutes == 0) {
             Toast.makeText(context, appName + " " + getString(R.string.blocked), Toast.LENGTH_SHORT).show();
@@ -190,7 +190,7 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
             }
         });
 
-    }
+    }*/
 
 
     private void updateAppState(final String packageName, final boolean blocked) {
