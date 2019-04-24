@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private Button btnEmailSignUp;
     private Button btnGoogleSignUp;
-    private Button btnFacebookSignUp;
     private TextView txtForgotPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -72,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnEmailSignUp = (Button) findViewById(R.id.btnSignUpEmail);
         btnGoogleSignUp = (Button) findViewById(R.id.btnSignUpGoogle);
-        btnFacebookSignUp = (Button) findViewById(R.id.btnSignUpFacebook);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -12,8 +12,8 @@
     <string name="parent">Parent</string>
     <string name="select_mode">Select Mode</string>
     <string name="parent_email">Parent email</string>
-    <string name="forgot_password">Forgot Password</string>
-    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="forgot_password">Reset Password</string>
+    <string name="enter_your_email_address">Please enter your email address to request a password reset.</string>
     <string name="your_email">Your email</string>
     <string name="number_of_childs">Number of children:</string>
     <string name="_0">0</string>
