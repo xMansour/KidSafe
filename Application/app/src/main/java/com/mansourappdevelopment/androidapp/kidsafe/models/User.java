@@ -1,5 +1,7 @@
 package com.mansourappdevelopment.androidapp.kidsafe.models;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,7 +17,7 @@ public class User {
     private HashMap<String, Call> calls = new HashMap<>();
     private boolean webFilter;
     private ScreenLock screenLock;
-
+    private String profileImage;
 
     //TODO:: add user image field
     public User() {
@@ -116,5 +118,13 @@ public class User {
 
     public void setScreenLock(ScreenLock screenLock) {
         this.screenLock = screenLock;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/background_color"
+    android:background="@color/dark_white"
     android:orientation="vertical"
     tools:context=".activities.ParentSignedInActivity">
 
@@ -44,18 +44,18 @@
 
             android:layout_width="@dimen/circular_image_width_large"
             android:layout_height="@dimen/circular_image_height_large"
-            android:layout_margin="@dimen/small_margin"
+            android:layout_margin="@dimen/margin_8dp"
             android:src="@drawable/ic_face"
-            app:civ_border_color="@color/circular_image_border_color"
+            app:civ_border_color="@color/blue"
             app:civ_border_width="@dimen/circular_image_border_large" />
 
         <TextView
             android:id="@+id/txtParentName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/small_margin"
+            android:layout_margin="@dimen/margin_8dp"
             android:text="@string/parent_name"
-            android:textColor="@color/text_color_black_light"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_large_size"
             android:textStyle="bold" />
 
@@ -88,8 +88,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginRight="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/margin_8dp"
+            android:layout_marginRight="@dimen/margin_8dp"
             android:background="@color/github_dark_white" />
 
         <android.support.v7.widget.RecyclerView

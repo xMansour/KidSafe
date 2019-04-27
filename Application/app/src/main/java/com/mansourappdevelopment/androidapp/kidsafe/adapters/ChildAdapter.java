@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -93,8 +94,8 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
     public void onBindViewHolder(@NonNull final ChildAdapterViewHolder childAdapterViewHolder, int i) {
         User child = childs.get(i);
         childAdapterViewHolder.txtChildName.setText(child.getName());
-        //TODO:: get the image from the user class
-        childAdapterViewHolder.imgChild.setImageResource(R.drawable.ic_face);
+        Picasso.get().load(child.getProfileImage()).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(childAdapterViewHolder.imgChild);
+
     }
 
     @Override

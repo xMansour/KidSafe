@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
         android:orientation="vertical">
@@ -14,10 +14,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_8dp"
             android:text="@string/select_mode"
-            android:textColor="@color/text_color_black_light"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_mid_size"
             android:textStyle="bold" />
 
@@ -25,10 +25,9 @@
             android:id="@+id/switchMode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_margin="@dimen/margin_8dp"
             android:text="@string/parent"
-            android:textColor="@color/text_color_black_light"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_mid_size"
             android:textStyle="bold" />
 
@@ -37,26 +36,32 @@
     <EditText
         android:id="@+id/txtParentEmail"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
         android:background="@drawable/edit_text_rounded_disabled"
-        android:drawableLeft="@drawable/ic_mail"
-        android:drawablePadding="@dimen/small_padding"
+        android:drawableStart="@drawable/ic_mail"
+        android:drawablePadding="@dimen/padding_8dp"
         android:ems="10"
         android:enabled="false"
         android:hint="@string/parent_email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
-        android:padding="@dimen/small_padding" />
+        android:padding="@dimen/padding_8dp" />
 
     <Button
         android:id="@+id/btnModeSelection"
+        style="@style/OkButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/big_margin"
-        android:background="@drawable/button"
-        android:text="OK"
-        android:textColor="@color/text_color_black_light"
-        android:textSize="@dimen/text_large_size"
-        android:textStyle="bold" />
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/ok" />
+
+    <Button
+        android:id="@+id/btnCancelModeSelection"
+        style="@style/CancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/cancel"
+        android:textAllCaps="false" />
 </LinearLayout>

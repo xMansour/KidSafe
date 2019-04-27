@@ -79,5 +79,28 @@
     <string name="blocked">Blocked</string>
     <string name="enabled">Enabled</string>
     <string name="will_be_blocked_after">will be blocked after</string>
+    <string name="keep_me_logged_in">Keep me logged in.</string>
+    <string name="remember_me">Remember me</string>
+    <string name="authentication_failed">Authentication Failed</string>
+    <string name="authentication_succeeded">Authentication Succeeded</string>
+    <string name="enter_valid_email">Enter a valid email</string>
+    <string name="email_isnt_registered">Email isn\'t registered</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="loading">Loading…</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="this_email_isnt_registered_as_parent">This email isn\'t registered as a parent</string>
+    <string name="child">Child</string>
+    <string name="sign_up_succeeded">Sign up succeeded</string>
+    <string name="verification_email_sent_it_may_be_within_your_drafts">Verification email sent, it may be within your drafts</string>
+    <string name="email_is_already_in_use">Email is already in use</string>
+    <string name="weak_password">Weak password</string>
+    <string name="sign_up_falied">SignUp Failed</string>
+    <string name="enter_valid_password">Enter a valid password</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="kid">Kid</string>
+    <string name="safe">Safe</string>
+    <string name="image_uploaded_successfully">Image uploaded successfully</string>
+    <string name="image_upload_error">Image upload error</string>
 
 </resources>

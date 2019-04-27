@@ -2,39 +2,28 @@
 <resources>
     <color name="colorPrimary">#039BE5</color>
     <color name="colorPrimaryDark">#1E88E5</color>
-    <color name="colorAccent">#00ACC1</color>
+    <color name="colorAccent">@color/blue</color>
 
 
-    <color name="red">#B00020</color>
+    <color name="red">#D0021B</color>
+    <color name="dark_red">#B00020</color>
     <color name="white">#FFFFFF</color>
     <color name="dark_white">#F2F2F2</color>
     <color name="blue">#2F9CF6</color>
-    <color name="black">#757575</color>
-
+    <color name="light_blue">#91CDFF</color>
+    <color name="grey">#999999</color>
+    <color name="light_grey">#E7E7E7</color>
+    <color name="light_black">#191919</color>
+    <color name="black">#000000</color>
     <color name="github_black">#24292e</color>
     <color name="github_light_black">#2b3137</color>
     <color name="github_dark_white">#CFCFCF</color>
     <color name="github_white">#ffffff</color>
     <color name="github_green">#2dba4e</color>
     <color name="github_light_green">#A0CEA9</color>
+    <color name="twitter_blue">#5BAAF4</color>
+    <color name="facebook_blue">#3B5998</color>
+    <color name="light_green">#43C5A5</color>
 
-    <color name="text_color_black_strong">@color/github_black</color>
-    <color name="text_color_black_light">@color/github_light_black</color>
-    <color name="text_color_white_strong">@color/github_dark_white</color>
-    <color name="text_color_white_light">@color/github_white</color>
-    <color name="circular_image_border_color">@color/blue</color>
-    <color name="edit_text_border_color">@color/github_green</color>
-    <color name="edit_text_disabled_border_color">@color/github_light_green</color>
-    <color name="edit_text_solid_color">@color/github_white</color>
-    <color name="login_button_solid_color">@color/github_green</color>
-    <color name="login_button_disabled_solid_color">@color/github_light_green</color>
-    <color name="sign_up_button_solid_color">@color/github_green</color>
-    <color name="sign_up_button_disabled_solid_color">@color/github_light_green</color>
-    <color name="recycler_view_background">@color/github_white</color>
-    <color name="recycler_view_border">@color/github_dark_white</color>
-    <color name="dark_red">#B00020</color>
-
-    <color name="card_background_color">@color/white</color>
-    <color name="background_color">@color/dark_white</color>
 
 </resources>

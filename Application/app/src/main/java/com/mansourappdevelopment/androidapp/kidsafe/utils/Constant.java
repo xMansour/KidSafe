@@ -8,6 +8,13 @@ public class Constant {
     public static final int GEO_FENCING_NOTIFICATION_ID = 922;
     public static final int DEVICE_ADMIN_REQUEST_CODE = 38;
     public static final int DEVICE_ADMIN_ENABLE_LOCK = 27;
+    public static final int RC_SIGN_IN = 29;
     public static final String CHILD_APP_NAME_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.utils.CHILD_APP_NAME_EXTRA";
     public static final int APP_LOCK_FRAGMENT_REQUEST_CODE = 10;
+    public static final String RECOVER_PASSWORD_FRAGMENT = "com.mansourappdevelopment.androidapp.kidsafe.utils.RECOVER_PASSWORD_FRAGMENT";
+    public static final String LOADING_FRAGMENT = "com.mansourappdevelopment.androidapp.kidsafe.utils.LOADING_FRAGMENT";
+    public static final String MODE_SELECTION_FRAGMENT = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE_SELECTION_FRAGMENT";
+    public static final int PICK_IMAGE_REQUEST = 59;
+    public static final int PIC_CROP = 922;
+
 }

@@ -9,6 +9,6 @@
         android:id="@+id/recyclerViewCalls"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/very_small_padding" />
+        android:padding="@dimen/padding_2dp" />
 
 </LinearLayout>

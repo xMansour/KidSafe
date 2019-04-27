@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 
 public class RecoverPasswordFragment extends DialogFragment {
-    private View view;
     private EditText txtRecoveryEmail;
     private Button btnRecoverPassword;
     private FirebaseAuth auth;
@@ -26,8 +24,7 @@ public class RecoverPasswordFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_recover_password, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_recover_password, container, false);
     }
 
     @Override

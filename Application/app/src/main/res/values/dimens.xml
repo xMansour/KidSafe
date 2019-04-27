@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="circular_image_border_very_large">8dp</dimen>
+    <dimen name="circular_image_width_very_large">128dp</dimen>
+    <dimen name="circular_image_height_very_large">128dp</dimen>
+
     <dimen name="circular_image_border_large">4dp</dimen>
     <dimen name="circular_image_width_large">96dp</dimen>
     <dimen name="circular_image_height_large">96dp</dimen>
@@ -8,12 +12,22 @@
     <dimen name="circular_image_width_small">48dp</dimen>
     <dimen name="circular_image_height_small">48dp</dimen>
 
-    <dimen name="very_small_margin">2dp</dimen>
-    <dimen name="small_margin">8dp</dimen>
-    <dimen name="big_margin">16dp</dimen>
-    <dimen name="very_small_padding">2dp</dimen>
-    <dimen name="small_padding">8dp</dimen>
-    <dimen name="big_padding">16dp</dimen>
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
+
+    <dimen name="padding_2dp">2dp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="padding_24dp">24dp</dimen>
+    <dimen name="padding_32dp">32dp</dimen>
+
+    <dimen name="text_size_8sp">8sp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="text_size_24sp">24sp</dimen>
+    <dimen name="text_size_32sp">32sp</dimen>
 
     <dimen name="text_small_size">8sp</dimen>
     <dimen name="text_mid_size">16sp</dimen>

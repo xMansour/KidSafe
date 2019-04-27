@@ -29,6 +29,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListe
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -80,7 +81,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         recyclerViewChilds.setLayoutManager(new LinearLayoutManager(this));
         String parentEmail = user.getEmail();
         getChilds(parentEmail);
-        getParentName(parentEmail);
+        getParentData(parentEmail);
 
     }
 
@@ -116,7 +117,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         recyclerViewChilds.setAdapter(childAdapter);
     }
 
-    public void getParentName(String parentEmail) {
+    public void getParentData(String parentEmail) {
         Query query = databaseReference.child("parents").orderByChild("email").equalTo(parentEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -125,6 +126,8 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
                 //String key = dataSnapshot.getKey();
                 User parent = nodeShot.getValue(User.class);
                 String parentName = parent.getName();
+                String profileImageUrl = parent.getProfileImage();
+                Picasso.get().load(profileImageUrl).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(imgParent);
                 progressBar.setVisibility(View.GONE);
                 linearLayout.setVisibility(View.VISIBLE);
                 txtParentName.setText(parentName);

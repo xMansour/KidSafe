@@ -1,7 +1,8 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
-import android.content.DialogInterface;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -16,24 +17,38 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionFragment;
-import com.mansourappdevelopment.androidapp.kidsafe.interfaces.ModeSelectionCloseListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnModeSelectionListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SignUpActivity extends AppCompatActivity implements ModeSelectionCloseListener {
-    private final int PICK_IMAGE_REQUEST = 59;
+public class SignUpActivity extends AppCompatActivity implements OnModeSelectionListener {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
     private Uri imageUri;
     private FirebaseAuth auth;
     private EditText txtSignUpEmail;
@@ -43,18 +58,19 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
     private CircleImageView imgProfile;
     private ProgressBar progressBar;
     private FragmentManager fragmentManager;
-    private boolean child = false;
-    private String parentEmail;
     private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        fragmentManager = getSupportFragmentManager();
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
 
         txtSignUpEmail = (EditText) findViewById(R.id.txtSignUpEmail);
         txtSignUpPassword = (EditText) findViewById(R.id.txtSignUpPassword);
@@ -82,86 +98,75 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
 
     }
 
-/*    private boolean validateForm() {
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-        if (txtSignUpEmail.getText().toString().equals("")) {
-            txtSignUpEmail.setError("Enter your email");
-            return false;
-        }
-        if (!txtSignUpEmail.getText().toString().trim().matches(emailPattern)) {
-            txtSignUpEmail.setError("Enter a valid email");
-            return false;
-        }
-
-        if (txtSignUpPassword.getText().toString().length() <= 6) {
-            txtSignUpPassword.setError("Enter a valid password");
-            return false;
-        }
-        return true;
-    }*/
 
     private void signUp(String email, String password) {
-        //if (validateForm()) {
-        progressBar.setVisibility(View.VISIBLE);
-        auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = auth.getCurrentUser();
-                            //update ui -> go to LoginActivity
-                            checkMode();
+        if (isValid()) {
+            //progressBar.setVisibility(View.VISIBLE);
+            final LoadingFragment loadingFragment = new LoadingFragment();
+            startLoadingFragment(loadingFragment);
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            //progressBar.setVisibility(View.GONE);
+                            stopLoadingFragment(loadingFragment);
+                            if (task.isSuccessful()) {
+                                //update ui -> go to LoginActivity
+                                checkMode();
 
-                        } else {
-                            String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
-                            switch (errorCode) {
-                                case "ERROR_INVALID_EMAIL":
-                                    txtSignUpEmail.setError("Enter a valid email");
-                                    break;
-                                case "ERROR_EMAIL_ALREADY_IN_USE":
-                                    txtSignUpEmail.setError("Email is already in use");
-                                    break;
-                                case "ERROR_WEAK_PASSWORD":
-                                    txtSignUpPassword.setError("Weak password");
-                                    break;
-                                default:
-                                    Toast.makeText(SignUpActivity.this, "SignUp Failed", Toast.LENGTH_SHORT).show();
+                            } else {
+                                String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                                switch (errorCode) {
+                                    case "ERROR_INVALID_EMAIL":
+                                        txtSignUpEmail.setError(getString(R.string.enter_valid_email));
+                                        break;
+                                    case "ERROR_EMAIL_ALREADY_IN_USE":
+                                        txtSignUpEmail.setError(getString(R.string.email_is_already_in_use));
+                                        break;
+                                    case "ERROR_WEAK_PASSWORD":
+                                        txtSignUpPassword.setError(getString(R.string.weak_password));
+                                        break;
+                                    default:
+                                        Toast.makeText(SignUpActivity.this, getString(R.string.sign_up_falied), Toast.LENGTH_SHORT).show();
+
+                                }
 
                             }
-
                         }
-                    }
-                });
-    }
-    // }
-
-    private void openFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-            imgProfile.setImageURI(imageUri);
-            //TODO:: imageUri Should be uploaded to the storage as the profile image
+                    });
         }
     }
 
     private void checkMode() {
-        fragmentManager = getSupportFragmentManager();
         ModeSelectionFragment modeSelectionFragment = new ModeSelectionFragment();
-        modeSelectionFragment.show(fragmentManager, "ModeSelectionFragment");
+        modeSelectionFragment.setCancelable(false);
+        modeSelectionFragment.show(fragmentManager, Constant.MODE_SELECTION_FRAGMENT);
 
     }
 
+
+    @Override
+    public void onModeSelected(String parentEmail, boolean child) {
+        Toast.makeText(this, getString(R.string.sign_up_succeeded), Toast.LENGTH_SHORT).show();
+        verifyAccount();
+        uploadProfileImage(child);
+        addUserToDB(parentEmail, child);
+        if (child)
+            startChildSignedInActivity();
+        else
+            startParentSignedInActivity();
+    }
+
+    @Override
+    public void onDismiss() {
+        Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+        FirebaseUser user = auth.getCurrentUser();
+        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), txtSignUpPassword.getText().toString());
+        user.delete();
+
+    }
+
+    //Delay to not to overwrite the success toast
     private void verifyAccount() {
         FirebaseUser user = auth.getCurrentUser();
         uid = user.getUid();
@@ -173,40 +178,63 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(SignUpActivity.this, "Verification email sent, it may be within your drafts", Toast.LENGTH_LONG).show();
-
+                                    Toast.makeText(SignUpActivity.this, getString(R.string.verification_email_sent_it_may_be_within_your_drafts), Toast.LENGTH_LONG).show();
                                 }
                             }, 3000);
                     }
                 });
     }
 
-    private void startLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST);
     }
 
     @Override
-    public void onModeSelectionClose(DialogInterface dialogInterface) {
-        Toast.makeText(SignUpActivity.this, "Sign up Succeeded", Toast.LENGTH_SHORT).show();
-        verifyAccount();
-        startLoginActivity();
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imgProfile.setImageURI(imageUri);
+        }
     }
 
-    @Override
-    public void sendUserData(String parentEmail, boolean child) {
-        this.child = child;
-        this.parentEmail = parentEmail;
-        addUserToDB();
+    private void uploadProfileImage(final boolean child) {
+        final StorageReference profileImageStorageReference = storageReference.child(uid).child("profileImage");
+        profileImageStorageReference.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        profileImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                if (uri != null) {
+                                    if (child)
+                                        databaseReference.child("childs").child(uid).child("profileImage").setValue(uri.toString());
+                                    else
+                                        databaseReference.child("parents").child(uid).child("profileImage").setValue(uri.toString());
+                                }
+                                Toast.makeText(SignUpActivity.this, getString(R.string.image_uploaded_successfully), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SignUpActivity.this, getString(R.string.image_upload_error), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    private void addUserToDB() {
+    private void addUserToDB(String parentEmail, boolean child) {
 
         String email = txtSignUpEmail.getText().toString();
         String password = txtSignUpPassword.getText().toString();
         String name = txtSignUpName.getText().toString();
-        String parentEmail = this.parentEmail;
-        boolean child = this.child;
 
 
         User user = new User(name, email, password, parentEmail, child);
@@ -214,7 +242,59 @@ public class SignUpActivity extends AppCompatActivity implements ModeSelectionCl
             databaseReference.child("childs").child(uid).setValue(user);
         else
             databaseReference.child("parents").child(uid).setValue(user);
+    }
 
-        //TODO:: add  an image
+
+    /*private void startLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }*/
+
+    private void startParentSignedInActivity() {
+        Intent intent = new Intent(this, ParentSignedInActivity.class);
+        startActivity(intent);
+    }
+
+    private void startChildSignedInActivity() {
+        Intent intent = new Intent(this, ChildSignedInActivity.class);
+        startActivity(intent);
+    }
+
+    private void startLoadingFragment(LoadingFragment loadingFragment) {
+        loadingFragment.setCancelable(false);
+        loadingFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
+    }
+
+    private void stopLoadingFragment(LoadingFragment loadingFragment) {
+        loadingFragment.dismiss();
+    }
+
+    private boolean isValid() {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if (txtSignUpName.getText().toString().equals("")) {
+            txtSignUpName.setError(getString(R.string.enter_your_name));
+            return false;
+        }
+
+        if (txtSignUpEmail.getText().toString().equals("")) {
+            txtSignUpEmail.setError(getString(R.string.enter_your_email));
+            return false;
+        }
+        if (txtSignUpPassword.getText().toString().equals("")) {
+            txtSignUpPassword.setError(getString(R.string.enter_your_password));
+            return false;
+
+        }
+        if (!txtSignUpEmail.getText().toString().trim().matches(emailPattern)) {
+            txtSignUpEmail.setError(getString(R.string.enter_valid_email));
+            return false;
+        }
+
+        if (txtSignUpPassword.getText().toString().length() < 6) {
+            txtSignUpPassword.setError(getString(R.string.enter_valid_password));
+            return false;
+        }
+        return true;
     }
 }

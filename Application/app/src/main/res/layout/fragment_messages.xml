@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/dark_white"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -10,6 +10,6 @@
         android:id="@+id/recyclerViewMessages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/very_small_padding" />
+        android:padding="@dimen/padding_2dp" />
 
 </LinearLayout>

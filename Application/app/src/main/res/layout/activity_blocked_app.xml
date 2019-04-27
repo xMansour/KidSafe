@@ -12,16 +12,16 @@
         android:id="@+id/txtBlockedAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small_margin"
+        android:layout_margin="@dimen/margin_8dp"
         android:text="@string/child_app_name"
-        android:textColor="@color/text_color_black_strong"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_large_size"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small_margin"
+        android:layout_margin="@dimen/margin_8dp"
         android:text="@string/this_app_is_blocked_by_your_parents"
         android:textAlignment="center"
         android:textColor="@color/github_light_black"

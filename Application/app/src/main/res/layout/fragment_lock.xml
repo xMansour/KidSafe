@@ -6,16 +6,16 @@
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/small_padding">
+    android:padding="@dimen/padding_8dp">
 
     <TextView
         android:id="@+id/txtLockPhoneHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/big_margin"
+        android:layout_margin="@dimen/margin_16dp"
         android:text="@string/lock_phone"
         android:textAlignment="center"
-        android:textColor="@color/text_color_black_light"
+        android:textColor="@color/grey"
         android:textSize="@dimen/text_mid_size"
         android:textStyle="bold" />
 
@@ -23,7 +23,7 @@
         android:id="@+id/spinnerLockEntries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/big_margin"
+        android:layout_margin="@dimen/margin_16dp"
         android:entries="@array/timer_entries"
         android:textAlignment="center" />
 
@@ -32,7 +32,7 @@
         android:id="@+id/layoutLockTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/big_margin"
+        android:layout_margin="@dimen/margin_16dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="gone"
@@ -68,27 +68,19 @@
 
     <Button
         android:id="@+id/btnLock"
+        style="@style/OkButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/big_margin"
-        android:background="@drawable/button"
+        android:layout_margin="@dimen/margin_16dp"
         android:text="@string/ok"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/text_color_white_light"
-        android:textSize="@dimen/text_mid_size"
-        android:textStyle="bold" />
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnCancelLock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/big_margin"
-        android:background="@drawable/button_disabled"
+        android:layout_margin="@dimen/margin_16dp"
         android:text="@string/cancel"
-        android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/text_color_white_light"
-        android:textSize="@dimen/text_mid_size"
-        android:textStyle="bold" />
+        style="@style/CancelButton" />
 </LinearLayout>

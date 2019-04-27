@@ -1,9 +1,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-<!--
-    <solid android:color="@color/recycler_view_background"/>
--->
+    <!--
+        <solid android:color="@color/recycler_view_background"/>
+    -->
     <corners android:radius="@dimen/recycler_view_corner_radius" />
     <stroke
         android:width="@dimen/recycler_view_stroke_width"
-        android:color="@color/recycler_view_border" />
+        android:color="@color/grey" />
 </shape>
