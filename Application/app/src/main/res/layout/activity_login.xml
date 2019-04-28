@@ -6,6 +6,7 @@
     android:background="@color/dark_white"
     android:focusableInTouchMode="true"
     android:gravity="center"
+    android:layoutDirection="locale"
     android:orientation="vertical"
     tools:context=".activities.LoginActivity">
 
@@ -94,6 +95,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
+                        android:id="@+id/checkBoxRememberMe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/remember_me" />

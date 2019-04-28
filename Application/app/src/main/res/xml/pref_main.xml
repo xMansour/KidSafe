@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/general">
+        <ListPreference
+            android:defaultValue="2"
+            android:dialogTitle="@string/choose_language"
+            android:entries="@array/languages_entries"
+            android:entryValues="@array/language_entries_values"
+            android:key="@string/language_shared_prefs"
+            android:summary="@string/choose_the_default_language_of_kidsafe"
+            android:title="@string/language" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/account">
+        <Preference
+            android:key="@string/logout_shared_pref"
+            android:title="@string/logout" />
+
+        <Preference
+            android:key="@string/change_password_shared_prefs"
+            android:title="@string/change_password" />
+
+        <Preference
+            android:key="@string/delete_account_shared_prefs"
+            android:title="@string/delete_account" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/info">
+        <Preference
+            android:summary="@string/about_message"
+            android:title="@string/about" />
+
+        <Preference
+            android:summary="@string/version_number"
+            android:title="@string/version" />
+
+        <Preference
+            android:key="@string/rate_us_shared_prefs"
+            android:title="@string/rate_us" />
+
+        <Preference
+            android:key="@string/send_feedback_shared_prefs"
+            android:title="@string/send_feedback" />
+
+        <Preference android:title="@string/website">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/website_link" />
+        </Preference>
+
+    </PreferenceCategory>
+</PreferenceScreen>

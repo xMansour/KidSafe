@@ -1,14 +1,19 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mansourappdevelopment.androidapp.kidsafe.LocaleUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordFragment;
@@ -46,12 +52,39 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnEmailSignUp;
     private Button btnGoogleSignUp;
     private TextView txtForgotPassword;
+    private CheckBox checkBoxRememberMe;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FragmentManager fragmentManager;
     private String uid;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private String emailPrefs;
+    private String passwordPrefs;
+    private boolean autoLoginPrefs;
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.menuSettings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +92,21 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         fragmentManager = getSupportFragmentManager();
+        LocaleUtils.setAppLanguage(this);
+
 
         //FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
 
+
         txtLogInEmail = (EditText) findViewById(R.id.txtLogInEmail);
         txtLogInPassword = (EditText) findViewById(R.id.txtLogInPassword);
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        checkBoxRememberMe = (CheckBox) findViewById(R.id.checkBoxRememberMe);
         //progressBar.setVisibility(View.GONE);
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -78,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                autoLogin();
                 String email = txtLogInEmail.getText().toString();
                 String password = txtLogInPassword.getText().toString();
                 logIn(email, password);
@@ -105,17 +144,28 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        autoLoginPrefs = sharedPreferences.getBoolean(Constant.AUTO_LOGIN, false);
+        checkBoxRememberMe.setChecked(autoLoginPrefs);
+
+        emailPrefs = sharedPreferences.getString(Constant.EMAIL, "");
+        passwordPrefs = sharedPreferences.getString(Constant.PASSWORD, "");
+        if (autoLoginPrefs) {
+            txtLogInEmail.setText(emailPrefs);
+            txtLogInPassword.setText(passwordPrefs);
+        }
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //update ui -> go to the SignedIn Activity
-        //TODO:: check if the remember me is true
-        FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            String email = user.getEmail();
-            checkMode(email);
+        if (autoLoginPrefs) {
+            FirebaseUser user = auth.getCurrentUser();
+            if (user != null) {
+                String email = user.getEmail();
+                checkMode(email);
+            }
         }
     }
 
@@ -134,8 +184,8 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }*/
 
-        if (txtLogInPassword.getText().toString().length() <= 6) {
-            txtLogInPassword.setError(getString(R.string.enter_valid_email));
+        if (txtLogInPassword.getText().toString().length() < 6) {
+            txtLogInPassword.setError(getString(R.string.enter_valid_password));
             return false;
         }
         return true;
@@ -218,10 +268,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 loadingFragment.dismiss();
-                if (dataSnapshot.exists())
+                if (dataSnapshot.exists()) {
                     startParentSignedInActivity();
-                else
+
+                } else {
                     startChildSignedInActivity();
+                }
             }
 
             @Override
@@ -275,4 +327,16 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void autoLogin() {
+        editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putBoolean(Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
+        editor.putString(Constant.EMAIL, txtLogInEmail.getText().toString());
+        editor.putString(Constant.PASSWORD, txtLogInPassword.getText().toString());
+        editor.apply();
+
+    }
+
+
 }

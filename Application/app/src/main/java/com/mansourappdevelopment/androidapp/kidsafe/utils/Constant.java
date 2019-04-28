@@ -16,5 +16,12 @@ public class Constant {
     public static final String MODE_SELECTION_FRAGMENT = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE_SELECTION_FRAGMENT";
     public static final int PICK_IMAGE_REQUEST = 59;
     public static final int PIC_CROP = 922;
+    public static final String AUTO_LOGIN = "com.mansourappdevelopment.androidapp.kidsafe.utils.AUTO_LOGIN";
+    public static final String EMAIL = "com.mansourappdevelopment.androidapp.kidsafe.utils.EMAIL";
+    public static final String PASSWORD = "com.mansourappdevelopment.androidapp.kidsafe.utils.PASSWORD";
+    public static final String APP_LANGUAGE = "com.mansourappdevelopment.androidapp.kidsafe.utils.APP_LANGUAGE";
+    public static final String LANGUAGE_SELECTED = "com.mansourappdevelopment.androidapp.kidsafe.utils.LANGUAGE_SELECTED";
+    public static final String MODE_CHECKED = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE_CHECKED";
+    public static final String MODE = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE";
 
 }

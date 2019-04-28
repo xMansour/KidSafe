@@ -25,7 +25,8 @@
                 android:layout_margin="@dimen/margin_8dp"
                 android:src="@drawable/ic_face"
                 app:civ_border_color="@color/blue"
-                app:civ_border_width="@dimen/circular_image_border_small" />
+                app:civ_border_width="@dimen/circular_image_border_small"
+                app:civ_circle_background_color="@color/dark_white" />
 
             <TextView
                 android:id="@+id/txtChildName"
@@ -67,14 +68,16 @@
                 android:text="@string/web_filter"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/text_mid_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <Switch
                 android:id="@+id/switchWebFilter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
-                android:layout_margin="@dimen/margin_8dp" />
+                android:layout_margin="@dimen/margin_8dp"
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.mansourappdevelopment.androidapp.kidsafe"
-        minSdkVersion 20
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"

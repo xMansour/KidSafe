@@ -39,17 +39,6 @@
     <string name="geofence_s_diameter">Diameter</string>
     <string name="diameter_in_meters">Diameter in meters</string>
     <string name="set_geofence">Set GeoFence</string>
-
-    <string-array name="geo_fence_entries">
-        <item>You</item>
-        <item>Him</item>
-    </string-array>
-
-    <string-array name="timer_entries">
-        <item>Immediately</item>
-        <item>Specify a period</item>
-    </string-array>
-
     <string name="device_admin_description">Allow KidSafe to lock the device</string>
     <string name="device_admin">KidSafe</string>
     <string name="device_admin_explanation">KidSafe need to be device admin to function properly</string>
@@ -102,5 +91,32 @@
     <string name="safe">Safe</string>
     <string name="image_uploaded_successfully">Image uploaded successfully</string>
     <string name="image_upload_error">Image upload error</string>
+
+    <string name="language">Language</string>
+    <string name="change_password">Change Password</string>
+    <string name="logout">Logout</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="about">About</string>
+    <string name="about_message">This app is free and open source</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="general">General</string>
+    <string name="language_shared_prefs">languageSharedPerfs</string>
+    <string name="choose_the_default_language_of_kidsafe">Choose the default language of KidSafe.</string>
+    <string name="choose_language">Choose display language</string>
+    <string name="account">Account</string>
+    <string name="logout_shared_pref">logoutSharedPrefs</string>
+    <string name="change_password_shared_prefs">changePasswordSharedPrefs</string>
+    <string name="delete_account_shared_prefs">deleteAccountSharedPrefs</string>
+    <string name="info">Info</string>
+    <string name="rate_us_shared_prefs">rateUsSharedPrefs</string>
+    <string name="send_feedback_shared_prefs">sendFeedbackSharedPrefs</string>
+    <string name="website">Website</string>
+    <string name="website_link" translatable="false">https://xmansour.github.io/KidSafe</string>
+    <string name="version">Version</string>
+    <string name="version_number">1.0</string>
+    <string name="choose_email_client">Choose email client</string>
+    <string name="settings">Settings</string>
+
 
 </resources>
