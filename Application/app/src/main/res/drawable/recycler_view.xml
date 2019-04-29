@@ -5,5 +5,5 @@
     <corners android:radius="@dimen/recycler_view_corner_radius" />
     <stroke
         android:width="@dimen/recycler_view_stroke_width"
-        android:color="@color/grey" />
+        android:color="@color/black" />
 </shape>

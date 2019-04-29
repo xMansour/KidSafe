@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:gravity="center"
-    android:background="@color/dark_white"
     android:orientation="vertical"
     tools:context=".activities.ParentSignedInActivity">
+
+    <include layout="@layout/toolbar" />
 
     <!--    <ScrollView
             android:layout_width="fill_parent"
@@ -54,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_8dp"
             android:text="@string/parent_name"
-            android:textColor="@color/grey"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_large_size"
             android:textStyle="bold" />
 
@@ -84,12 +86,12 @@
                     android:textStyle="bold" />
             </LinearLayout>-->
 
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/margin_8dp"
             android:layout_marginRight="@dimen/margin_8dp"
-            android:background="@color/github_dark_white" />
+            android:background="@color/github_dark_white" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewChilds"

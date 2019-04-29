@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#039BE5</color>
-    <color name="colorPrimaryDark">#1E88E5</color>
-    <color name="colorAccent">@color/blue</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/light_black_2</color>
+    <color name="colorAccent">@color/green</color>
 
-
+    <color name="black">#000000</color>
     <color name="red">#D0021B</color>
     <color name="dark_red">#B00020</color>
     <color name="white">#FFFFFF</color>
     <color name="dark_white">#F2F2F2</color>
     <color name="blue">#2F9CF6</color>
     <color name="light_blue">#91CDFF</color>
-    <color name="grey">#999999</color>
     <color name="light_grey">#E7E7E7</color>
-    <color name="light_black">#191919</color>
-    <color name="black">#000000</color>
     <color name="github_black">#24292e</color>
     <color name="github_light_black">#2b3137</color>
     <color name="github_dark_white">#CFCFCF</color>
@@ -24,6 +21,10 @@
     <color name="twitter_blue">#5BAAF4</color>
     <color name="facebook_blue">#3B5998</color>
     <color name="light_green">#43C5A5</color>
-
+    <color name="green">#00E5A5</color>
+    <color name="black_2">#757575</color>
+    <color name="light_black_1">#818181</color>
+    <color name="light_black_2">#BDBDBD</color>
+    <color name="light_grey_1">#ECECEC</color>
 
 </resources>

@@ -8,7 +8,7 @@
     <string name="email_address">Email address</string>
     <string name="name">Name</string>
     <string name="password">Password</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="sign_up">Signup here</string>
     <string name="parent">Parent</string>
     <string name="select_mode">Select Mode</string>
     <string name="parent_email">Parent email</string>
@@ -80,11 +80,11 @@
     <string name="enter_your_email">Enter your email</string>
     <string name="this_email_isnt_registered_as_parent">This email isn\'t registered as a parent</string>
     <string name="child">Child</string>
-    <string name="sign_up_succeeded">Sign up succeeded</string>
+    <string name="sign_up_succeeded">Signup succeeded</string>
     <string name="verification_email_sent_it_may_be_within_your_drafts">Verification email sent, it may be within your drafts</string>
     <string name="email_is_already_in_use">Email is already in use</string>
     <string name="weak_password">Weak password</string>
-    <string name="sign_up_falied">SignUp Failed</string>
+    <string name="sign_up_falied">Signup Failed</string>
     <string name="enter_valid_password">Enter a valid password</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="kid">Kid</string>
@@ -117,12 +117,13 @@
     <string name="version_number">1.0</string>
     <string name="choose_email_client">Choose email client</string>
     <string name="settings">Settings</string>
-    <string name="or_sign_up_with">OR SIGN UP WITH</string>
+    <string name="or_sign_up_with">Or signup with</string>
     <string name="email">Email</string>
     <string name="google">Google</string>
-    <string name="sign_up_with_google">Sign up with google</string>
+    <string name="sign_up_with_google">Signup with google</string>
     <string name="login_with_google">Login with google</string>
-    <string name="new_here">New here?</string>
+    <string name="new_here">Don\t have an account?</string>
+    <string name="home">Home</string>
 
 
 </resources>

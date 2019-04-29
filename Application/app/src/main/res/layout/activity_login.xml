@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_white"
+    android:background="@color/white"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:layoutDirection="locale"
@@ -137,7 +137,7 @@
                     android:layout_height="1dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
-                    android:background="@color/grey" />
+                    android:background="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -145,14 +145,14 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
                     android:text="@string/or"
-                    android:textColor="@color/grey" />
+                    android:textColor="@color/black" />
 
                 <View
                     android:layout_width="100dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
-                    android:background="@color/grey" />
+                    android:background="@color/black" />
             </LinearLayout>
 
             <Button

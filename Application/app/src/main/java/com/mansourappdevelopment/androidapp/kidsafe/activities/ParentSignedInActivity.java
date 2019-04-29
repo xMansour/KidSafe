@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -51,6 +55,10 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
     private TextView txtParentName;
     //private TextView txtChildCount;
     private ProgressBar progressBar;
+    private ImageButton btnBack;
+    private ImageButton btnSettings;
+    private TextView txtTitle;
+    private FrameLayout toolbar;
     private LinearLayout linearLayout;
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -72,9 +80,23 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         txtParentName = findViewById(R.id.txtParentName);
         //txtChildCount = findViewById(R.id.txtChildCount);
         linearLayout = findViewById(R.id.linearLayoutParentSignedInActivity);
+        toolbar = (FrameLayout) findViewById(R.id.toolbar);
         progressBar = findViewById(R.id.progressBarParentSignedInActivity);
         progressBar.setVisibility(View.VISIBLE);
         linearLayout.setVisibility(View.GONE);
+        toolbar.setVisibility(View.GONE);
+        btnBack = (ImageButton) findViewById(R.id.btnBack);
+        btnBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_home_));
+        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ParentSignedInActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        txtTitle = (TextView) findViewById(R.id.txtTitle);
+        txtTitle.setText(getString(R.string.home));
 
         recyclerViewChilds = findViewById(R.id.recyclerViewChilds);
         recyclerViewChilds.setHasFixedSize(true);
@@ -130,6 +152,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
                 Picasso.get().load(profileImageUrl).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(imgParent);
                 progressBar.setVisibility(View.GONE);
                 linearLayout.setVisibility(View.VISIBLE);
+                toolbar.setVisibility(View.VISIBLE);
                 txtParentName.setText(parentName);
             }
 
@@ -262,5 +285,9 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+        //finishAffinity();
+    }
 }

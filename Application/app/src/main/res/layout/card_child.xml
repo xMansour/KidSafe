@@ -35,7 +35,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_8dp"
                 android:text="@string/child_name"
-                android:textColor="@color/grey"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_mid_size"
                 android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_8dp"
                 android:text="@string/web_filter"
-                android:textColor="@color/grey"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_mid_size"
                 android:textStyle="bold"
                 android:visibility="gone" />

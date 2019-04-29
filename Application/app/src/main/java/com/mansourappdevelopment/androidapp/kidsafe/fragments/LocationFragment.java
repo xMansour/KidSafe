@@ -165,7 +165,7 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
                 if (dataSnapshot.exists()) {
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
                     User child = nodeShot.getValue(User.class);
-                    Location childLocation = child.getLocation();
+                    Location childLocation = child.getLocation();//TODO:: handle if null
                     addMarkerForChild(childLocation);
                     Log.i(TAG, "onDataChange: location changed");
                 }

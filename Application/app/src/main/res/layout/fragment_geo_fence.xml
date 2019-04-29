@@ -15,7 +15,7 @@
         android:layout_margin="@dimen/margin_16dp"
         android:text="@string/setup_a_geofence"
         android:textAlignment="center"
-        android:textColor="@color/grey"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_mid_size"
         android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:text="@string/select_geofence_s_center"
-            android:textColor="@color/grey"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_mid_size"
             android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
         android:inputType="number"
         android:padding="@dimen/padding_8dp"
         android:textAlignment="center"
-        android:textColor="@color/grey"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_mid_size"
         android:textStyle="bold" />
 
