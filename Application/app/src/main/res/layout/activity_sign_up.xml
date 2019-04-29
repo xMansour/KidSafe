@@ -78,7 +78,6 @@
                 android:layout_marginTop="@dimen/margin_8dp"
                 android:layout_marginEnd="@dimen/margin_32dp"
                 android:layout_marginBottom="@dimen/margin_8dp"
-                android:background="@drawable/button"
                 android:text="@string/sign_up" />
 
             <ProgressBar
@@ -89,6 +88,47 @@
                 android:layout_marginBottom="20dp"
                 android:visibility="gone" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_32dp"
+                android:layout_marginEnd="@dimen/margin_32dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_8dp"
+                    android:background="@color/grey" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_8dp"
+                    android:text="@string/or"
+                    android:textColor="@color/grey" />
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_8dp"
+                    android:background="@color/grey" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSignUpWithGoogle"
+                style="@style/OkButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_32dp"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:layout_marginEnd="@dimen/margin_32dp"
+                android:layout_marginBottom="@dimen/margin_8dp"
+                android:text="@string/sign_up_with_google" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

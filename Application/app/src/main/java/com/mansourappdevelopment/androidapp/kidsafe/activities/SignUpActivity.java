@@ -10,12 +10,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +32,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +52,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUpActivity extends AppCompatActivity implements OnModeSelectionListener {
+    private static final String TAG = "SingUpActivityTAG";
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private FirebaseStorage firebaseStorage;
@@ -55,10 +63,12 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
     private EditText txtSignUpPassword;
     private EditText txtSignUpName;
     private Button btnSignUp;
+    private Button btnSignUpWithGoogle;
     private CircleImageView imgProfile;
     private ProgressBar progressBar;
     private FragmentManager fragmentManager;
     private String uid;
+    private boolean googleAuth = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +103,14 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
                 String email = txtSignUpEmail.getText().toString();
                 String password = txtSignUpPassword.getText().toString();
                 signUp(email, password);
+            }
+        });
+
+        btnSignUpWithGoogle = (Button) findViewById(R.id.btnSignUpWithGoogle);
+        btnSignUpWithGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithGoogle();
             }
         });
 
@@ -149,8 +167,8 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
     public void onModeSelected(String parentEmail, boolean child) {
         Toast.makeText(this, getString(R.string.sign_up_succeeded), Toast.LENGTH_SHORT).show();
         verifyAccount();
-        uploadProfileImage(child);
         addUserToDB(parentEmail, child);
+        uploadProfileImage(child);
         if (child)
             startChildSignedInActivity();
         else
@@ -161,7 +179,13 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
     public void onDismiss() {
         Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
         FirebaseUser user = auth.getCurrentUser();
-        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), txtSignUpPassword.getText().toString());
+        AuthCredential credential;
+        if (googleAuth) {
+            credential = GoogleAuthProvider.getCredential(user.getEmail(), null);
+        } else {
+            credential = EmailAuthProvider.getCredential(user.getEmail(), txtSignUpPassword.getText().toString());
+
+        }
         user.delete();
 
     }
@@ -192,52 +216,58 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
         startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    private void uploadProfileImage(final boolean child) {
+        if (googleAuth && imageUri == null) {
+            imageUri = auth.getCurrentUser().getPhotoUrl();
+            if (child)
+                databaseReference.child("childs").child(uid).child("profileImage").setValue(imageUri.toString());
+            else
+                databaseReference.child("parents").child(uid).child("profileImage").setValue(imageUri.toString());
 
-        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-            imgProfile.setImageURI(imageUri);
+            Log.i(TAG, "uploadProfileImage: imageUri: " + imageUri);
+
+        } else if (!googleAuth) {
+            final StorageReference profileImageStorageReference = storageReference.child(uid).child("profileImage");
+            profileImageStorageReference.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            profileImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    if (uri != null) {
+                                        if (child)
+                                            databaseReference.child("childs").child(uid).child("profileImage").setValue(uri.toString());
+                                        else
+                                            databaseReference.child("parents").child(uid).child("profileImage").setValue(uri.toString());
+                                    }
+                                    Toast.makeText(SignUpActivity.this, getString(R.string.image_uploaded_successfully), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SignUpActivity.this, getString(R.string.image_upload_error), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 
-    private void uploadProfileImage(final boolean child) {
-        final StorageReference profileImageStorageReference = storageReference.child(uid).child("profileImage");
-        profileImageStorageReference.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        profileImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                if (uri != null) {
-                                    if (child)
-                                        databaseReference.child("childs").child(uid).child("profileImage").setValue(uri.toString());
-                                    else
-                                        databaseReference.child("parents").child(uid).child("profileImage").setValue(uri.toString());
-                                }
-                                Toast.makeText(SignUpActivity.this, getString(R.string.image_uploaded_successfully), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SignUpActivity.this, getString(R.string.image_upload_error), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     private void addUserToDB(String parentEmail, boolean child) {
+        String email;
+        String name;
+        if (googleAuth) {
+            email = auth.getCurrentUser().getEmail();
+            name = auth.getCurrentUser().getDisplayName();
+        } else {
+            email = txtSignUpEmail.getText().toString();
+            //String password = txtSignUpPassword.getText().toString();
+            name = txtSignUpName.getText().toString();
 
-        String email = txtSignUpEmail.getText().toString();
-        String password = txtSignUpPassword.getText().toString();
-        String name = txtSignUpName.getText().toString();
-
-
-        User user = new User(name, email, password, parentEmail, child);
+        }
+        User user = new User(name, email/*, password*/, parentEmail, child);
         if (child)
             databaseReference.child("childs").child(uid).setValue(user);
         else
@@ -249,6 +279,58 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }*/
+    private void signInWithGoogle() {
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imgProfile.setImageURI(imageUri);
+        }
+
+        if (requestCode == Constant.RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Toast.makeText(this, getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Google sign in failed", e);
+            }
+        }
+    }
+
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+        AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        auth.signInWithCredential(authCredential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.i(TAG, "onComplete: Authentication Succeeded");
+                            Toast.makeText(SignUpActivity.this, getString(R.string.authentication_succeeded), Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = auth.getCurrentUser();
+                            googleAuth = true;
+                            checkMode();
+
+                        }
+                    }
+                });
+    }
 
     private void startParentSignedInActivity() {
         Intent intent = new Intent(this, ParentSignedInActivity.class);

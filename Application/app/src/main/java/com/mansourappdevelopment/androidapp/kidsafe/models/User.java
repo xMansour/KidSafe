@@ -8,14 +8,14 @@ import java.util.HashMap;
 public class User {
     private String name;
     private String email;
-    private String password;
+    //private String password;
     private String parentEmail;
     private boolean child;
     private ArrayList<App> apps = new ArrayList<>();
     private Location location;
     private HashMap<String, Message> messages = new HashMap<>();
     private HashMap<String, Call> calls = new HashMap<>();
-    private boolean webFilter;
+    //private boolean webFilter;
     private ScreenLock screenLock;
     private String profileImage;
 
@@ -24,10 +24,10 @@ public class User {
 
     }
 
-    public User(String name, String email, String password, String parentEmail, boolean child) {
+    public User(String name, String email/*, String password*/, String parentEmail, boolean child) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        //this.password = password;
         this.parentEmail = parentEmail;
         this.child = child;
     }
@@ -40,9 +40,9 @@ public class User {
         this.email = email;
     }
 
-    public void setPassword(String password) {
+    /*public void setPassword(String password) {
         this.password = password;
-    }
+    }*/
 
     public void setParentEmail(String parentEmail) {
         this.parentEmail = parentEmail;
@@ -60,9 +60,9 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
+    /*public String getPassword() {
         return password;
-    }
+    }*/
 
     public String getParentEmail() {
         return parentEmail;
@@ -104,13 +104,13 @@ public class User {
         this.calls = calls;
     }
 
-    public boolean isWebFilter() {
+    /*public boolean isWebFilter() {
         return webFilter;
     }
 
     public void setWebFilter(boolean webFilter) {
         this.webFilter = webFilter;
-    }
+    }*/
 
     public ScreenLock getScreenLock() {
         return screenLock;

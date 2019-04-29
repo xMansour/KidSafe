@@ -117,6 +117,12 @@
     <string name="version_number">1.0</string>
     <string name="choose_email_client">Choose email client</string>
     <string name="settings">Settings</string>
+    <string name="or_sign_up_with">OR SIGN UP WITH</string>
+    <string name="email">Email</string>
+    <string name="google">Google</string>
+    <string name="sign_up_with_google">Sign up with google</string>
+    <string name="login_with_google">Login with google</string>
+    <string name="new_here">New here?</string>
 
 
 </resources>

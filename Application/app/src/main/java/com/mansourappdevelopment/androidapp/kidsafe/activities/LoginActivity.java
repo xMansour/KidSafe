@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txtLogInEmail;
     private EditText txtLogInPassword;
     private Button btnLogin;
-    private Button btnEmailSignUp;
+    private TextView txtSignUp;
     private Button btnGoogleSignUp;
     private TextView txtForgotPassword;
     private CheckBox checkBoxRememberMe;
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         //progressBar.setVisibility(View.GONE);
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnEmailSignUp = (Button) findViewById(R.id.btnSignUpEmail);
+        txtSignUp = (TextView) findViewById(R.id.txtSignUp);
         btnGoogleSignUp = (Button) findViewById(R.id.btnSignUpGoogle);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnEmailSignUp.setOnClickListener(new View.OnClickListener() {
+        txtSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startSignUpActivity();
@@ -283,6 +283,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+    private void autoLogin() {
+        editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putBoolean(Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
+        editor.putString(Constant.EMAIL, txtLogInEmail.getText().toString());
+        editor.putString(Constant.PASSWORD, txtLogInPassword.getText().toString());
+        editor.apply();
+
+    }
+
     private void signInWithGoogle() {
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.id))
@@ -296,6 +307,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == Constant.RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -310,7 +322,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
         AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
@@ -322,20 +333,11 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i(TAG, "onComplete: Authentication Succeeded");
                             Toast.makeText(LoginActivity.this, getString(R.string.authentication_succeeded), Toast.LENGTH_SHORT).show();
                             FirebaseUser user = auth.getCurrentUser();
+                            checkMode(user.getEmail());
 
                         }
                     }
                 });
-    }
-
-    private void autoLogin() {
-        editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putBoolean(Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
-        editor.putString(Constant.EMAIL, txtLogInEmail.getText().toString());
-        editor.putString(Constant.PASSWORD, txtLogInPassword.getText().toString());
-        editor.apply();
-
     }
 
 

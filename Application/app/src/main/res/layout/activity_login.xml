@@ -24,7 +24,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="50dp"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -124,10 +124,11 @@
                 android:layout_marginBottom="@dimen/margin_8dp"
                 android:text="@string/login_button" />
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_32dp"
+                android:layout_marginEnd="@dimen/margin_32dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -154,6 +155,18 @@
                     android:background="@color/grey" />
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btnSignUpGoogle"
+                style="@style/OkButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_32dp"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:layout_marginEnd="@dimen/margin_32dp"
+                android:layout_marginBottom="@dimen/margin_8dp"
+                android:text="@string/login_with_google" />
+
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyle"
@@ -162,38 +175,30 @@
                 android:layout_marginBottom="20dp"
                 android:visibility="gone" />
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_8dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnSignUpEmail"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_32dp"
-                    android:layout_marginTop="@dimen/margin_8dp"
-                    android:layout_marginEnd="@dimen/margin_32dp"
-                    android:layout_marginBottom="@dimen/margin_8dp"
+                    android:text="@string/new_here"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_16sp" />
 
-                    android:background="@drawable/button_red"
-                    android:drawableStart="@drawable/ic_email_filled"
-                    android:padding="@dimen/padding_16dp"
-                    android:text="Sign up with email" />
-
-
-                <Button
-                    android:id="@+id/btnSignUpGoogle"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txtSignUp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_32dp"
-                    android:layout_marginTop="@dimen/margin_8dp"
-                    android:layout_marginEnd="@dimen/margin_32dp"
-                    android:layout_marginBottom="@dimen/margin_8dp"
-                    android:drawableStart="@drawable/ic_google_logo"
-                    android:padding="@dimen/padding_16dp"
-                    android:text="sign up now" />
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
