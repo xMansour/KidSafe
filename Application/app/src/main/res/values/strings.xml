@@ -133,6 +133,7 @@
     <string name="enter_new_password">Enter new password</string>
     <string name="password_updated">Password updated</string>
     <string name="old_password_is_wrong">Old password is wrong</string>
+    <string name="enter_a_valid_new_email">Enter a valid new email</string>
 
 
 </resources>
