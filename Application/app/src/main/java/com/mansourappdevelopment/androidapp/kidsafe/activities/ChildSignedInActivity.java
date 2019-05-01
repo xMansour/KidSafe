@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,10 @@ public class ChildSignedInActivity extends AppCompatActivity {
     private DevicePolicyManager devicePolicyManager;
     private ComponentName componentName;
     private boolean adminActive;
+    private ImageButton btnBack;
+    private ImageButton btnSettings;
+    private TextView txtTitle;
+    private FrameLayout toolbar;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -137,6 +143,19 @@ public class ChildSignedInActivity extends AppCompatActivity {
             }
         }
 
+        toolbar = (FrameLayout) findViewById(R.id.toolbar);
+        btnBack = (ImageButton) findViewById(R.id.btnBack);
+        btnBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_home_));
+        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChildSignedInActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        txtTitle = (TextView) findViewById(R.id.txtTitle);
+        txtTitle.setText(getString(R.string.home));
 
         //schedualJob(bundle);
         startMainForegroundService(email);

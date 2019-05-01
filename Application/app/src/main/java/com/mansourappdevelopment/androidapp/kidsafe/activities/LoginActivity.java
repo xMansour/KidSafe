@@ -40,6 +40,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.SharedPrefsUtils;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivityTAG";
@@ -268,6 +269,8 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString(Constant.EMAIL, txtLogInEmail.getText().toString());
         editor.putString(Constant.PASSWORD, txtLogInPassword.getText().toString());
         editor.apply();
+
+        SharedPrefsUtils.setStringPreference(this, Constant.PASSWORD, txtLogInPassword.getText().toString());
 
     }
 

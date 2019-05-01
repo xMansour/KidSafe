@@ -80,6 +80,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         txtParentName = findViewById(R.id.txtParentName);
         //txtChildCount = findViewById(R.id.txtChildCount);
         linearLayout = findViewById(R.id.linearLayoutParentSignedInActivity);
+
         toolbar = (FrameLayout) findViewById(R.id.toolbar);
         progressBar = findViewById(R.id.progressBarParentSignedInActivity);
         progressBar.setVisibility(View.VISIBLE);

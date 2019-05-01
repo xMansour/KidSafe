@@ -81,7 +81,7 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
         firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference();
+        storageReference = firebaseStorage.getReference("profileImages");
 
         txtSignUpEmail = (EditText) findViewById(R.id.txtSignUpEmail);
         txtSignUpPassword = (EditText) findViewById(R.id.txtSignUpPassword);
@@ -231,7 +231,7 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
             Log.i(TAG, "uploadProfileImage: imageUri: " + imageUri);
 
         } else if (!googleAuth) {
-            final StorageReference profileImageStorageReference = storageReference.child(uid).child("profileImage");
+            final StorageReference profileImageStorageReference = storageReference.child(uid + "_profileImage");
             profileImageStorageReference.putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

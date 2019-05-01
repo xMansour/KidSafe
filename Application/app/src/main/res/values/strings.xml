@@ -122,12 +122,13 @@
     <string name="google">Google</string>
     <string name="sign_up_with_google">Signup with google</string>
     <string name="login_with_google">Login with google</string>
-    <string name="new_here">Don\t have an account?</string>
+    <string name="new_here">Don\'t have an account?</string>
     <string name="home">Home</string>
     <string name="confirm">Confirm</string>
     <string name="do_you_want_to_logout">Do you want to logout?</string>
     <string name="do_you_want_to_change_password">Do you want to change your password?</string>
     <string name="do_you_want_to_delete_account">Do you want to delete your account?</string>
+    <string name="account_deleted">Account Deleted</string>
 
 
 </resources>
