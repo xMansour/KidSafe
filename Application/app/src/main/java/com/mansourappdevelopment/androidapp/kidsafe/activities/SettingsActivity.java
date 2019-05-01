@@ -13,6 +13,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
@@ -191,12 +192,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
     }
 
-    private static void restartApp() {
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
-    }
-
     private static void changePassword() {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.change_password)
@@ -205,7 +200,50 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "OK clicked", Toast.LENGTH_SHORT).show();
+                        LinearLayout parentLayout = new LinearLayout(context);
+                        parentLayout.setOrientation(LinearLayout.VERTICAL);
+
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                        layoutParams.setMargins(dpToPx(20), dpToPx(20), dpToPx(20), dpToPx(20));
+
+                        final EditText txtOldPassword = new EditText(context);
+                        txtOldPassword.setHint(R.string.enter_old_password);
+                        txtOldPassword.setLayoutParams(layoutParams);
+                        txtOldPassword.setSingleLine();
+                        txtOldPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+                        final EditText txtNewPassword = new EditText(context);
+                        txtNewPassword.setHint(R.string.enter_new_password);
+                        txtNewPassword.setLayoutParams(layoutParams);
+                        txtNewPassword.setSingleLine();
+                        txtNewPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+
+                        parentLayout.addView(txtOldPassword, 0);
+                        parentLayout.addView(txtNewPassword, 1);
+
+                        new AlertDialog.Builder(context)
+                                .setTitle(R.string.change_password)
+                                //.setMessage(R.string.enter_your_password)
+                                .setView(parentLayout)
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (isValid(txtOldPassword.getText().toString())) {
+                                            updatePassword(txtNewPassword.getText().toString());    //TODO:: validate the new password
+
+                                        } else {
+                                            Toast.makeText(context, R.string.old_password_is_wrong, Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(context, R.string.canceled, Toast.LENGTH_SHORT).show();
+                                    }
+                                }).create().show();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -292,18 +330,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }).create().show();
     }
 
-    private static boolean isValid(String password) {
-        String savedPassword = SharedPrefsUtils.getStringPreference(context, Constant.PASSWORD);
-        Log.i(TAG, "isValid: savedPassword: " + savedPassword);
-        Log.i(TAG, "isValid: password: " + password);
-        return password.equals(savedPassword);
-
-    }
-
-    private static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
     private static void deleteAccountData(final String providerId) {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
@@ -373,5 +399,31 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 });
     }
 
+    private static void updatePassword(String newPassword) {
+        user.updatePassword(newPassword)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(context, R.string.password_updated, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
+    private static void restartApp() {
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    private static boolean isValid(String password) {
+        String savedPassword = SharedPrefsUtils.getStringPreference(context, Constant.PASSWORD);
+        Log.i(TAG, "isValid: savedPassword: " + savedPassword);
+        Log.i(TAG, "isValid: password: " + password);
+        return password.equals(savedPassword);
+
+    }
+
+    private static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
 }
