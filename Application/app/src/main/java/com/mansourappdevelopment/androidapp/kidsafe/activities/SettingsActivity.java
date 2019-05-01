@@ -1,6 +1,8 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -8,19 +10,29 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mansourappdevelopment.androidapp.kidsafe.AppCompatPreferenceActivity;
-import com.mansourappdevelopment.androidapp.kidsafe.LocaleUtils;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
     private static final String TAG = "SettingsActivityTAG";
     private static Context context;
+    private static FirebaseAuth auth;
+    private static FirebaseUser user;
+    private static FirebaseDatabase firebaseDatabase;
+    private static DatabaseReference databaseReference;
+    private static FirebaseStorage firebaseStorage;
+    private static StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_main);
             context = getActivity();
+            auth = FirebaseAuth.getInstance();
+
 
             bindPreferenceSummaryToValue(findPreference(getString(R.string.language_shared_prefs)));
 
@@ -44,7 +58,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             logoutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Toast.makeText(getActivity(), "Logging out...", Toast.LENGTH_SHORT).show();
+                    logout();
                     return true;
                 }
             });
@@ -53,7 +67,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             changePasswordPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Toast.makeText(getActivity(), "Changing Password...", Toast.LENGTH_SHORT).show();
+                    changePassword();
                     return true;
                 }
             });
@@ -62,7 +76,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             deleteAccountPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Toast.makeText(getActivity(), "Deleting Account", Toast.LENGTH_SHORT).show();
+                    deleteAccount();
                     return true;
                 }
             });
@@ -158,6 +172,66 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+    }
+
+    private static void changePassword() {
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.change_password))
+                .setMessage(context.getString(R.string.do_you_want_to_change_password))
+                //.setIcon(R.drawable.ic_home_)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "OK clicked", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "Cancel clicked", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
+
+    }
+
+    private static void logout() {
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.logout))
+                .setMessage(context.getString(R.string.do_you_want_to_logout))
+                //.setIcon(R.drawable.ic_home_)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        auth.signOut();
+                        context.startActivity(new Intent(context, LoginActivity.class));
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText(context, R.string.canceled, Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
+
+    }
+
+    private static void deleteAccount() {
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.delete_account))
+                .setMessage(context.getString(R.string.do_you_want_to_delete_account))
+                //.setIcon(R.drawable.ic_home_)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "OK clicked", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "Cancel clicked", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
     }
 
 }

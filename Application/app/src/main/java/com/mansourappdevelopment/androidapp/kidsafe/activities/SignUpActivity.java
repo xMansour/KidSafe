@@ -48,6 +48,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionFragm
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnModeSelectionListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -194,6 +195,8 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
     private void verifyAccount() {
         FirebaseUser user = auth.getCurrentUser();
         uid = user.getUid();
+        //String languageCode = auth.getLanguageCode();
+        auth.setLanguageCode(LocaleUtils.getAppLanguage());
         user.sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -207,6 +210,7 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
                             }, 3000);
                     }
                 });
+        //auth.setLanguageCode(languageCode);
     }
 
     private void openFileChooser() {

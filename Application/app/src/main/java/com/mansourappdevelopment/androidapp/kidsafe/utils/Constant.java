@@ -23,5 +23,6 @@ public class Constant {
     public static final String LANGUAGE_SELECTED = "com.mansourappdevelopment.androidapp.kidsafe.utils.LANGUAGE_SELECTED";
     public static final String MODE_CHECKED = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE_CHECKED";
     public static final String MODE = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE";
+    public static final String CONFIRMATION_MESSAGE = "com.mansourappdevelopment.androidapp.kidsafe.utils.CONFIRMATION_MESSAGE";
 
 }

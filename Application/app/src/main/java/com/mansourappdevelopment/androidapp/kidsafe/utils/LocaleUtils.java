@@ -1,4 +1,4 @@
-package com.mansourappdevelopment.androidapp.kidsafe;
+package com.mansourappdevelopment.androidapp.kidsafe.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,8 +6,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
-import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 import java.util.Locale;
 
@@ -61,6 +59,10 @@ public class LocaleUtils {
 
         }
 
+    }
+
+    public static String getAppLanguage(){
+        return Locale.getDefault().getLanguage();
     }
 
 }
