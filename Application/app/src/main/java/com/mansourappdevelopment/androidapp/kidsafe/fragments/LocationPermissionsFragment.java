@@ -53,7 +53,12 @@ public class LocationPermissionsFragment extends Fragment implements OnPermissio
         btnPermissionsLocationNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_SETTINGS_FRAGMENT);
+                if (isLocationPermissionGranted() /*|| isLocationPermissionDenied()*/)//TODO:: OK?
+                    onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_SETTINGS_FRAGMENT);
+                else
+                    Toast.makeText(context, getString(R.string.please_allow_location_permission), Toast.LENGTH_SHORT).show();
+                //TODO:: move back child singed in after checking.... and writing to shared prefs
+
             }
         });
 
@@ -120,7 +125,7 @@ public class LocationPermissionsFragment extends Fragment implements OnPermissio
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == Constant.LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(context, getString(R.string.permission_granted), Toast.LENGTH_SHORT).show();
                 switchLocationPermission.setChecked(true);
                 //switchLocationPermission.setEnabled(false);
@@ -136,6 +141,10 @@ public class LocationPermissionsFragment extends Fragment implements OnPermissio
     private boolean isLocationPermissionGranted() {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isLocationPermissionDenied() {
+        return !ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
 }

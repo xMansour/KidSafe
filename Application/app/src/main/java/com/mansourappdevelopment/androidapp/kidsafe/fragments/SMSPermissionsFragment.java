@@ -56,7 +56,10 @@ public class SMSPermissionsFragment extends Fragment implements CompoundButton.O
         btnPermissionsSmsNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_PHONE_CALLS_FRAGMENT);
+                if (checkAllPermissions())
+                    onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_PHONE_CALLS_FRAGMENT);
+                else
+                    Toast.makeText(context, getString(R.string.please_allow_permissions), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -224,5 +227,9 @@ public class SMSPermissionsFragment extends Fragment implements CompoundButton.O
     private boolean isReceiveSmsPermissionGranted() {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED;
 
+    }
+
+    private boolean checkAllPermissions() {
+        return isReadSmsPermissionGranted() && isSendSmsPermissionGranted() && isReceiveSmsPermissionGranted();
     }
 }

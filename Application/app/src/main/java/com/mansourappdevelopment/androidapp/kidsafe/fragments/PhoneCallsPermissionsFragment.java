@@ -56,7 +56,11 @@ public class PhoneCallsPermissionsFragment extends Fragment implements CompoundB
         btnPermissionsPhoneCallsNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_LOCATION_FRAGMENT);
+                if (checkAllPermissions())
+                    onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_LOCATION_FRAGMENT);
+                else
+                    Toast.makeText(context, getString(R.string.please_allow_permissions), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -221,6 +225,10 @@ public class PhoneCallsPermissionsFragment extends Fragment implements CompoundB
     private boolean isReadContactsPermissionGranted() {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
 
+    }
+
+    private boolean checkAllPermissions() {
+        return isPhoneStatePermissionGranted() && isReadCallLogPermissionGranted() && isReadContactsPermissionGranted();
     }
 
 

@@ -58,4 +58,9 @@ public class PermissionsActivity extends AppCompatActivity implements OnFragment
         getSupportFragmentManager().beginTransaction().replace(R.id.permissionFragmentContainer, selectedFragment).commit();
 
     }
+
+    @Override
+    public void onBackPressed() {
+        //NO going back to childSignedIn activity
+    }
 }

@@ -165,6 +165,9 @@
     <string name="package_usage_permission_explanation">This permission is needed to allow KidSafe to get and upload your child\'s apps info</string>
     <string name="finish">Finish</string>
     <string name="device_admin_permission">Device admin permission</string>
+    <string name="please_allow_permissions">Please allow all the permissions to enable KidSafe to work properly</string>
+    <string name="please_allow_location_permission">Please allow access to the location</string>
+    <string name="done">Done</string>
 
 
 </resources>

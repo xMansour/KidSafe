@@ -63,7 +63,12 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
         btnPermissionsSettingsNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:: move back child singed in after checking.... and writing to shared prefs
+                if (checkAllPermissions()) {
+                    Toast.makeText(context, getString(R.string.done), Toast.LENGTH_SHORT).show();
+                    //TODO:: move back child singed in after checking.... and writing to shared prefs
+                } else {
+                    Toast.makeText(context, getString(R.string.please_allow_permissions), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -187,14 +192,14 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
 
     private boolean isOverlayPermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return !Settings.canDrawOverlays(context);
+            return Settings.canDrawOverlays(context);
         } else {
             return true; //TODO:: check  below M
         }
     }
 
     private boolean isPackageUsagePermissionGranted() {
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.PACKAGE_USAGE_STATS) == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.PACKAGE_USAGE_STATS) == PackageManager.PERMISSION_GRANTED;    //TODO:: check later
     }
 
     private boolean isDeviceAdmin() {
@@ -203,6 +208,9 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
         return devicePolicyManager.isAdminActive(componentName);
     }
 
+    private boolean checkAllPermissions() {
+        return isDeviceAdmin() && isWriteSettingsPermissionGranted() && isOverlayPermissionGranted();//TODO::PackageUsage
+    }
     /*private void startPermissionExplanationFragment(int requestCode, int id) {
         PermissionExplanationFragment explanationFragment = new PermissionExplanationFragment();
         Bundle bundle = new Bundle();
