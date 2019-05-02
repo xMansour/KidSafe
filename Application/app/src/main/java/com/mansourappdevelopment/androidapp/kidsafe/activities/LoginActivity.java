@@ -270,6 +270,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString(Constant.PASSWORD, txtLogInPassword.getText().toString());
         editor.apply();
 
+        //TODO:: not saved
         SharedPrefsUtils.setStringPreference(this, Constant.PASSWORD, txtLogInPassword.getText().toString());
 
     }

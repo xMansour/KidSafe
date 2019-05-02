@@ -152,7 +152,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
     public void getParentData(String parentEmail) {
         Query query = databaseReference.child("parents").orderByChild("email").equalTo(parentEmail);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();

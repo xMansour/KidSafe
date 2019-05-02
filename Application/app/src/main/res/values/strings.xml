@@ -41,7 +41,7 @@
     <string name="set_geofence">Set GeoFence</string>
     <string name="device_admin_description">Allow KidSafe to lock the device</string>
     <string name="device_admin">KidSafe</string>
-    <string name="device_admin_explanation">KidSafe need to be device admin to function properly</string>
+    <string name="device_admin_explanation">KidSafe need to be device admin to be able to lock the phone</string>
     <string name="device_admin_enabled">Device Admin Enabled</string>
     <string name="device_admin_disabled">Device Admin Disabled</string>
     <string name="lock_phone">Lock Phone</string>
@@ -136,6 +136,35 @@
     <string name="enter_a_valid_new_email">Enter a valid new email</string>
     <string name="kids">Kids</string>
     <string name="no_kids_added_yet">No kids added yet!</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="permission_explanation">Permission Explanation</string>
+    <string name="permission_name">Permission Name</string>
+    <string name="send_sms_permission">Send SMS Permission</string>
+    <string name="read_sms_permission">Read SMS Permission</string>
+    <string name="receive_sms_permission">Receive SMS Permission</string>
+    <string name="permission_granted">Permission Granted</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="permission_needed">Permission Needed</string>
+    <string name="send_sms_explanation">This permission is needed to be able to see the messages your child sends</string>
+    <string name="phone_state_permission">Phone state permission</string>
+    <string name="read_call_log_permission">Read call log permission</string>
+    <string name="read_contacts_permission">Read contacts permission</string>
+    <string name="read_sms_explanation">This permission is needed to be able to read your child\'s messages</string>
+    <string name="receive_sms_explanation">This permission is needed to be able to read the messages received by your child</string>
+    <string name="read_phone_state_explanation">This permission is needed to be able to see your child calls info</string>
+    <string name="read_call_log_explanation">This permission is needed to let you see your child\'s call log</string>
+    <string name="read_contacts_explanation">This permission is needed to get the names of your child\'s contacts</string>
+    <string name="location_permission">Location permission</string>
+    <string name="write_settings_permission">Write settings permission</string>
+    <string name="overlay_permission">Overlay permission</string>
+    <string name="package_usage_permission">Package usage permission</string>
+    <string name="location_permission_explanation">This permission is needed to allow you to get your child\'s location</string>
+    <string name="write_settings_permission_explanation">This permission is needed to allow the KidSafe to block other apps</string>
+    <string name="overlay_permission_explanation">This permission is needed to monitor other apps</string>
+    <string name="package_usage_permission_explanation">This permission is needed to allow KidSafe to get and upload your child\'s apps info</string>
+    <string name="finish">Finish</string>
+    <string name="device_admin_permission">Device admin permission</string>
 
 
 </resources>

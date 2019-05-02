@@ -6,21 +6,35 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission
-        android:name="android.permission.LOCATION_HARDWARE"
-        tools:ignore="ProtectedPermissions" />
+
+
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+
+
+    <!--DONE-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission
+        android:name="android.permission.LOCATION_HARDWARE"
+        tools:ignore="ProtectedPermissions" />
+
+
+    <!--DONE-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+
+    <!--DONE-->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
@@ -33,6 +47,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activities.PermissionsActivity"></activity>
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.BlockedAppActivity" />
         <activity

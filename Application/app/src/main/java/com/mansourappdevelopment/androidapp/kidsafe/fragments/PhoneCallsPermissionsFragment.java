@@ -1,0 +1,211 @@
+package com.mansourappdevelopment.androidapp.kidsafe.fragments;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.Toast;
+
+import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnFragmentChangeListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplainationListener;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
+
+public class PhoneCallsPermissionsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, OnPermissionExplainationListener {
+    private Switch switchPhoneStatePermission;
+    private Switch switchReadCallLogPermission;
+    private Switch switchReadContactsPermission;
+    private Context context;
+    private Activity activity;
+    private View layout;
+    private FragmentManager fragmentManager;
+    private OnFragmentChangeListener onFragmentChangeListener;
+    private Button btnPermissionsPhoneCallsPrev;
+    private Button btnPermissionsPhoneCallsNext;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_permissions_phone_calls, container, false);
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        context = getContext();
+        activity = getActivity();
+        layout = view;
+        fragmentManager = getFragmentManager();
+        onFragmentChangeListener = (OnFragmentChangeListener) activity;
+
+        btnPermissionsPhoneCallsNext = (Button) view.findViewById(R.id.btnPermissionsPhoneCallsNext);
+        btnPermissionsPhoneCallsNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_LOCATION_FRAGMENT);
+            }
+        });
+
+        btnPermissionsPhoneCallsPrev = (Button) view.findViewById(R.id.btnPermissionsPhoneCallsPrev);
+        btnPermissionsPhoneCallsPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_SMS_FRAGMENT);
+            }
+        });
+
+
+        switchPhoneStatePermission = (Switch) view.findViewById(R.id.switchPhoneStatePermission);
+        switchPhoneStatePermission.setOnCheckedChangeListener(this);
+        switchReadCallLogPermission = (Switch) view.findViewById(R.id.switchReadCallLogPermission);
+        switchReadCallLogPermission.setOnCheckedChangeListener(this);
+        switchReadContactsPermission = (Switch) view.findViewById(R.id.switchReadContactsPermission);
+        switchReadContactsPermission.setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            switch (buttonView.getId()) {
+                case R.id.switchPhoneStatePermission:
+                    requestPhoneStatePermission();
+                    break;
+
+                case R.id.switchReadCallLogPermission:
+                    requestReadCallLogPermission();
+                    break;
+
+                case R.id.switchReadContactsPermission:
+                    requestReadContactsPermission();
+                    break;
+            }
+        }
+    }
+
+    private void requestPhoneStatePermission() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_PHONE_STATE)) {
+                startPermissionExplanationFragment(Constant.READ_PHONE_STATE_PERMISSION_REQUEST_CODE, switchPhoneStatePermission.getId());
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, Constant.READ_PHONE_STATE_PERMISSION_REQUEST_CODE);
+            }
+
+        }
+    }
+
+    private void requestReadCallLogPermission() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_CALL_LOG)) {
+                startPermissionExplanationFragment(Constant.READ_CALL_LOG_PERMISSION_REQUEST_CODE, switchReadCallLogPermission.getId());
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, Constant.READ_CALL_LOG_PERMISSION_REQUEST_CODE);
+            }
+
+        }
+    }
+
+    private void requestReadContactsPermission() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_CONTACTS)) {
+                startPermissionExplanationFragment(Constant.READ_CONTACTS_PERMISSION_REQUEST_CODE, switchReadContactsPermission.getId());
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, Constant.READ_CONTACTS_PERMISSION_REQUEST_CODE);
+            }
+
+        }
+    }
+
+    private void startPermissionExplanationFragment(int requestCode, int id) {
+        PermissionExplanationFragment explanationFragment = new PermissionExplanationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.PERMISSION_REQUEST_CODE, requestCode);
+        bundle.putInt(Constant.SWITCH_ID, id);
+        explanationFragment.setArguments(bundle);
+        explanationFragment.setCancelable(false);
+        explanationFragment.setTargetFragment(this, Constant.PERMISSION_EXPLANATION_FRAGMENT);
+        explanationFragment.show(fragmentManager, Constant.PERMISSION_EXPLANATION_FRAGMENT_TAG);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case Constant.READ_PHONE_STATE_PERMISSION_REQUEST_CODE:
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(context, getString(R.string.permission_granted), Toast.LENGTH_SHORT).show();
+                    switchPhoneStatePermission.setChecked(true);
+                    //switchPhoneStatePermission.setEnabled(false);
+
+                } else {
+                    Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+                    switchPhoneStatePermission.setChecked(false);
+                }
+
+                break;
+
+            case Constant.READ_CALL_LOG_PERMISSION_REQUEST_CODE:
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(context, getString(R.string.permission_granted), Toast.LENGTH_SHORT).show();
+                    switchReadCallLogPermission.setChecked(true);
+                    //switchReadCallLogPermission.setEnabled(false);
+
+                } else {
+                    Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+                    switchReadCallLogPermission.setChecked(false);
+                }
+
+                break;
+
+            case Constant.READ_CONTACTS_PERMISSION_REQUEST_CODE:
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(context, getString(R.string.permission_granted), Toast.LENGTH_SHORT).show();
+                    switchReadContactsPermission.setChecked(true);
+                    //switchReadContactsPermission.setEnabled(false);
+
+                } else {
+                    Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+                    switchReadContactsPermission.setChecked(false);
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    public void onOk(int requestCode) {
+        switch (requestCode) {
+            case Constant.READ_PHONE_STATE_PERMISSION_REQUEST_CODE:
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, Constant.READ_PHONE_STATE_PERMISSION_REQUEST_CODE);
+                break;
+            case Constant.READ_CALL_LOG_PERMISSION_REQUEST_CODE:
+                requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, Constant.READ_CALL_LOG_PERMISSION_REQUEST_CODE);
+                break;
+            case Constant.READ_CONTACTS_PERMISSION_REQUEST_CODE:
+                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, Constant.READ_CONTACTS_PERMISSION_REQUEST_CODE);
+                break;
+        }
+
+    }
+
+    @Override
+    public void onCancel(int switchId) {
+        Switch pressedSwitch = layout.findViewById(switchId);
+        pressedSwitch.setChecked(false);
+
+    }
+
+
+}
