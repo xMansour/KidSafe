@@ -67,11 +67,15 @@ public class SMSPermissionsFragment extends Fragment implements CompoundButton.O
                 onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_MAIN_FRAGMENT);
             }
         });
+
         switchSendSmsPermission = (Switch) view.findViewById(R.id.switchSendSmsPermission);
+        switchSendSmsPermission.setChecked(isSendSmsPermissionGranted());
         switchSendSmsPermission.setOnCheckedChangeListener(this);
         switchReadSmsPermission = (Switch) view.findViewById(R.id.switchReadSmsPermission);
+        switchReadSmsPermission.setChecked(isReadSmsPermissionGranted());
         switchReadSmsPermission.setOnCheckedChangeListener(this);
         switchReceiveSmsPermission = (Switch) view.findViewById(R.id.switchReceiveSmsPermission);
+        switchReceiveSmsPermission.setChecked(isReceiveSmsPermissionGranted());
         switchReceiveSmsPermission.setOnCheckedChangeListener(this);
 
 
@@ -207,5 +211,18 @@ public class SMSPermissionsFragment extends Fragment implements CompoundButton.O
         explanationFragment.setCancelable(false);
         explanationFragment.setTargetFragment(this, Constant.PERMISSION_EXPLANATION_FRAGMENT);
         explanationFragment.show(fragmentManager, Constant.PERMISSION_EXPLANATION_FRAGMENT_TAG);
+    }
+
+    private boolean isSendSmsPermissionGranted() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isReadSmsPermissionGranted() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isReceiveSmsPermissionGranted() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED;
+
     }
 }

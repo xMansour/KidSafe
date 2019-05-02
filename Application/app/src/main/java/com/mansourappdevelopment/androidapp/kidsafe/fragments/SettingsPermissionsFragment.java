@@ -77,12 +77,16 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
 
 
         switchWriteSettingsPermission = (Switch) view.findViewById(R.id.switchWriteSettingsPermission);
+        switchWriteSettingsPermission.setChecked(isWriteSettingsPermissionGranted());
         switchWriteSettingsPermission.setOnCheckedChangeListener(this);
         switchOverlayPermission = (Switch) view.findViewById(R.id.switchOverlayPermission);
+        switchOverlayPermission.setChecked(isOverlayPermissionGranted());
         switchOverlayPermission.setOnCheckedChangeListener(this);
         switchPackageUsagePermission = (Switch) view.findViewById(R.id.switchPackageUsagePermission);
+        switchPackageUsagePermission.setChecked(isPackageUsagePermissionGranted());
         switchPackageUsagePermission.setOnCheckedChangeListener(this);
         switchDeviceAdminPermission = (Switch) view.findViewById(R.id.switchDeviceAdminPermission);
+        switchDeviceAdminPermission.setChecked(isDeviceAdmin());
         switchDeviceAdminPermission.setOnCheckedChangeListener(this);
 
     }
@@ -171,6 +175,32 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
 
     private void disableDeviceAdmin(DevicePolicyManager devicePolicyManager, ComponentName componentName) {
         devicePolicyManager.removeActiveAdmin(componentName);
+    }
+
+    private boolean isWriteSettingsPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.System.canWrite(context);
+        } else {
+            return true;//TODO::check below M
+        }
+    }
+
+    private boolean isOverlayPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return !Settings.canDrawOverlays(context);
+        } else {
+            return true; //TODO:: check  below M
+        }
+    }
+
+    private boolean isPackageUsagePermissionGranted() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.PACKAGE_USAGE_STATS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isDeviceAdmin() {
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) activity.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName componentName = new ComponentName(context, AdminReceiver.class);
+        return devicePolicyManager.isAdminActive(componentName);
     }
 
     /*private void startPermissionExplanationFragment(int requestCode, int id) {

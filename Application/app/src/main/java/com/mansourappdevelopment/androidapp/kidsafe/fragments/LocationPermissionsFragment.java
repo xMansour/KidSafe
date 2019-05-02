@@ -66,6 +66,7 @@ public class LocationPermissionsFragment extends Fragment implements OnPermissio
         });
 
         switchLocationPermission = (Switch) view.findViewById(R.id.switchLocationPermission);
+        switchLocationPermission.setChecked(isLocationPermissionGranted());
         switchLocationPermission.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -130,6 +131,11 @@ public class LocationPermissionsFragment extends Fragment implements OnPermissio
             }
 
         }
+    }
+
+    private boolean isLocationPermissionGranted() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
 }

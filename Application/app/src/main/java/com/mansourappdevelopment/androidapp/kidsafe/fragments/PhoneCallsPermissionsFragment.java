@@ -70,10 +70,13 @@ public class PhoneCallsPermissionsFragment extends Fragment implements CompoundB
 
 
         switchPhoneStatePermission = (Switch) view.findViewById(R.id.switchPhoneStatePermission);
+        switchPhoneStatePermission.setChecked(isPhoneStatePermissionGranted());
         switchPhoneStatePermission.setOnCheckedChangeListener(this);
         switchReadCallLogPermission = (Switch) view.findViewById(R.id.switchReadCallLogPermission);
+        switchReadCallLogPermission.setChecked(isReadCallLogPermissionGranted());
         switchReadCallLogPermission.setOnCheckedChangeListener(this);
         switchReadContactsPermission = (Switch) view.findViewById(R.id.switchReadContactsPermission);
+        switchReadContactsPermission.setChecked(isReadContactsPermissionGranted());
         switchReadContactsPermission.setOnCheckedChangeListener(this);
     }
 
@@ -204,6 +207,19 @@ public class PhoneCallsPermissionsFragment extends Fragment implements CompoundB
     public void onCancel(int switchId) {
         Switch pressedSwitch = layout.findViewById(switchId);
         pressedSwitch.setChecked(false);
+
+    }
+
+    private boolean isPhoneStatePermissionGranted() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isReadCallLogPermissionGranted() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isReadContactsPermissionGranted() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
 
     }
 
