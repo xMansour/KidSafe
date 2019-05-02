@@ -134,6 +134,8 @@
     <string name="password_updated">Password updated</string>
     <string name="old_password_is_wrong">Old password is wrong</string>
     <string name="enter_a_valid_new_email">Enter a valid new email</string>
+    <string name="kids">Kids</string>
+    <string name="no_kids_added_yet">No kids added yet!</string>
 
 
 </resources>

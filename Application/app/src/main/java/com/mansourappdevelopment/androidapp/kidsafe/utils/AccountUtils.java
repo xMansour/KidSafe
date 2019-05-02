@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.activities.LoginActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 public class AccountUtils {
+    private static final String TAG = "AccountUtilsTAG";
 
     public static void changePassword(final Context context) {
         new AlertDialog.Builder(context)
@@ -179,34 +181,39 @@ public class AccountUtils {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        Query query = databaseReference.child("parents").orderByChild("email").equalTo(user.getEmail());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query parentQuery = databaseReference.child("parents").orderByChild("email").equalTo(user.getEmail());
+        parentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+                    DataSnapshot parentNodeShot = dataSnapshot.getChildren().iterator().next();
+                    User parent = parentNodeShot.getValue(User.class);
+                    String imgUrl = parent.getProfileImage();
+                    removeImage(imgUrl, providerId, password, context);
                     databaseReference.child("parents").child(user.getUid()).removeValue();
                 } else {
-                    databaseReference.child("childs").child(user.getUid()).removeValue();
-                }
+                    Query childQuery = databaseReference.child("childs").orderByChild("email").equalTo(user.getEmail());
+                    childQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                DataSnapshot childNodeShot = dataSnapshot.getChildren().iterator().next();
+                                User child = childNodeShot.getValue(User.class);
+                                String imgUrl = child.getProfileImage();
+                                removeImage(imgUrl, providerId, password, context);
+                                databaseReference.child("childs").child(user.getUid()).removeValue();
 
-                DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                User dbUser = nodeShot.getValue(User.class);
-                String imgUrl = dbUser.getProfileImage();
-                if (imgUrl.contains("https://firebasestorage.googleapis.com")) {
-                    StorageReference profileImageStorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imgUrl);
-                    profileImageStorageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            deleteUser(providerId, password, context);
+                            }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
+
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
                         }
                     });
-                } else {
-                    deleteUser(providerId, password, context);
                 }
+
+
             }
 
             @Override
@@ -216,6 +223,24 @@ public class AccountUtils {
         });
 
 
+    }
+
+    private static void removeImage(String imgUrl, final String providerId, final String password, final Context context) {
+        if (imgUrl.contains("https://firebasestorage.googleapis.com")) {
+            StorageReference profileImageStorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imgUrl);
+            profileImageStorageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    deleteUser(providerId, password, context);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+        } else {
+            deleteUser(providerId, password, context);
+        }
     }
 
     private static void deleteUser(String providerId, final String password, final Context context) {

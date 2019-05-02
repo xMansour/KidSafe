@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ParentSignedInActivity extends AppCompatActivity implements OnChildClickListener {
-    public static final String TAG = "ParentSignedInActivity";
+    public static final String TAG = "ParentActivityTAG";
     public static final String APPS_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.APPS_EXTRA";
     public static final String CHILD_NAME_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_NAME_EXTRA";
     public static final String CHILD_EMAIL_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_EMAIL_EXTRA";
@@ -59,6 +59,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
     private ImageButton btnSettings;
     private TextView txtTitle;
     private FrameLayout toolbar;
+    private TextView txtNoKids;
     private LinearLayout linearLayout;
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -99,6 +100,8 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         txtTitle = (TextView) findViewById(R.id.txtTitle);
         txtTitle.setText(getString(R.string.home));
 
+        txtNoKids = (TextView) findViewById(R.id.txtNoKids);
+
         recyclerViewChilds = findViewById(R.id.recyclerViewChilds);
         recyclerViewChilds.setHasFixedSize(true);
         recyclerViewChilds.setLayoutManager(new LinearLayoutManager(this));
@@ -110,7 +113,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
     public void getChilds(String parentEmail) {
         Query query = databaseReference.child("childs").orderByChild("parentEmail").equalTo(parentEmail);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -122,14 +125,21 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
                         childs.add(child.getValue(User.class));
                     }
 
+                    txtNoKids.setVisibility(View.GONE);
+                    recyclerViewChilds.setVisibility(View.VISIBLE);
                     initializeAdapter();
 
+
+                } else {
+                    txtNoKids.setVisibility(View.VISIBLE);
+                    recyclerViewChilds.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                txtNoKids.setVisibility(View.VISIBLE);
+                recyclerViewChilds.setVisibility(View.GONE);
             }
         });
     }
