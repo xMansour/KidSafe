@@ -45,4 +45,6 @@ public class Constant {
     public static final int PERMISSIONS_PHONE_CALLS_FRAGMENT = 2;
     public static final int PERMISSIONS_LOCATION_FRAGMENT = 3;
     public static final int PERMISSIONS_SETTINGS_FRAGMENT = 4;
+    public static final int PERMISSIONS_FRAGMENTS_FINISH = 5;
+    public static final String KID_SAFE_PREFS = "com.mansourappdevelopment.androidapp.kidsafe.utils.KID_SAFE_PREFS";
 }

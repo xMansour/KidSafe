@@ -37,7 +37,7 @@ public class LocaleUtils {
         editor.apply();
     }
 
-    public static void setAppLanguage(Context context) {
+    public static void setAppLanguage(Context context) {//TODO:: use shared prefs util
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String appLanguage = sharedPreferences.getString(Constant.APP_LANGUAGE, "en");
@@ -61,7 +61,7 @@ public class LocaleUtils {
 
     }
 
-    public static String getAppLanguage(){
+    public static String getAppLanguage() {
         return Locale.getDefault().getLanguage();
     }
 

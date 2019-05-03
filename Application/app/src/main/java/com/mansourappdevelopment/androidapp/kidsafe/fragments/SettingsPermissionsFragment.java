@@ -64,7 +64,7 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
             @Override
             public void onClick(View v) {
                 if (checkAllPermissions()) {
-                    Toast.makeText(context, getString(R.string.done), Toast.LENGTH_SHORT).show();
+                    onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_FRAGMENTS_FINISH);
                     //TODO:: move back child singed in after checking.... and writing to shared prefs
                 } else {
                     Toast.makeText(context, getString(R.string.please_allow_permissions), Toast.LENGTH_SHORT).show();

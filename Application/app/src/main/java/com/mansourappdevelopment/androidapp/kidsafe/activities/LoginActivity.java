@@ -57,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     private String uid;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private String emailPrefs;
     private String passwordPrefs;
     private boolean autoLoginPrefs;
@@ -122,17 +120,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        sharedPreferences = getPreferences(MODE_PRIVATE);
-        autoLoginPrefs = sharedPreferences.getBoolean(Constant.AUTO_LOGIN, false);
+        autoLoginPrefs = SharedPrefsUtils.getBooleanPreference(this, Constant.AUTO_LOGIN, false);
         checkBoxRememberMe.setChecked(autoLoginPrefs);
 
-        emailPrefs = sharedPreferences.getString(Constant.EMAIL, "");
-        passwordPrefs = sharedPreferences.getString(Constant.PASSWORD, "");
+        emailPrefs = SharedPrefsUtils.getStringPreference(this, Constant.EMAIL);
+        passwordPrefs = SharedPrefsUtils.getStringPreference(this, Constant.PASSWORD);
         if (autoLoginPrefs) {
             txtLogInEmail.setText(emailPrefs);
             txtLogInPassword.setText(passwordPrefs);
         }
-
     }
 
     @Override
@@ -263,14 +259,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void autoLogin() {
-        editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putBoolean(Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
-        editor.putString(Constant.EMAIL, txtLogInEmail.getText().toString());
-        editor.putString(Constant.PASSWORD, txtLogInPassword.getText().toString());
-        editor.apply();
-
-        //TODO:: not saved
+        SharedPrefsUtils.getBooleanPreference(this, Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
+        SharedPrefsUtils.setStringPreference(this, Constant.EMAIL, txtLogInEmail.getText().toString());
         SharedPrefsUtils.setStringPreference(this, Constant.PASSWORD, txtLogInPassword.getText().toString());
 
     }

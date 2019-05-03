@@ -1,5 +1,6 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -54,8 +55,14 @@ public class PermissionsActivity extends AppCompatActivity implements OnFragment
             case Constant.PERMISSIONS_SETTINGS_FRAGMENT:
                 selectedFragment = new SettingsPermissionsFragment();
                 break;
+            case Constant.PERMISSIONS_FRAGMENTS_FINISH:
+                Intent intent = new Intent(this, ChildSignedInActivity.class);
+                startActivity(intent);
+                break;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.permissionFragmentContainer, selectedFragment).commit();
+
+        if (selectedFragment != null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.permissionFragmentContainer, selectedFragment).commit();
 
     }
 

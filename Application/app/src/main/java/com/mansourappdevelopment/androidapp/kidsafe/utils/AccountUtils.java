@@ -54,13 +54,13 @@ public class AccountUtils {
                         txtOldPassword.setHint(R.string.enter_old_password);
                         txtOldPassword.setLayoutParams(layoutParams);
                         txtOldPassword.setSingleLine();
-                        txtOldPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        //txtOldPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
                         final EditText txtNewPassword = new EditText(context);
                         txtNewPassword.setHint(R.string.enter_new_password);
                         txtNewPassword.setLayoutParams(layoutParams);
                         txtNewPassword.setSingleLine();
-                        txtNewPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        //txtNewPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
 
                         parentLayout.addView(txtOldPassword, 0);
