@@ -1,7 +1,6 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -95,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 autoLogin();
                 String email = txtLogInEmail.getText().toString();
                 String password = txtLogInPassword.getText().toString();
-                logIn(email, password);
+                login(email, password);
             }
         });
 
@@ -165,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void logIn(String email, String password) {
+    private void login(String email, String password) {
         if (validateForm()) {
             //progressBar.setVisibility(View.VISIBLE);//TODO:: validate to avoid exceptions
             final LoadingFragment loadingFragment = new LoadingFragment();
@@ -256,7 +255,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void autoLogin() {
         SharedPrefsUtils.getBooleanPreference(this, Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());

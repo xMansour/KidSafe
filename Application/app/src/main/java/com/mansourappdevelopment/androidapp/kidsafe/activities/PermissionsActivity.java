@@ -5,12 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.AppsFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.LocationPermissionsFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.PermissionsMainFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.PhoneCallsPermissionsFragment;
@@ -18,6 +15,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.fragments.SMSPermissionsFrag
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.SettingsPermissionsFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnFragmentChangeListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.SharedPrefsUtils;
 
 public class PermissionsActivity extends AppCompatActivity implements OnFragmentChangeListener {
 
@@ -56,6 +54,7 @@ public class PermissionsActivity extends AppCompatActivity implements OnFragment
                 selectedFragment = new SettingsPermissionsFragment();
                 break;
             case Constant.PERMISSIONS_FRAGMENTS_FINISH:
+                SharedPrefsUtils.setBooleanPreference(this, Constant.CHILD_FIRST_LAUNCH, false);
                 Intent intent = new Intent(this, ChildSignedInActivity.class);
                 startActivity(intent);
                 break;

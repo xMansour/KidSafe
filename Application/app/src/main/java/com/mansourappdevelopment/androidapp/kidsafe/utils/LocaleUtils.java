@@ -29,33 +29,21 @@ public class LocaleUtils {
     }
 
     private static void saveSelectedLanguage(Context context, String selectedLanguage) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putString(Constant.APP_LANGUAGE, selectedLanguage);
-        editor.putBoolean(Constant.LANGUAGE_SELECTED, true);
-        editor.apply();
+        SharedPrefsUtils.setStringPreference(context, Constant.APP_LANGUAGE, selectedLanguage);
+        SharedPrefsUtils.setBooleanPreference(context, Constant.LANGUAGE_SELECTED, true);
     }
 
-    public static void setAppLanguage(Context context) {//TODO:: use shared prefs util
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String appLanguage = sharedPreferences.getString(Constant.APP_LANGUAGE, "en");
-        boolean languageSelected = sharedPreferences.getBoolean(Constant.LANGUAGE_SELECTED, false);
-
-        Log.i(TAG, "setAppLanguage: LANGUAGE_SELECTED: " + languageSelected);
+    public static void setAppLanguage(Context context) {
+        String appLanguage = SharedPrefsUtils.getStringPreference(context, Constant.APP_LANGUAGE);
+        boolean languageSelected = SharedPrefsUtils.getBooleanPreference(context, Constant.LANGUAGE_SELECTED, false);
         if (languageSelected) {
-            editor.clear();
-            editor.putString(Constant.APP_LANGUAGE, appLanguage);
-            editor.putBoolean(Constant.LANGUAGE_SELECTED, true);
-            editor.apply();
             LocaleUtils.setLocale(context, appLanguage);
+            SharedPrefsUtils.setStringPreference(context, Constant.APP_LANGUAGE, appLanguage);
+            SharedPrefsUtils.setBooleanPreference(context, Constant.LANGUAGE_SELECTED, true);
         } else {
-            LocaleUtils.setLocale(context, Locale.getDefault().getLanguage());
-            editor.clear();
-            editor.putString(Constant.APP_LANGUAGE, Locale.getDefault().getLanguage());
-            editor.putBoolean(Constant.LANGUAGE_SELECTED, false);
-            editor.apply();
+            LocaleUtils.setLocale(context, getAppLanguage());
+            SharedPrefsUtils.setStringPreference(context, Constant.APP_LANGUAGE, appLanguage);
+            SharedPrefsUtils.setBooleanPreference(context, Constant.LANGUAGE_SELECTED, false);
 
         }
 
