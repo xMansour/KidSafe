@@ -206,7 +206,7 @@ public class SMSPermissionsFragment extends Fragment implements CompoundButton.O
     }
 
     private void startPermissionExplanationFragment(int requestCode, int id) {
-        PermissionExplanationFragment explanationFragment = new PermissionExplanationFragment();
+        PermissionExplanationDialogFragment explanationFragment = new PermissionExplanationDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.PERMISSION_REQUEST_CODE, requestCode);
         bundle.putInt(Constant.SWITCH_ID, id);

@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -28,7 +26,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.ChildAdapter;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.PhoneLockFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.PhoneLockDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
@@ -249,11 +247,12 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         childEmail = child.getEmail();
         if (checked) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            PhoneLockFragment phoneLockFragment = new PhoneLockFragment();
+            PhoneLockDialogFragment phoneLockDialogFragment = new PhoneLockDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putString(Constant.CHILD_NAME_EXTRA, child.getName());
-            phoneLockFragment.setCancelable(false);//TODO:: add this to all the other dialog fragments
-            phoneLockFragment.show(fragmentManager, "PhoneLockFragment");
+            phoneLockDialogFragment.setArguments(bundle);
+            phoneLockDialogFragment.setCancelable(false);//TODO:: add this to all the other dialog fragments
+            phoneLockDialogFragment.show(fragmentManager, "PhoneLockDialogFragment");
         } else {
             Toast.makeText(this, getString(R.string.phone_unlocked), Toast.LENGTH_SHORT).show();
 

@@ -17,7 +17,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnGeoFenceSetting
 
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_NAME_EXTRA;
 
-public class GeoFenceSettingFragment extends DialogFragment {
+public class GeoFenceSettingDialogFragment extends DialogFragment {
     private Spinner spinnerGeoFenceEntries;
     private EditText txtGeoFenceDiameter;
     private TextView txtGeoFenceHeader;

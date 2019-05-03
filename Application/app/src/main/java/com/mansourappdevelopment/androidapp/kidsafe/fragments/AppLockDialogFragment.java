@@ -18,7 +18,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnAppClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
-public class AppLockFragment extends DialogFragment {
+public class AppLockDialogFragment extends DialogFragment {
     private Button btnLockApp;
     private Button btnCancelLockApp;
     private Spinner spinnerLockAppEntries;

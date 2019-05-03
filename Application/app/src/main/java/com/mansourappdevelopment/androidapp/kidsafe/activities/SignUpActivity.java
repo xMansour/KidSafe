@@ -1,8 +1,6 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -33,27 +31,21 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.ConfirmationFragment;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingFragment;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.ConfirmationDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnConfirmationListener;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnModeSelectionListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Validators;
-
-import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -126,14 +118,14 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
     private void signUp(String email, String password) {
         if (isValid()) {
             //progressBar.setVisibility(View.VISIBLE);
-            final LoadingFragment loadingFragment = new LoadingFragment();
-            startLoadingFragment(loadingFragment);
+            final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+            startLoadingFragment(loadingDialogFragment);
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             //progressBar.setVisibility(View.GONE);
-                            stopLoadingFragment(loadingFragment);
+                            stopLoadingFragment(loadingDialogFragment);
                             if (task.isSuccessful()) {
                                 //update ui -> go to LoginActivity
                                 checkMode();
@@ -162,9 +154,9 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
     }
 
     private void checkMode() {
-        ModeSelectionFragment modeSelectionFragment = new ModeSelectionFragment();
-        modeSelectionFragment.setCancelable(false);
-        modeSelectionFragment.show(fragmentManager, Constant.MODE_SELECTION_FRAGMENT);
+        ModeSelectionDialogFragment modeSelectionDialogFragment = new ModeSelectionDialogFragment();
+        modeSelectionDialogFragment.setCancelable(false);
+        modeSelectionDialogFragment.show(fragmentManager, Constant.MODE_SELECTION_FRAGMENT);
 
     }
 
@@ -351,13 +343,13 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
         startActivity(intent);
     }
 
-    private void startLoadingFragment(LoadingFragment loadingFragment) {
-        loadingFragment.setCancelable(false);
-        loadingFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
+    private void startLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
+        loadingDialogFragment.setCancelable(false);
+        loadingDialogFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
     }
 
-    private void stopLoadingFragment(LoadingFragment loadingFragment) {
-        loadingFragment.dismiss();
+    private void stopLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
+        loadingDialogFragment.dismiss();
     }
 
     private boolean isValid() {
@@ -402,12 +394,12 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
         }
 
         if (imageUri == null) {
-            ConfirmationFragment confirmationFragment = new ConfirmationFragment();
+            ConfirmationDialogFragment confirmationDialogFragment = new ConfirmationDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putString(Constant.CONFIRMATION_MESSAGE, getString(R.string.would_you_love_to_add_a_profile_image));
-            confirmationFragment.setArguments(bundle);
-            confirmationFragment.setCancelable(false);
-            confirmationFragment.show(fragmentManager, Constant.CONFIRMATION_FRAGMENT_TAG);
+            confirmationDialogFragment.setArguments(bundle);
+            confirmationDialogFragment.setCancelable(false);
+            confirmationDialogFragment.show(fragmentManager, Constant.CONFIRMATION_FRAGMENT_TAG);
             return false;
         }
 

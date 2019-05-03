@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 
-public class LoadingFragment extends DialogFragment {
+public class LoadingDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

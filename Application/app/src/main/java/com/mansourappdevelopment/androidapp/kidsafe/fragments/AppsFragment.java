@@ -109,11 +109,11 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
             bundle.putString(Constant.CHILD_APP_NAME_EXTRA, appName);
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            AppLockFragment appLockFragment = new AppLockFragment();
+            AppLockDialogFragment appLockFragment = new AppLockDialogFragment();
             appLockFragment.setCancelable(false);//TODO:: add this to all the other dialog fragments
             appLockFragment.setArguments(bundle);
             appLockFragment.setTargetFragment(AppsFragment.this, Constant.APP_LOCK_FRAGMENT_REQUEST_CODE);
-            appLockFragment.show(fragmentManager, "AppLockFragment");
+            appLockFragment.show(fragmentManager, "AppLockDialogFragment");
         } else {
             Toast.makeText(context, appName + " " + getString(R.string.enabled), Toast.LENGTH_SHORT).show();
             final ScreenLock screenLock = new ScreenLock(0, 0, false);

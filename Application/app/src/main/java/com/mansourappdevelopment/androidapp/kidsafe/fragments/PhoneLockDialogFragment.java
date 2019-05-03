@@ -18,7 +18,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
-public class PhoneLockFragment extends DialogFragment {
+public class PhoneLockDialogFragment extends DialogFragment {
     private Button btnLock;
     private Button btnCancelLock;
     private Spinner spinnerLockEntries;
@@ -58,6 +58,7 @@ public class PhoneLockFragment extends DialogFragment {
                     layoutLockTime.setVisibility(View.GONE);
                 } else if (position == 1) {
                     layoutLockTime.setVisibility(View.VISIBLE);
+                    txtLockHours.requestFocus();
                 }
             }
 
@@ -96,10 +97,10 @@ public class PhoneLockFragment extends DialogFragment {
             }
         });
 
-        String header = getString(R.string.lock) + " " + childName + " " + getString(R.string.phone);
+        String header = getString(R.string.lock) + " " + childName + getString(R.string.upper_dot_s) + " " + getString(R.string.phone);
         txtLockHeader.setText(header);
 
-        String body = getString(R.string.lock) + " " + childName + " " + getString(R.string.phone) + " " + getString(R.string.now_or_after_a_period);
+        String body = getString(R.string.lock) + " " + childName + getString(R.string.upper_dot_s) + " " + getString(R.string.phone) + " " + getString(R.string.now_or_after_a_period);
         txtLockBody.setText(body);
 
     }
@@ -107,18 +108,22 @@ public class PhoneLockFragment extends DialogFragment {
     private boolean isValid() {
         if (txtLockHours.getText().toString().equals("")) {
             txtLockHours.setError(getString(R.string.enter_a_valid_number));
+            txtLockHours.requestFocus();
             return false;
         }
         if (txtLockMinutes.getText().toString().equals("")) {
             txtLockMinutes.setError(getString(R.string.enter_a_valid_number));
+            txtLockMinutes.requestFocus();
             return false;
         }
         if (Integer.parseInt(txtLockHours.getText().toString()) > 23) {
             txtLockHours.setError(getString(R.string.maximum_is_23_hours));
+            txtLockHours.requestFocus();
             return false;
         }
         if (Integer.parseInt(txtLockMinutes.getText().toString()) > 59) {
             txtLockMinutes.setError(getString(R.string.maximum_is_59_minutes));
+            txtLockMinutes.requestFocus();
             return false;
         }
 

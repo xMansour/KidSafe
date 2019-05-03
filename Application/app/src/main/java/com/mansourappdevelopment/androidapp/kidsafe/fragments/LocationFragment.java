@@ -85,10 +85,10 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
-                GeoFenceSettingFragment geoFenceSettingFragment = new GeoFenceSettingFragment();
-                geoFenceSettingFragment.setTargetFragment(LocationFragment.this, REQUEST_CODE);
-                geoFenceSettingFragment.setCancelable(false);
-                geoFenceSettingFragment.show(fragmentManager, "GeoFence Dialog Fragment");
+                GeoFenceSettingDialogFragment geoFenceSettingDialogFragment = new GeoFenceSettingDialogFragment();
+                geoFenceSettingDialogFragment.setTargetFragment(LocationFragment.this, REQUEST_CODE);
+                geoFenceSettingDialogFragment.setCancelable(false);
+                geoFenceSettingDialogFragment.show(fragmentManager, "GeoFence Dialog Fragment");
             }
         });
 

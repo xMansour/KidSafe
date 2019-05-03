@@ -37,8 +37,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPasswordResetListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingFragment;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.SharedPrefsUtils;
 
@@ -168,14 +168,14 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
     private void login(String email, String password) {
         if (validateForm()) {
             //progressBar.setVisibility(View.VISIBLE);//TODO:: validate to avoid exceptions
-            final LoadingFragment loadingFragment = new LoadingFragment();
-            startLoadingFragment(loadingFragment);
+            final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+            startLoadingFragment(loadingDialogFragment);
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             //progressBar.setVisibility(View.GONE);
-                            stopLoadingFragment(loadingFragment);
+                            stopLoadingFragment(loadingDialogFragment);
                             if (task.isSuccessful()) {
                                 FirebaseUser user = auth.getCurrentUser();
                                 String email = user.getEmail();
@@ -205,18 +205,18 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
     }
 
     private void recoverPassword() {
-        RecoverPasswordFragment recoverPasswordFragment = new RecoverPasswordFragment();
-        recoverPasswordFragment.setCancelable(false);
-        recoverPasswordFragment.show(fragmentManager, Constant.RECOVER_PASSWORD_FRAGMENT);
+        RecoverPasswordDialogFragment recoverPasswordDialogFragment = new RecoverPasswordDialogFragment();
+        recoverPasswordDialogFragment.setCancelable(false);
+        recoverPasswordDialogFragment.show(fragmentManager, Constant.RECOVER_PASSWORD_FRAGMENT);
     }
 
-    private void startLoadingFragment(LoadingFragment loadingFragment) {
-        loadingFragment.setCancelable(false);
-        loadingFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
+    private void startLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
+        loadingDialogFragment.setCancelable(false);
+        loadingDialogFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
     }
 
-    private void stopLoadingFragment(LoadingFragment loadingFragment) {
-        loadingFragment.dismiss();
+    private void stopLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
+        loadingDialogFragment.dismiss();
     }
 
     private void startParentSignedInActivity() {
@@ -235,13 +235,13 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
     }
 
     private void checkMode(String email) {
-        final LoadingFragment loadingFragment = new LoadingFragment();
-        startLoadingFragment(loadingFragment);
+        final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+        startLoadingFragment(loadingDialogFragment);
         Query query = databaseReference.child("parents").orderByChild("email").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                loadingFragment.dismiss();
+                loadingDialogFragment.dismiss();
                 if (dataSnapshot.exists()) {
                     startParentSignedInActivity();
 

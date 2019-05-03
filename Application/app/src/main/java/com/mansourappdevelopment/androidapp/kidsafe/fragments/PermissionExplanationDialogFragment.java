@@ -15,7 +15,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExpla
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 
-public class PermissionExplanationFragment extends DialogFragment {
+public class PermissionExplanationDialogFragment extends DialogFragment {
     private TextView txtPermissionHeader;
     private Button btnOkPermission;
     private Button btnCancelPermission;

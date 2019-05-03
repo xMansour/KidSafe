@@ -14,7 +14,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPasswordResetListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Validators;
 
-public class RecoverPasswordFragment extends DialogFragment {
+public class RecoverPasswordDialogFragment extends DialogFragment {
     private EditText txtRecoveryEmail;
     private Button btnRecoverPassword;
     private Button btnCancelRecoverPassword;
