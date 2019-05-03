@@ -9,12 +9,15 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.mansourappdevelopment.androidapp.kidsafe.AppCompatPreferenceActivity;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.AccountUtils;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.SharedPrefsUtils;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
     private static final String TAG = "SettingsActivityTAG";
@@ -107,15 +110,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
+                String appLanguage = SharedPrefsUtils.getStringPreference(context, Constant.APP_LANGUAGE);
+
                 if (index == 0) {
-                    LocaleUtils.setLocale(context, "en");
-                    restartApp();   //TODO:: best solution ?
+                    if (!appLanguage.equals("en")) {
+                        LocaleUtils.setLocale(context, "en");
+                        restartApp();   //TODO:: best solution ?
+
+                    }
+
 
                 } else if (index == 1) {
-                    LocaleUtils.setLocale(context, "ar");
-                    restartApp();
+                    if (!appLanguage.equals("ar")) {
+                        LocaleUtils.setLocale(context, "ar");
+                        restartApp();
+                    }
+
 
                 }
+
 
                 // Set the summary to reflect the new value.
                 preference.setSummary(
@@ -157,6 +170,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
-    }
 
+    }
 }

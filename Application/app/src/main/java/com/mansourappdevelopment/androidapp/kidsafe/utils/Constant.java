@@ -49,4 +49,5 @@ public class Constant {
     public static final String KID_SAFE_PREFS = "com.mansourappdevelopment.androidapp.kidsafe.utils.KID_SAFE_PREFS";
     public static final String CHILD_FIRST_LAUNCH = "com.mansourappdevelopment.androidapp.kidsafe.utils.CHILD_FIRST_LAUNCH";
 
+    public static final String CONFIRMATION_FRAGMENT_TAG = "com.mansourappdevelopment.androidapp.kidsafe.utils.CONFIRMATION_FRAGMENT_TAG";
 }

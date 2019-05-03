@@ -14,7 +14,7 @@ public class LoadingFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_loading, container, false);
+        return inflater.inflate(R.layout.fragment_dialog_loading, container, false);
     }
 
 

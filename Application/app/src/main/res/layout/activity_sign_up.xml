@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_white"
+    android:background="@color/white"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
@@ -26,9 +26,9 @@
                 android:layout_width="@dimen/circular_image_width_large"
                 android:layout_height="@dimen/circular_image_height_large"
                 android:src="@drawable/ic_profile_image"
-                app:civ_border_color="@color/blue"
+                app:civ_border_color="@color/flatui_clouds"
                 app:civ_border_width="@dimen/circular_image_border_large"
-                app:civ_circle_background_color="@color/light_blue" />
+                app:civ_circle_background_color="@color/flatui_clouds" />
 
 
             <LinearLayout
@@ -39,31 +39,22 @@
 
                 <EditText
                     android:id="@+id/txtSignUpName"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_8dp"
+                    style="@style/DialogFragmentEditText"
                     android:drawableStart="@drawable/ic_person"
-                    android:drawablePadding="@dimen/padding_8dp"
                     android:hint="@string/name"
                     android:inputType="textPersonName" />
 
                 <EditText
                     android:id="@+id/txtSignUpEmail"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_8dp"
+                    style="@style/DialogFragmentEditText"
                     android:drawableStart="@drawable/ic_mail"
-                    android:drawablePadding="@dimen/padding_8dp"
                     android:hint="@string/email_address"
                     android:inputType="textEmailAddress" />
 
                 <EditText
                     android:id="@+id/txtSignUpPassword"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_8dp"
+                    style="@style/DialogFragmentEditText"
                     android:drawableStart="@drawable/ic_lock"
-                    android:drawablePadding="@dimen/padding_8dp"
                     android:hint="@string/password"
                     android:inputType="textPassword" />
 
@@ -101,7 +92,7 @@
                     android:layout_height="1dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
-                    android:background="@color/black" />
+                    android:background="@color/flatui_asbestos" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,14 +100,14 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
                     android:text="@string/or"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/flatui_asbestos" />
 
                 <View
                     android:layout_width="100dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
-                    android:background="@color/black" />
+                    android:background="@color/flatui_asbestos" />
             </LinearLayout>
 
             <Button

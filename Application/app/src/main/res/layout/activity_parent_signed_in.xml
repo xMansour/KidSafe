@@ -47,7 +47,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/margin_8dp"
             android:src="@drawable/ic_face"
-            app:civ_border_color="@color/blue"
+            app:civ_border_color="@color/flatui_clouds"
             app:civ_border_width="@dimen/circular_image_border_large" />
 
         <TextView
@@ -57,8 +57,8 @@
             android:layout_margin="@dimen/margin_8dp"
             android:text="@string/parent_name"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_large_size"
+            android:textColor="@color/flatui_midnight_blue"
+            android:textSize="@dimen/text_size_24sp"
             android:textStyle="bold" />
 
 
@@ -93,6 +93,7 @@
             android:layout_marginLeft="@dimen/margin_8dp"
             android:layout_marginRight="@dimen/margin_8dp"
             android:background="@color/github_dark_white" />-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,7 +107,7 @@
                 android:layout_height="1dp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_8dp"
-                android:background="@color/black" />
+                android:background="@color/flatui_asbestos" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -114,14 +115,14 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_8dp"
                 android:text="@string/kids"
-                android:textColor="@color/black" />
+                android:textColor="@color/flatui_asbestos" />
 
             <View
                 android:layout_width="100dp"
                 android:layout_height="1dp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_8dp"
-                android:background="@color/black" />
+                android:background="@color/flatui_asbestos" />
         </LinearLayout>
 
         <TextView
@@ -131,7 +132,7 @@
             android:layout_margin="@dimen/margin_24dp"
             android:text="@string/no_kids_added_yet"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/flatui_wet_asphalt"
             android:textSize="@dimen/text_size_16sp"
             android:visibility="gone"
             tools:visibility="visible" />

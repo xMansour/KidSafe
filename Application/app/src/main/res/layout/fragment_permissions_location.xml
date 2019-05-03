@@ -15,14 +15,8 @@
         android:src="@drawable/ic_face" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_128dp"
-        android:text="@string/permission_explanation"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_16sp"
-        android:textStyle="bold" />
+        style="@style/TextViewPermissionsExplanation"
+        android:text="@string/permission_explanation" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,9 +30,7 @@
             android:padding="@dimen/padding_8dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center"
+                style="@style/TextViewPermissions"
                 android:text="@string/location_permission" />
 
             <Switch
@@ -57,14 +49,22 @@
 
         <Button
             android:id="@+id/btnPermissionsLocationPrev"
+            style="@style/CancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:text="@string/back" />
+
+        <!--<Button
+            android:id="@+id/btnPermissionsLocationPrev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:background="@android:color/transparent"
             android:text="@string/back"
             android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16sp" />
+            android:textColor="@color/black_1"
+            android:textSize="@dimen/text_size_16sp" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -107,14 +107,22 @@
 
         <Button
             android:id="@+id/btnPermissionsLocationNext"
+            style="@style/OkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:text="@string/next" />
+
+        <!--<Button
+            android:id="@+id/btnPermissionsLocationNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
             android:background="@android:color/transparent"
             android:text="@string/next"
             android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16sp" />
+            android:textColor="@color/flatui_midnight_blue"
+            android:textSize="@dimen/text_size_16sp" />-->
 
 
     </FrameLayout>

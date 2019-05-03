@@ -50,7 +50,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (buttonView.isPressed()) {
-                        int position = getPosition();
+                        int position = getAdapterPosition();
                         onChildClickListener.onWebFilterClick(isChecked, childs.get(position));
                     }
 
@@ -73,9 +73,8 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (buttonView.isPressed()) {
-                        int position = getPosition();
+                        int position = getAdapterPosition();
                         onChildClickListener.onBtnLockClick(isChecked, childs.get(position));
-
                     }
                 }
             });
@@ -94,6 +93,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
     public void onBindViewHolder(@NonNull final ChildAdapterViewHolder childAdapterViewHolder, int i) {
         User child = childs.get(i);
         childAdapterViewHolder.txtChildName.setText(child.getName());
+        childAdapterViewHolder.switchLockPhone.setChecked(child.getScreenLock().isLocked());
         Picasso.get().load(child.getProfileImage()).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(childAdapterViewHolder.imgChild);
 
     }

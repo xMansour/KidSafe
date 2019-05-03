@@ -33,6 +33,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListe
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -155,16 +156,19 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                //String key = dataSnapshot.getKey();
-                User parent = nodeShot.getValue(User.class);
-                String parentName = parent.getName();
-                String profileImageUrl = parent.getProfileImage();
-                Picasso.get().load(profileImageUrl).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(imgParent);
-                progressBar.setVisibility(View.GONE);
-                linearLayout.setVisibility(View.VISIBLE);
-                toolbar.setVisibility(View.VISIBLE);
-                txtParentName.setText(parentName);
+                if (dataSnapshot.exists()) {
+                    DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+                    //String key = dataSnapshot.getKey();
+                    User parent = nodeShot.getValue(User.class);
+                    String parentName = parent.getName();
+                    String profileImageUrl = parent.getProfileImage();
+                    Picasso.get().load(profileImageUrl).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(imgParent);
+                    progressBar.setVisibility(View.GONE);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    toolbar.setVisibility(View.VISIBLE);
+                    txtParentName.setText(parentName);
+                }
+
             }
 
             @Override
@@ -246,6 +250,8 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
         if (checked) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             PhoneLockFragment phoneLockFragment = new PhoneLockFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.CHILD_NAME_EXTRA, child.getName());
             phoneLockFragment.setCancelable(false);//TODO:: add this to all the other dialog fragments
             phoneLockFragment.show(fragmentManager, "PhoneLockFragment");
         } else {

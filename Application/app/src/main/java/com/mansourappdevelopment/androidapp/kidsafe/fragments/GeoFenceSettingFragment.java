@@ -15,20 +15,21 @@ import android.widget.TextView;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnGeoFenceSettingListener;
 
-import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_EMAIL_EXTRA;
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_NAME_EXTRA;
 
 public class GeoFenceSettingFragment extends DialogFragment {
     private Spinner spinnerGeoFenceEntries;
     private EditText txtGeoFenceDiameter;
     private TextView txtGeoFenceHeader;
+    private TextView txtGeoFenceBody;
     private Button btnSetGeoFence;
+    private Button btnCancelSetGeoFence;
     private OnGeoFenceSettingListener onGeoFenceSettingListener;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_geo_fence, container, false);
+        View view = inflater.inflate(R.layout.fragment_dialog_geo_fence, container, false);
         return view;
     }
 
@@ -37,6 +38,7 @@ public class GeoFenceSettingFragment extends DialogFragment {
         spinnerGeoFenceEntries = (Spinner) view.findViewById(R.id.spinnerGeoFenceEntries);
         txtGeoFenceDiameter = (EditText) view.findViewById(R.id.txtGeoFenceDiameter);
         txtGeoFenceHeader = (TextView) view.findViewById(R.id.txtGeoFenceHeader);
+        txtGeoFenceBody = (TextView) view.findViewById(R.id.txtGeoFenceBody);
         btnSetGeoFence = (Button) view.findViewById(R.id.btnSetGeoFence);
 
         btnSetGeoFence.setOnClickListener(new View.OnClickListener() {
@@ -55,9 +57,21 @@ public class GeoFenceSettingFragment extends DialogFragment {
 
             }
         });
+        btnCancelSetGeoFence = (Button) view.findViewById(R.id.btnCancelSetGeoFence);
+        btnCancelSetGeoFence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onGeoFenceSettingListener.onCancelFence();
+                dismiss();
+            }
+        });
 
-        String header = getResources().getString(R.string.setup_a_geofence) + " " + getChildName();
+        String header = getResources().getString(R.string.setup_a_geofence) + " " + getString(R.string.on) + " " + getChildName();
         txtGeoFenceHeader.setText(header);
+
+        String body = getResources().getString(R.string.setup_a_geofence) + " " + getString(R.string.on) + " " + getChildName()
+                + " " + getString(R.string.if_he_exceeded_it_you_will_be_alerted);
+        txtGeoFenceBody.setText(body);
     }
 
     private String getChildName() {

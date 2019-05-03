@@ -26,4 +26,9 @@ public class Validators {
         return true;
 
     }
+
+
+    public static boolean isValidName(String name) {
+        return name.length() <= 15;
+    }
 }

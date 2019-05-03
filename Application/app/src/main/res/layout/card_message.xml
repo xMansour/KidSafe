@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_8dp"
-    app:cardBackgroundColor="@color/white"
+    android:background="@color/white"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/card_elevation">
 
@@ -16,86 +16,57 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_8dp"
-                android:text="@string/sender_phone_number"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_mid_size"
-                android:textStyle="bold" />
+                style="@style/CardTextViewActivityHeader"
+                android:text="@string/sender_phone_number" />
 
             <TextView
                 android:id="@+id/txtSenderPhoneNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_8dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_mid_size" />
+                style="@style/CardTextViewActivityBody" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_8dp"
-                android:text="@string/message_body"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_mid_size"
-                android:textStyle="bold" />
+                style="@style/CardTextViewActivityHeader"
+                android:text="@string/message_body" />
 
             <TextView
                 android:id="@+id/txtMessageBody"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_8dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_mid_size" />
+                style="@style/CardTextViewActivityBody" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_8dp"
-                android:text="@string/time_received"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_mid_size"
-                android:textStyle="bold" />
+                style="@style/CardTextViewActivityHeader"
+                android:text="@string/time_received" />
 
             <TextView
                 android:id="@+id/txtTimeReceived"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_8dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_mid_size" />
+                style="@style/CardTextViewActivityBody" />
 
         </LinearLayout>
+
         <Button
             android:id="@+id/btnDeleteMessage"
+            style="@style/OkButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/delete"
-            style="@style/OkButton" />
+            android:layout_margin="@dimen/margin_8dp"
+            android:text="@string/delete" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

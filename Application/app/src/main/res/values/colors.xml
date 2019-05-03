@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">@color/light_black_2</color>
-    <color name="colorAccent">@color/green</color>
+    <color name="colorPrimaryDark">@color/flatui_silver</color>
+    <color name="colorAccent">@color/flatui_turquoise</color>
 
-    <color name="black">#000000</color>
-    <color name="red">#D0021B</color>
-    <color name="dark_red">#B00020</color>
+
     <color name="white">#FFFFFF</color>
-    <color name="dark_white">#F2F2F2</color>
-    <color name="blue">#2F9CF6</color>
-    <color name="light_blue">#91CDFF</color>
-    <color name="light_grey">#E7E7E7</color>
-    <color name="github_black">#24292e</color>
-    <color name="github_light_black">#2b3137</color>
-    <color name="github_dark_white">#CFCFCF</color>
-    <color name="github_white">#ffffff</color>
-    <color name="github_green">#2dba4e</color>
-    <color name="github_light_green">#A0CEA9</color>
-    <color name="twitter_blue">#5BAAF4</color>
-    <color name="facebook_blue">#3B5998</color>
-    <color name="light_green">#43C5A5</color>
-    <color name="green">#00E5A5</color>
-    <color name="black_2">#757575</color>
-    <color name="light_black_1">#818181</color>
-    <color name="light_black_2">#BDBDBD</color>
-    <color name="light_grey_1">#ECECEC</color>
-
+    <color name="black">#000000</color>
+    <color name="flatui_turquoise">#1abc9c</color>
+    <color name="flatui_green_sea">#16a085</color>
+    <color name="flatui_emerald">#2ecc71</color>
+    <color name="flatui_nephritis">#27ae60</color>
+    <color name="flatui_peter_river">#3498db</color>
+    <color name="flatui_belize_hole">#2980b9</color>
+    <color name="flatui_amethyst">#9b59b6</color>
+    <color name="flatui_wisteria">#8e44ad</color>
+    <color name="flatui_wet_asphalt">#34495e</color>
+    <color name="flatui_midnight_blue">#2c3e50</color>
+    <color name="flatui_sun_flower">#f1c40f</color>
+    <color name="flatui_orange">#f39c12</color>
+    <color name="flatui_carrot">#e67e22</color>
+    <color name="flatui_pumpkin">#d35400</color>
+    <color name="flatui_alizarin">#e74c3c</color>
+    <color name="flatui_pomegranate">#c0392b</color>
+    <color name="flatui_clouds">#ecf0f1</color>
+    <color name="flatui_silver">#bdc3c7</color>
+    <color name="flatui_concrete">#95a5a6</color>
+    <color name="flatui_asbestos">#7f8c8d</color>
 </resources>

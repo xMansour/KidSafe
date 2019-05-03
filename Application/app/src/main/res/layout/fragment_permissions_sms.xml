@@ -15,14 +15,8 @@
         android:src="@drawable/ic_face" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_128dp"
-        android:text="@string/permission_explanation"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_16sp"
-        android:textStyle="bold" />
+        style="@style/TextViewPermissionsExplanation"
+        android:text="@string/permission_explanation" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,9 +30,7 @@
             android:padding="@dimen/padding_8dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center"
+                style="@style/TextViewPermissions"
                 android:text="@string/send_sms_permission" />
 
             <Switch
@@ -54,9 +46,7 @@
             android:padding="@dimen/padding_8dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center"
+                style="@style/TextViewPermissions"
                 android:text="@string/read_sms_permission" />
 
             <Switch
@@ -72,9 +62,7 @@
             android:padding="@dimen/padding_8dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center"
+                style="@style/TextViewPermissions"
                 android:text="@string/receive_sms_permission" />
 
             <Switch
@@ -91,7 +79,16 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_8dp">
 
+
         <Button
+            android:id="@+id/btnPermissionsSmsPrev"
+            style="@style/CancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:text="@string/back" />
+
+        <!--<Button
             android:id="@+id/btnPermissionsSmsPrev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,8 +97,8 @@
             android:text="@string/back"
 
             android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16sp" />
+            android:textColor="@color/black_1"
+            android:textSize="@dimen/text_size_16sp" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -145,15 +142,11 @@
 
         <Button
             android:id="@+id/btnPermissionsSmsNext"
+            style="@style/OkButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
-            android:background="@android:color/transparent"
-            android:text="@string/next"
-
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16sp" />
+            android:text="@string/next" />
 
 
     </FrameLayout>

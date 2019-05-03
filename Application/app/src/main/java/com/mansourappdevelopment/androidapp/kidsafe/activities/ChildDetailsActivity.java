@@ -64,7 +64,8 @@ public class ChildDetailsActivity extends AppCompatActivity {
         }
 
         //setTitle(childName + "'s device");
-        txtTitle.setText(childName + "'s device");
+        String title = childName + "'s device";
+        txtTitle.setText(title);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new AppsFragment()).commit();
 

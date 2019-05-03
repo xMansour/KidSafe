@@ -38,7 +38,7 @@ public class ModeSelectionFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_mode_selection, container, false);
+        view = inflater.inflate(R.layout.fragment_dialog_mode_selection, container, false);
         return view;
     }
 
@@ -89,12 +89,11 @@ public class ModeSelectionFragment extends DialogFragment {
                 if (isChecked) {
                     switchMode.setText(getString(R.string.child));
                     txtParentEmail.setEnabled(true);
-                    txtParentEmail.setBackground(getResources().getDrawable(R.drawable.edit_text_rounded));
+                    txtParentEmail.requestFocus();
                     child = true;
                 } else {
                     switchMode.setText(getString(R.string.parent));
                     txtParentEmail.setEnabled(false);
-                    txtParentEmail.setBackground(getResources().getDrawable(R.drawable.edit_text_rounded_disabled));
                     child = false;
                 }
             }
@@ -105,7 +104,7 @@ public class ModeSelectionFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (child && isValid() && valid) {
-                    onModeSelectionListener.onModeSelected(txtParentEmail.getText().toString(), true);
+                    onModeSelectionListener.onModeSelected(txtParentEmail.getText().toString().toLowerCase(), true);
                     dismiss();
                 }
                 if (!child) {

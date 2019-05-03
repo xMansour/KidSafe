@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_8dp">
+
+
+    <TextView
+        style="@style/HeaderText"
+        android:text="@string/select_mode" />
+
+    <TextView
+        style="@style/BodyText"
+        android:text="@string/select_the_mode_of_this_email_as_a_parent_or_a_child" />
+
+    <Switch
+        android:id="@+id/switchMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/parent"
+        android:textColor="@color/flatui_wet_asphalt"
+        android:textSize="@dimen/text_size_16sp"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/txtParentEmail"
+        style="@style/DialogFragmentEditText"
+        android:drawableStart="@drawable/ic_mail"
+        android:enabled="false"
+        android:hint="@string/parent_email"
+        android:inputType="textEmailAddress" />
+
+    <Button
+        android:id="@+id/btnModeSelection"
+        style="@style/OkButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/ok" />
+
+    <Button
+        android:id="@+id/btnCancelModeSelection"
+        style="@style/CancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/cancel"
+        android:textAllCaps="false" />
+</LinearLayout>

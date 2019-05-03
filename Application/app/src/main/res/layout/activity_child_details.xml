@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        app:itemIconTint="@color/black_2"
-        app:itemTextColor="@color/black_2"
+        app:itemIconTint="@color/flatui_wet_asphalt"
+        app:itemTextColor="@color/flatui_wet_asphalt"
         app:menu="@menu/bottom_navigation_items" />
 </RelativeLayout>

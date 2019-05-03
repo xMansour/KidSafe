@@ -17,7 +17,7 @@ public class LocaleUtils {
         saveSelectedLanguage(context, language);
     }
 
-    private static boolean updateResources(Context context, String language) {
+    private static void updateResources(Context context, String language) {
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Resources resources = context.getResources();
@@ -25,7 +25,6 @@ public class LocaleUtils {
         context.createConfigurationContext(configuration);
         configuration.locale = locale;
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
-        return true;
     }
 
     private static void saveSelectedLanguage(Context context, String selectedLanguage) {
@@ -37,9 +36,9 @@ public class LocaleUtils {
         String appLanguage = SharedPrefsUtils.getStringPreference(context, Constant.APP_LANGUAGE);
         boolean languageSelected = SharedPrefsUtils.getBooleanPreference(context, Constant.LANGUAGE_SELECTED, false);
         if (languageSelected) {
-            LocaleUtils.setLocale(context, appLanguage);
             SharedPrefsUtils.setStringPreference(context, Constant.APP_LANGUAGE, appLanguage);
             SharedPrefsUtils.setBooleanPreference(context, Constant.LANGUAGE_SELECTED, true);
+            LocaleUtils.setLocale(context, appLanguage);
         } else {
             LocaleUtils.setLocale(context, getAppLanguage());
             SharedPrefsUtils.setStringPreference(context, Constant.APP_LANGUAGE, appLanguage);

@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_8dp"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="3dp"
-    app:cardElevation="1dp">
+    android:background="@color/white"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -24,33 +24,24 @@
                 android:layout_height="@dimen/circular_image_height_small"
                 android:layout_margin="@dimen/margin_8dp"
                 android:src="@drawable/ic_face"
-                app:civ_border_color="@color/blue"
-                app:civ_border_width="@dimen/circular_image_border_small"
-                app:civ_circle_background_color="@color/dark_white" />
-
-            <TextView
-                android:id="@+id/txtChildName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_8dp"
-                android:text="@string/child_name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_mid_size"
-                android:textStyle="bold" />
+                app:civ_border_color="@color/flatui_clouds"
+                app:civ_border_width="@dimen/circular_image_border_small" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
 
+                <TextView
+                    android:id="@+id/txtChildName"
+                    style="@style/CardTextViewActivityHeader"
+                    android:layout_gravity="start|center"
+                    android:text="@string/child_name" />
+
+
                 <Switch
                     android:id="@+id/switchLockPhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:layout_margin="@dimen/margin_8dp"
-                    android:gravity="center" />
+                    style="@style/CardSwitch" />
 
             </FrameLayout>
         </LinearLayout>
@@ -62,13 +53,8 @@
             android:paddingLeft="64dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8dp"
+                style="@style/CardTextViewActivityHeader"
                 android:text="@string/web_filter"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_mid_size"
-                android:textStyle="bold"
                 android:visibility="gone" />
 
             <Switch

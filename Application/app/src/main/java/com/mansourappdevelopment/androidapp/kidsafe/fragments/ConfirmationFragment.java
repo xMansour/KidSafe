@@ -23,12 +23,13 @@ public class ConfirmationFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_confirmation, container, false);
+        return inflater.inflate(R.layout.fragment_dialog_confirmation, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        onConfirmationListener = (OnConfirmationListener) getActivity();
         Bundle bundle = getArguments();
         String confirmationMessage = bundle.getString(Constant.CONFIRMATION_MESSAGE);
 
@@ -43,6 +44,7 @@ public class ConfirmationFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 onConfirmationListener.onConfirm();
+                dismiss();
             }
 
         });
@@ -50,7 +52,8 @@ public class ConfirmationFragment extends DialogFragment {
         btnCancelConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onConfirmationListener.onDismiss();
+                onConfirmationListener.onConfirmationCancel();
+                dismiss();
             }
         });
 

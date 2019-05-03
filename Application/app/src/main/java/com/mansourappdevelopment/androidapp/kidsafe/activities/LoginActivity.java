@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPasswordResetListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingFragment;
@@ -41,7 +42,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordFra
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.SharedPrefsUtils;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements OnPasswordResetListener {
     private static final String TAG = "LoginActivityTAG";
     private EditText txtLogInEmail;
     private EditText txtLogInPassword;
@@ -257,7 +258,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void autoLogin() {
-        SharedPrefsUtils.getBooleanPreference(this, Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
+        SharedPrefsUtils.setBooleanPreference(this, Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
         SharedPrefsUtils.setStringPreference(this, Constant.EMAIL, txtLogInEmail.getText().toString());
         SharedPrefsUtils.setStringPreference(this, Constant.PASSWORD, txtLogInPassword.getText().toString());
 
@@ -310,4 +311,28 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onOkClicked(String email) {
+        recoverPassword(email);
+    }
+
+    @Override
+    public void onCancelClicked() {
+        Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    private void recoverPassword(String email) {
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, getString(R.string.password_reset_email_sent), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
 }

@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 public class PhoneLockFragment extends DialogFragment {
     private Button btnLock;
@@ -23,22 +25,31 @@ public class PhoneLockFragment extends DialogFragment {
     private LinearLayout layoutLockTime;
     private EditText txtLockHours;
     private EditText txtLockMinutes;
+    private TextView txtLockHeader;
+    private TextView txtLockBody;
     private OnChildClickListener onChildClickListener;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_lock, container, false);
+        return inflater.inflate(R.layout.fragment_dialog_lock, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         onChildClickListener = (OnChildClickListener) getActivity();
+        Bundle bundle = getArguments();
+        String childName = bundle.getString(Constant.CHILD_NAME_EXTRA);
+
         btnLock = (Button) view.findViewById(R.id.btnLock);
         btnCancelLock = (Button) view.findViewById(R.id.btnCancelLock);
         layoutLockTime = (LinearLayout) view.findViewById(R.id.layoutLockTime);
         txtLockHours = (EditText) view.findViewById(R.id.txtLockHours);
         txtLockMinutes = (EditText) view.findViewById(R.id.txtLockMinutes);
+        txtLockHeader = (TextView) view.findViewById(R.id.txtLockHeader);
+        txtLockBody = (TextView) view.findViewById(R.id.txtLockBody);
+
+
         spinnerLockEntries = (Spinner) view.findViewById(R.id.spinnerLockEntries);
         spinnerLockEntries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -84,6 +95,12 @@ public class PhoneLockFragment extends DialogFragment {
                 dismiss();
             }
         });
+
+        String header = getString(R.string.lock) + " " + childName + " " + getString(R.string.phone);
+        txtLockHeader.setText(header);
+
+        String body = getString(R.string.lock) + " " + childName + " " + getString(R.string.phone) + " " + getString(R.string.now_or_after_a_period);
+        txtLockBody.setText(body);
 
     }
 

@@ -9,65 +9,50 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPasswordResetListener;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Validators;
 
 public class RecoverPasswordFragment extends DialogFragment {
     private EditText txtRecoveryEmail;
     private Button btnRecoverPassword;
-    private FirebaseAuth auth;
+    private Button btnCancelRecoverPassword;
+    private OnPasswordResetListener onPasswordResetListener;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_recover_password, container, false);
+        return inflater.inflate(R.layout.fragment_dialog_recover_password, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        auth = FirebaseAuth.getInstance();
-
+        onPasswordResetListener = (OnPasswordResetListener) getActivity();
         txtRecoveryEmail = view.findViewById(R.id.txtRecoveryEmail);
         btnRecoverPassword = view.findViewById(R.id.btnRecoverPassword);
         btnRecoverPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = txtRecoveryEmail.getText().toString();
-                recoverPassword(email);
+                if (Validators.isValidEmail(email)) {
+                    onPasswordResetListener.onOkClicked(email);
+                    dismiss();
+                } else {
+                    txtRecoveryEmail.setError(getString(R.string.enter_valid_email));
+                }
+            }
+        });
+
+        btnCancelRecoverPassword = (Button) view.findViewById(R.id.btnCancelRecoverPassword);
+        btnCancelRecoverPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPasswordResetListener.onCancelClicked();
+                dismiss();
             }
         });
     }
 
-    //TODO:: need to validate if the email exists
-    private boolean validateForm() {
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        if (txtRecoveryEmail.getText().toString().equals("")) {
-            txtRecoveryEmail.setError("Enter your email");
-            return false;
-        } else if (!txtRecoveryEmail.getText().toString().trim().matches(emailPattern)) {
-            txtRecoveryEmail.setError("Enter a valid email");
-            return false;
-        }
-        return true;
-    }
-
-    private void recoverPassword(String email) {
-        if (validateForm()) {
-            auth.sendPasswordResetEmail(email)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "Password reset email sent, it may be within your drafts", Toast.LENGTH_LONG).show();
-                                dismiss();
-                            }
-                        }
-                    });
-        }
-    }
 
 }

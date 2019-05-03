@@ -43,16 +43,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.fragments.ConfirmationFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.fragments.ModeSelectionFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnConfirmationListener;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnModeSelectionListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Validators;
+
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SignUpActivity extends AppCompatActivity implements OnModeSelectionListener {
+public class SignUpActivity extends AppCompatActivity implements OnModeSelectionListener, OnConfirmationListener {
     private static final String TAG = "SingUpActivityTAG";
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -101,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = txtSignUpEmail.getText().toString();
+                String email = txtSignUpEmail.getText().toString().toLowerCase();
                 String password = txtSignUpPassword.getText().toString();
                 signUp(email, password);
             }
@@ -360,27 +365,73 @@ public class SignUpActivity extends AppCompatActivity implements OnModeSelection
 
         if (txtSignUpName.getText().toString().equals("")) {
             txtSignUpName.setError(getString(R.string.enter_your_name));
+            txtSignUpName.requestFocus();
             return false;
         }
+
+        if (!Validators.isValidName(txtSignUpName.getText().toString())) {
+            txtSignUpName.setError(getString(R.string.name_validation));
+            txtSignUpName.requestFocus();
+
+            return false;
+        }
+
 
         if (txtSignUpEmail.getText().toString().equals("")) {
             txtSignUpEmail.setError(getString(R.string.enter_your_email));
+            txtSignUpEmail.requestFocus();
+
             return false;
         }
+
+
+        if (!txtSignUpEmail.getText().toString().trim().matches(emailPattern)) {
+            txtSignUpEmail.setError(getString(R.string.enter_valid_email));
+            txtSignUpEmail.requestFocus();
+
+            return false;
+        }
+
+
         if (txtSignUpPassword.getText().toString().equals("")) {
             txtSignUpPassword.setError(getString(R.string.enter_your_password));
+            txtSignUpPassword.requestFocus();
+
             return false;
 
         }
-        if (!txtSignUpEmail.getText().toString().trim().matches(emailPattern)) {
-            txtSignUpEmail.setError(getString(R.string.enter_valid_email));
+
+        if (imageUri == null) {
+            ConfirmationFragment confirmationFragment = new ConfirmationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.CONFIRMATION_MESSAGE, getString(R.string.would_you_love_to_add_a_profile_image));
+            confirmationFragment.setArguments(bundle);
+            confirmationFragment.setCancelable(false);
+            confirmationFragment.show(fragmentManager, Constant.CONFIRMATION_FRAGMENT_TAG);
             return false;
         }
+
 
         if (txtSignUpPassword.getText().toString().length() < 6) {
             txtSignUpPassword.setError(getString(R.string.enter_valid_password));
+            txtSignUpPassword.requestFocus();
+
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onConfirm() {
+        imgProfile.requestFocus();
+        Toast.makeText(this, getString(R.string.please_add_a_profile_image), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConfirmationCancel() {
+        imageUri = Uri.parse("android.resource://com.mansourappdevelopment.androidapp.kidsafe/" + R.drawable.ic_person);
+        signUp(txtSignUpEmail.getText().toString().toLowerCase(), txtSignUpPassword.toString());
+        //TODO:: default image here
+        Log.i(TAG, "onConfirmationCancel: DONE");
     }
 }

@@ -3,8 +3,8 @@
     android:shape="oval">
 
     <corners android:radius="10dip" />
-    <stroke
-        android:width="5dip"
-        android:color="@color/dark_white" />
-    <solid android:color="@color/blue" />
+    <!--<stroke
+        android:width="5dp"
+        android:color="@color/flatui_clouds" />-->
+    <solid android:color="@color/white" />
 </shape>

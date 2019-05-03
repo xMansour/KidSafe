@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_8dp">
+
+    <TextView
+        android:id="@+id/txtGeoFenceHeader"
+        style="@style/HeaderText"
+        android:text="@string/setup_a_geofence" />
+
+    <TextView
+        android:id="@+id/txtGeoFenceBody"
+        style="@style/BodyText"
+        android:text="@string/confirm" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp">
+
+        <TextView
+            style="@style/BodyText"
+            android:text="@string/select_geofence_s_center"
+            android:textAlignment="textStart" />
+
+        <Spinner
+            android:id="@+id/spinnerGeoFenceEntries"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:entries="@array/geo_fence_entries" />
+
+    </FrameLayout>
+
+
+    <EditText
+        android:id="@+id/txtGeoFenceDiameter"
+        style="@style/DialogFragmentEditText"
+        android:hint="@string/diameter_in_meters"
+        android:inputType="number"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btnSetGeoFence"
+        style="@style/OkButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/ok" />
+
+    <Button
+        android:id="@+id/btnCancelSetGeoFence"
+        style="@style/CancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/cancel" />
+</LinearLayout>

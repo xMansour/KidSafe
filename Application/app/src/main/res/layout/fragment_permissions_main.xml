@@ -14,14 +14,8 @@
         android:src="@drawable/ic_face" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_128dp"
-        android:text="@string/permission_explanation"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_16sp"
-        android:textStyle="bold" />
+        style="@style/TextViewPermissionsExplanation"
+        android:text="@string/permission_explanation" />
 
     <FrameLayout
         android:id="@+id/linearLayoutMainControls"
@@ -29,7 +23,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_8dp">
 
-        <Button
+        <!--<Button
             android:id="@+id/btnPermissionsMainNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,8 +31,16 @@
             android:background="@android:color/transparent"
             android:text="@string/next"
             android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16sp" />
+            android:textColor="@color/black_1"
+            android:textSize="@dimen/text_size_16sp" />-->
+
+        <Button
+            android:id="@+id/btnPermissionsMainNext"
+            style="@style/OkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:text="@string/next" />
 
         <LinearLayout
             android:layout_width="wrap_content"

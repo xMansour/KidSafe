@@ -34,14 +34,7 @@
     <dimen name="text_size_24sp">24sp</dimen>
     <dimen name="text_size_32sp">32sp</dimen>
 
-    <dimen name="text_small_size">8sp</dimen>
-    <dimen name="text_mid_size">16sp</dimen>
-    <dimen name="text_large_size">24sp</dimen>
-    <dimen name="button_corner_radius">5dp</dimen>
-    <dimen name="edit_text_cornor_radius">5dp</dimen>
-    <dimen name="edit_text_stroke_width">2dp</dimen>
-    <dimen name="recycler_view_stroke_width">2dp</dimen>
-    <dimen name="recycler_view_corner_radius">2dp</dimen>
+
     <dimen name="card_corner_radius">3dp</dimen>
     <dimen name="card_elevation">1dp</dimen>
 </resources>

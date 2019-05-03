@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
@@ -10,29 +11,24 @@
 
     <TextView
         android:id="@+id/txtLockAppHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_16dp"
-        android:text="@string/lock_appname"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_mid_size"
-        android:textStyle="bold" />
+        style="@style/HeaderText"
+        android:text="@string/lock_appname" />
 
     <Spinner
         android:id="@+id/spinnerLockAppEntries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_16dp"
+        android:layout_margin="@dimen/margin_8dp"
         android:entries="@array/timer_entries"
         android:textAlignment="center" />
 
 
     <LinearLayout
         android:id="@+id/layoutLockAppTime"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_16dp"
+        android:layout_margin="@dimen/margin_8dp"
+        android:background="@drawable/edit_text_rounded"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="gone"
@@ -42,6 +38,8 @@
             android:id="@+id/txtLockAppHours"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8dp"
+            android:background="@drawable/edit_text_rounded"
             android:hint="@string/hh"
             android:inputType="number"
             android:maxLength="2"
@@ -52,12 +50,15 @@
             android:layout_height="wrap_content"
             android:text="@string/two_dots"
             android:textAlignment="center"
-            android:textSize="@dimen/text_mid_size" />
+            android:textColor="@color/flatui_midnight_blue"
+            android:textSize="@dimen/text_size_16sp" />
 
         <EditText
             android:id="@+id/txtLockAppMinutes"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8dp"
+            android:background="@drawable/edit_text_rounded"
             android:hint="@string/mm"
             android:inputType="number"
             android:maxLength="2"
@@ -68,27 +69,17 @@
 
     <Button
         android:id="@+id/btnLockApp"
+        style="@style/OkButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_16dp"
-        android:background="@drawable/button"
-        android:text="@string/ok"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_mid_size"
-        android:textStyle="bold" />
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/ok" />
 
     <Button
         android:id="@+id/btnCancelLockApp"
+        style="@style/CancelButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_16dp"
-        android:background="@drawable/button_disabled"
-        android:text="@string/cancel"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_mid_size"
-        android:textStyle="bold" />
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/cancel" />
 </LinearLayout>

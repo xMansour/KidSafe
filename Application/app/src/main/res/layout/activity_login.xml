@@ -34,14 +34,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/kid"
-                    android:textColor="@color/black"
+                    android:textColor="@color/flatui_midnight_blue"
                     android:textSize="@dimen/text_size_32sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/safe"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/flatui_turquoise"
                     android:textSize="@dimen/text_size_32sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -71,21 +71,15 @@
 
                 <EditText
                     android:id="@+id/txtLogInEmail"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_8dp"
+                    style="@style/DialogFragmentEditText"
                     android:drawableStart="@drawable/ic_mail"
-                    android:drawablePadding="@dimen/padding_8dp"
                     android:hint="@string/email_address"
                     android:inputType="textEmailAddress" />
 
                 <EditText
                     android:id="@+id/txtLogInPassword"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_8dp"
+                    style="@style/DialogFragmentEditText"
                     android:drawableStart="@drawable/ic_lock"
-                    android:drawablePadding="@dimen/padding_8dp"
                     android:hint="@string/password"
                     android:inputType="textPassword" />
 
@@ -99,7 +93,8 @@
                         android:id="@+id/checkBoxRememberMe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/remember_me" />
+                        android:text="@string/remember_me"
+                        android:textColor="@color/flatui_wet_asphalt" />
 
                     <TextView
                         android:id="@+id/txtForgotPassword"
@@ -107,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center"
                         android:text="@string/forgot_your_password"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/flatui_turquoise" />
                 </FrameLayout>
 
             </LinearLayout>
@@ -138,7 +133,7 @@
                     android:layout_height="1dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
-                    android:background="@color/black" />
+                    android:background="@color/flatui_asbestos" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -146,14 +141,14 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
                     android:text="@string/or"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/flatui_asbestos" />
 
                 <View
                     android:layout_width="100dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_8dp"
-                    android:background="@color/black" />
+                    android:background="@color/flatui_asbestos" />
             </LinearLayout>
 
             <Button
@@ -188,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/new_here"
-                    android:textColor="@color/black"
+                    android:textColor="@color/flatui_wet_asphalt"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <TextView
@@ -196,8 +191,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_8dp"
-                    android:text="@string/sign_up"
-                    android:textColor="@color/blue"
+                    android:text="@string/sign_up_here"
+                    android:textColor="@color/flatui_turquoise"
                     android:textSize="@dimen/text_size_16sp"
                     android:textStyle="bold" />
             </LinearLayout>

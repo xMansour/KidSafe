@@ -285,6 +285,12 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
 
     }
 
+    @Override
+    public void onCancelFence() {
+        Toast.makeText(context, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+
+    }
+
     private void getUserLocation() {
         //TODO:: NEED TO OPEN THE GPS AUTOMATICALLY
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);

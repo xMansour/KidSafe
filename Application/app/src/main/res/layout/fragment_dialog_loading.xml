@@ -5,9 +5,7 @@
     android:layout_gravity="center"
     android:background="@color/white"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:paddingStart="@dimen/padding_32dp"
-    android:paddingEnd="@dimen/padding_32dp">
+    android:orientation="horizontal">
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -15,11 +13,12 @@
         android:layout_margin="@dimen/margin_8dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_8dp"
+        android:layout_marginEnd="@dimen/margin_64dp"
         android:text="@string/loading"
-        android:textColor="@color/black"
+        android:textAlignment="textStart"
+        android:textColor="@color/flatui_midnight_blue"
         android:textSize="@dimen/text_size_16sp"
         android:textStyle="bold" />
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_8dp">
+
+    <TextView
+        style="@style/HeaderText"
+        android:text="@string/permission_needed" />
+
+    <TextView
+        android:id="@+id/txtPermissionHeader"
+        style="@style/BodyText"
+        android:text="@string/permission_explanation" />
+
+
+    <Button
+        android:id="@+id/btnOkPermission"
+        style="@style/OkButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/ok" />
+
+    <Button
+        android:id="@+id/btnCancelPermission"
+        style="@style/CancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        android:text="@string/cancel" />
+
+
+</LinearLayout>
