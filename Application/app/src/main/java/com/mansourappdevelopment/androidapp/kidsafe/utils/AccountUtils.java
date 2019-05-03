@@ -280,7 +280,7 @@ public class AccountUtils {
     }
 
     private static boolean isValid(String password, final Context context) {
-        String savedPassword = SharedPrefsUtils.getStringPreference(context, Constant.PASSWORD);
+        String savedPassword = SharedPrefsUtils.getStringPreference(context, Constant.PASSWORD, "");
         return password.equals(savedPassword);
 
     }

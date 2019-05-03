@@ -13,11 +13,11 @@ public class SharedPrefsUtils {
      * @param key
      * @return The value from shared preferences, or the provided default.
      */
-    public static String getStringPreference(Context context, String key) {
+    public static String getStringPreference(Context context, String key, String defValue) {
         String value = null;
         SharedPreferences preferences = context.getSharedPreferences(Constant.KID_SAFE_PREFS, Context.MODE_PRIVATE);
         if (preferences != null) {
-            value = preferences.getString(key, null);
+            value = preferences.getString(key, defValue);
         }
         return value;
     }

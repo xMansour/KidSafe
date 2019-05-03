@@ -110,7 +110,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
-                String appLanguage = SharedPrefsUtils.getStringPreference(context, Constant.APP_LANGUAGE);
+                String appLanguage = SharedPrefsUtils.getStringPreference(context, Constant.APP_LANGUAGE, "en");
 
                 if (index == 0) {
                     if (!appLanguage.equals("en")) {

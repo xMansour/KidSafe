@@ -123,8 +123,8 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
         autoLoginPrefs = SharedPrefsUtils.getBooleanPreference(this, Constant.AUTO_LOGIN, false);
         checkBoxRememberMe.setChecked(autoLoginPrefs);
 
-        emailPrefs = SharedPrefsUtils.getStringPreference(this, Constant.EMAIL);
-        passwordPrefs = SharedPrefsUtils.getStringPreference(this, Constant.PASSWORD);
+        emailPrefs = SharedPrefsUtils.getStringPreference(this, Constant.EMAIL, "");
+        passwordPrefs = SharedPrefsUtils.getStringPreference(this, Constant.PASSWORD, "");
         if (autoLoginPrefs) {
             txtLogInEmail.setText(emailPrefs);
             txtLogInPassword.setText(passwordPrefs);

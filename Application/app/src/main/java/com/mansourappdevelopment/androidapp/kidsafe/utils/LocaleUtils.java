@@ -33,7 +33,7 @@ public class LocaleUtils {
     }
 
     public static void setAppLanguage(Context context) {
-        String appLanguage = SharedPrefsUtils.getStringPreference(context, Constant.APP_LANGUAGE);
+        String appLanguage = SharedPrefsUtils.getStringPreference(context, Constant.APP_LANGUAGE, "en");
         boolean languageSelected = SharedPrefsUtils.getBooleanPreference(context, Constant.LANGUAGE_SELECTED, false);
         if (languageSelected) {
             SharedPrefsUtils.setStringPreference(context, Constant.APP_LANGUAGE, appLanguage);
