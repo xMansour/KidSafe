@@ -1,5 +1,7 @@
 package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -23,12 +26,15 @@ public class RecoverPasswordDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dialog_recover_password, container, false);
+        //return inflater.inflate(R.layout.fragment_dialog_recover_password, container, false);
+        return inflater.inflate(R.layout.fragment_dialog_custom, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         onPasswordResetListener = (OnPasswordResetListener) getActivity();
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         txtRecoveryEmail = view.findViewById(R.id.txtRecoveryEmail);
         btnRecoverPassword = view.findViewById(R.id.btnRecoverPassword);
         btnRecoverPassword.setOnClickListener(new View.OnClickListener() {

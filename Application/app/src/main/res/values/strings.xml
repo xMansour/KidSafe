@@ -140,6 +140,11 @@
     <string name="back">Back</string>
     <string name="next">Next</string>
     <string name="permission_explanation">Permission Explanation</string>
+    <string name="permission_explanation_main">To allow KidSafe to function properly, please accept the following permissions.</string>
+    <string name="permission_explanation_sms">We need to be able to read the messages in order to show them to the parent.</string>
+    <string name="permission_explanation_phone_calls">We need to be able to get the phone calls information in order to show them to the parent.</string>
+    <string name="permission_explanation_location">We need access to the location to allow the parent to see where his child is located at real time.</string>
+    <string name="permission_explanation_settings">In order to lock the child\'s phone, lock and unlock the apps, we need the following permissions.</string>
     <string name="permission_name">Permission Name</string>
     <string name="send_sms_permission">Send SMS Permission</string>
     <string name="read_sms_permission">Read SMS Permission</string>

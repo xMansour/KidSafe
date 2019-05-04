@@ -3,3 +3,5 @@
     <solid android:color="@color/flatui_turquoise" />
     <corners android:radius="50dp" />
 </shape>
+
+

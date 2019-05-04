@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="bottom"
-    android:orientation="vertical">
+    android:background="@color/white">
 
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_24dp"
-        android:src="@drawable/ic_face" />
+        android:layout_height="200dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/ic_permissions_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView"
         style="@style/TextViewPermissionsExplanation"
-        android:text="@string/permission_explanation" />
+        android:layout_marginTop="30dp"
+        android:text="@string/permission_explanation_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:orientation="vertical"
-        android:padding="@dimen/padding_8dp">
+        android:padding="@dimen/padding_8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutSettingsControls"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -42,29 +54,19 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/linearLayoutLocationControls"
+        android:id="@+id/linearLayoutSettingsControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_8dp">
+        android:padding="@dimen/padding_8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
 
         <Button
             android:id="@+id/btnPermissionsLocationPrev"
-            style="@style/CancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
+            style="@style/ButtonPermissionsPrev"
             android:text="@string/back" />
-
-        <!--<Button
-            android:id="@+id/btnPermissionsLocationPrev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:background="@android:color/transparent"
-            android:text="@string/back"
-            android:textAllCaps="false"
-            android:textColor="@color/black_1"
-            android:textSize="@dimen/text_size_16sp" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -98,32 +100,16 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="center"
                 android:src="@drawable/ic_dot" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btnPermissionsLocationNext"
-            style="@style/OkButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
+            style="@style/ButtonPermissionsNext"
             android:text="@string/next" />
-
-        <!--<Button
-            android:id="@+id/btnPermissionsLocationNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:background="@android:color/transparent"
-            android:text="@string/next"
-            android:textAllCaps="false"
-            android:textColor="@color/flatui_midnight_blue"
-            android:textSize="@dimen/text_size_16sp" />-->
 
 
     </FrameLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
