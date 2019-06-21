@@ -19,6 +19,18 @@
    inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <defs
      id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1371">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop1367" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop1369" />
+    </linearGradient>
     <path
        d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"
        id="a" />
@@ -49,6 +61,15 @@
     <path
        d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"
        id="a-60" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1371"
+       id="linearGradient1373"
+       x1="-362.13452"
+       y1="37.793869"
+       x2="-155.79228"
+       y2="221.51649"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -57,11 +78,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.8957351"
-     inkscape:cx="131.64874"
-     inkscape:cy="7170.1664"
+     inkscape:zoom="0.94786755"
+     inkscape:cx="-162.69421"
+     inkscape:cy="1707.742"
      inkscape:document-units="mm"
-     inkscape:current-layer="g337"
+     inkscape:current-layer="g1335"
      showgrid="false"
      inkscape:window-width="1366"
      inkscape:window-height="704"
@@ -105,6 +126,21 @@
        orientation="1,0"
        id="guide1126"
        inkscape:locked="false" />
+    <sodipodi:guide
+       position="-76.483082,421.21524"
+       orientation="0.70710678,0.70710678"
+       id="guide1343"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="1.3956767,477.60058"
+       orientation="0.70710678,0.70710678"
+       id="guide1345"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-49.344622,490.58426"
+       orientation="0.70710678,0.70710678"
+       id="guide1347"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -124,22 +160,7 @@
      id="layer1">
     <g
        id="g4661"
-       transform="matrix(0.26458333,0,0,0.26458333,33.299717,38.001498)">
-      <path
-         id="path4537"
-         d="m 526.9932,-770.61432 c 0,132.096 -100.059,240.828 -228.519,254.537 -9.028,0.972 -18.192,1.463 -27.481,1.463 -9.289,0 -18.463,-0.491 -27.491,-1.463 -128.46,-13.709 -228.509001,-122.441 -228.509001,-254.537 0,-31.295 5.622,-61.294 15.903,-89.015 7.774,-20.982 18.223,-40.657 30.939,-58.629 46.352001,-65.557 122.755001,-108.35598 209.158001,-108.35598 86.403,0 162.806,42.79898 209.157,108.35598 12.706,17.962 23.155,37.637 30.929,58.608 10.292,27.732 15.914,57.731 15.914,89.036 z"
-         style="fill:#ff80b0"
-         inkscape:connector-curvature="0" />
-      <path
-         id="path4539"
-         d="m 511.08458,-859.65032 c -1.87,82.86 -31.054,242.437 -212.605,343.573 -9.028,0.972 -18.192,1.463 -27.481,1.463 -9.289,0 -18.463,-0.491 -27.491,-1.463 -181.529994,-101.125 -210.734994,-260.691 -212.605994,-343.552 -0.752,-33.113 2.863,-53.979 2.863,-53.979 l 14.566,-2.299 c 4.524,-0.711 9.028,-1.494 13.511,-2.351 38.430994,-7.293 75.106994,-19.623 108.836994,-36.394 37.66801,-18.724 71.648,-42.987 100.32,-71.96198 54.335,54.94098 127.812,92.92298 209.157,108.35598 4.483,0.857 8.976,1.64 13.5,2.351 l 14.566,2.299 c 0,0 3.616,20.856 2.863,53.958 z"
-         style="fill:#ffc25f"
-         inkscape:connector-curvature="0" />
-      <path
-         id="path4541"
-         d="m 270.99387,-541.58832 c -52.36599,-27.593 -95.413,-62.263 -128.116,-103.222 -28.53,-35.733 -49.464994,-76.517 -62.222994,-121.217 -13.829,-48.454 -15.049,-91.419 -13.993,-116.985 76.881994,-14.31 147.968004,-47.546 204.331994,-95.26 56.363,47.714 127.449,80.949 204.331,95.26 1.055,25.566 -0.164,68.531 -13.993,116.985 -12.757,44.7 -33.692,85.483 -62.222,121.216 -32.703,40.96 -75.75,75.63 -128.116,103.223 z"
-         style="fill:#53506d"
-         inkscape:connector-curvature="0" />
+       transform="matrix(0.26458333,0,0,0.26458333,-102.08093,2.5513094)">
       <g
          id="g4585" />
       <g
@@ -182,14 +203,14 @@
            y="-1067.4364">App icon</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:125%;font-family:Chilanka;-inkscape-font-specification:Chilanka;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:125%;font-family:Chilanka;-inkscape-font-specification:Chilanka;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          x="1294.1427"
          y="38.892006"
          id="text309"><tspan
            sodipodi:role="line"
            id="tspan307"
            x="1294.1427"
-           y="120.97201" /></text>
+           y="114.89201" /></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:125%;font-family:Cantarell;-inkscape-font-specification:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -253,17 +274,17 @@
             <polygon
                style="fill:#ea4335"
                clip-path="url(#SVGID_2_)"
-               points="0,0 0,11 17,24 24,17.9 48,14 48,0 "
+               points="24,17.9 48,14 48,0 0,0 0,11 17,24 "
                id="polygon331" />
             <polygon
                style="fill:#34a853"
                clip-path="url(#SVGID_2_)"
-               points="0,48 0,37 30,14 37.9,15 48,0 48,48 "
+               points="37.9,15 48,0 48,48 0,48 0,37 30,14 "
                id="polygon333" />
             <polygon
                style="fill:#4285f4"
                clip-path="url(#SVGID_2_)"
-               points="17,24 13,21 48,11 48,48 "
+               points="48,48 17,24 13,21 48,11 "
                id="polygon335" />
           </g>
           <g
@@ -320,7 +341,7 @@
                  inkscape:connector-curvature="0" />
               <polygon
                  id="polygon347"
-                 points="123.584,441.379 406.067,441.379 406.067,52.966 123.584,52.966 "
+                 points="123.584,52.966 123.584,441.379 406.067,441.379 406.067,52.966 "
                  style="fill:#38454f" />
               <g
                  id="g353">
@@ -420,7 +441,7 @@
                  inkscape:connector-curvature="0" />
               <polygon
                  id="polygon446"
-                 points="399.186,442.576 399.186,60.746 121.491,60.746 121.491,442.576 "
+                 points="121.491,442.576 399.186,442.576 399.186,60.746 121.491,60.746 "
                  style="fill:#38454f" />
               <path
                  id="path448"
@@ -550,7 +571,7 @@
                  inkscape:connector-curvature="0" />
               <polygon
                  id="polygon755"
-                 points="123.587,441.38 406.07,441.38 406.07,52.966 123.587,52.966 "
+                 points="123.587,52.966 123.587,441.38 406.07,441.38 406.07,52.966 "
                  style="fill:#38454f" />
               <g
                  id="g761">
@@ -721,7 +742,7 @@
                  inkscape:connector-curvature="0" />
               <polygon
                  id="polygon890"
-                 points="121.491,442.576 399.186,442.576 399.186,60.746 121.491,60.746 "
+                 points="121.491,60.746 121.491,442.576 399.186,442.576 399.186,60.746 "
                  style="fill:#38454f" />
               <g
                  id="g896">
@@ -851,131 +872,203 @@
           </g>
         </g>
       </g>
+      <path
+         id="path4537"
+         d="m 465.35544,-617.96487 c 0,132.096 -100.059,240.828 -228.519,254.537 -9.028,0.972 -18.192,1.463 -27.481,1.463 -9.289,0 -18.463,-0.491 -27.491,-1.463 -128.46,-13.709 -228.509001,-122.441 -228.509001,-254.537 0,-31.295 5.622,-61.294 15.903,-89.015 7.774,-20.982 18.223,-40.657 30.93899956,-58.629 C 46.54944,-831.16587 122.95244,-873.96485 209.35544,-873.96485 c 86.403,0 162.806,42.79898 209.157,108.35598 12.706,17.962 23.155,37.637 30.929,58.608 10.292,27.732 15.914,57.731 15.914,89.036 z"
+         style="fill:#1abc9c;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="/home/mansour/Desktop/background.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
     </g>
     <g
        id="g4787"
        transform="matrix(0.35614384,0,0,0.35614384,69.653436,-201.33671)">
       <g
-         id="g4709">
+         id="g4709"
+         transform="translate(-8.8673607,15.517881)">
         <g
-           id="g4697">
-          <rect
-             id="rect4663"
-             height="32.922001"
-             width="29.395"
-             style="fill:#fdcc9b"
-             y="148.231"
-             x="84.550003" />
+           id="g1335"
+           transform="translate(-18.810513,3.135085)"
+           inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+           inkscape:export-xdpi="96"
+           inkscape:export-ydpi="96">
           <path
-             id="path4665"
-             d="m 84.551,152.108 c 0,0 12.365,7.874 29.395,6.05 V 148.23 H 84.551 Z"
-             style="fill:#fcbc85"
-             inkscape:connector-curvature="0" />
-          <ellipse
-             id="ellipse4667"
-             ry="16.364"
-             rx="14.343"
-             cy="97.181"
-             cx="42.164001"
-             style="fill:#fcbc85" />
-          <ellipse
-             id="ellipse4669"
-             ry="16.364"
-             rx="14.343"
-             cy="97.181"
-             cx="156.332"
-             style="fill:#fcbc85" />
+             style="opacity:0.256;fill:url(#linearGradient1373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="m -202.04079,1.5102373 93.23147,93.2314757 c 0,0 3.32644,68.103577 -48.31724,127.014197 -57.0554,65.08385 -138.39886,63.26373 -138.39886,63.26373 l -133.02531,-134.06929 18.32357,0.0692 0.0693,-62.002253 16.48775,-14.617287 57.74176,76.62819 21.66025,0.01 -65.89314,-89.73119 62.90284,-67.890732 20.36724,19.258783 95.40461,-10.6104767 z"
+             id="path1349"
+             inkscape:connector-curvature="0"
+             sodipodi:nodetypes="ccscccccccccccc" />
           <path
-             id="path4671"
-             d="m 156.274,65.925 c 0,-24.103 -17.637,-41.741 -57.026,-41.741 -39.389,0 -57.026,17.637 -57.026,41.741 0,24.104 -4.115,87.597 57.026,87.597 61.141,0 57.026,-63.493 57.026,-87.597 z"
-             style="fill:#fdcc9b"
-             inkscape:connector-curvature="0" />
+             inkscape:export-ydpi="96"
+             inkscape:export-xdpi="96"
+             inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+             inkscape:connector-curvature="0"
+             style="fill:#2c3e50;fill-opacity:1"
+             d="m 1035.4194,-702.45536 c -1.87,82.86 -58.535,249.9 -240.08595,351.036 -9.028,0.972 9.289,0 0,0 -9.289,0 9.028,0.972 0,0 -181.53,-101.125 -238.226,-268.154 -240.097,-351.015 -0.752,-33.113 2.863,-53.979 2.863,-53.979 l 14.566,-2.299 c 4.524,-0.711 9.028,-1.494 13.511,-2.351 38.431,-7.293 75.107,-19.623 108.837,-36.394 37.66801,-18.724 71.648,-42.987 100.32,-71.96198 54.335,54.94098 127.812,92.92298 209.15695,108.35598 4.483,0.857 8.976,1.64 13.5,2.351 l 14.566,2.299 c 0,0 3.616,20.856 2.863,53.958 z"
+             id="path4539"
+             transform="matrix(0.74291144,0,0,0.74291144,-489.7969,561.67259)"
+             sodipodi:nodetypes="ccsccccccccccc" />
+          <path
+             inkscape:export-ydpi="96"
+             inkscape:export-xdpi="96"
+             inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+             inkscape:connector-curvature="0"
+             style="fill:#34495e;fill-opacity:0.94117647"
+             d="m 795.32872,-395.07735 c -52.36599,-27.593 -95.413,-62.263 -128.116,-103.222 -28.53,-35.733 -49.465,-76.517 -62.223,-121.217 -13.829,-48.454 -15.049,-91.419 -13.993,-116.985 76.882,-14.31 147.96801,-47.546 204.332,-95.26 56.363,47.714 127.449,80.949 204.331,95.26 1.05498,25.566 -0.164,68.531 -13.993,116.985 -12.757,44.7 -33.692,85.483 -62.222,121.216 -32.703,40.96 -75.75,75.63 -128.116,103.223 z"
+             id="path4541"
+             transform="matrix(0.74291144,0,0,0.74291144,-489.7969,561.67259)" />
           <g
-             id="g4689">
+             inkscape:export-ydpi="96"
+             inkscape:export-xdpi="96"
+             inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+             id="g4697">
+            <rect
+               x="84.550003"
+               y="148.231"
+               style="fill:#fdcc9b"
+               width="29.395"
+               height="32.922001"
+               id="rect4663" />
+            <path
+               inkscape:connector-curvature="0"
+               style="fill:#fcbc85"
+               d="m 84.551,152.108 c 0,0 12.365,7.874 29.395,6.05 V 148.23 H 84.551 Z"
+               id="path4665" />
+            <ellipse
+               style="fill:#fcbc85"
+               cx="42.164001"
+               cy="97.181"
+               rx="14.343"
+               ry="16.364"
+               id="ellipse4667" />
+            <ellipse
+               style="fill:#fcbc85"
+               cx="156.332"
+               cy="97.181"
+               rx="14.343"
+               ry="16.364"
+               id="ellipse4669" />
+            <path
+               inkscape:connector-curvature="0"
+               style="fill:#fdcc9b"
+               d="m 156.274,65.925 c 0,-24.103 -17.637,-41.741 -57.026,-41.741 -39.389,0 -57.026,17.637 -57.026,41.741 0,24.104 -4.115,87.597 57.026,87.597 61.141,0 57.026,-63.493 57.026,-87.597 z"
+               id="path4671" />
             <g
-               id="g4677">
-              <ellipse
-                 id="ellipse4673"
-                 ry="6.7610002"
-                 rx="6.1729999"
-                 cy="93.262001"
-                 cx="71.472"
-                 style="fill:#3b2519" />
-              <circle
-                 id="circle4675"
-                 r="1.846"
-                 cy="90.277"
-                 cx="68.780998"
-                 style="fill:#ffffff" />
+               id="g4689">
+              <g
+                 id="g4677">
+                <ellipse
+                   style="fill:#3b2519"
+                   cx="71.472"
+                   cy="93.262001"
+                   rx="6.1729999"
+                   ry="6.7610002"
+                   id="ellipse4673" />
+                <circle
+                   style="fill:#ffffff"
+                   cx="68.780998"
+                   cy="90.277"
+                   r="1.846"
+                   id="circle4675" />
+              </g>
+              <path
+                 inkscape:connector-curvature="0"
+                 style="fill:#51362a"
+                 d="m 61.597,76.507 c 2.919,1.46 7.606,-4.96 18.335,0.625 1.956,1.018 3.123,-8.708 -8.377,-8.708 -9.958,0 -11.722,7.202 -9.958,8.083 z"
+                 id="path4679" />
+              <g
+                 id="g4685">
+                <ellipse
+                   style="fill:#3b2519"
+                   cx="127.786"
+                   cy="93.262001"
+                   rx="6.1729999"
+                   ry="6.7610002"
+                   id="ellipse4681" />
+                <circle
+                   style="fill:#ffffff"
+                   cx="125.095"
+                   cy="90.277"
+                   r="1.846"
+                   id="circle4683" />
+              </g>
+              <path
+                 inkscape:connector-curvature="0"
+                 style="fill:#51362a"
+                 d="m 136.899,76.507 c -2.919,1.46 -7.606,-4.96 -18.335,0.625 -1.956,1.018 -3.123,-8.708 8.378,-8.708 9.957,0 11.72,7.202 9.957,8.083 z"
+                 id="path4687" />
             </g>
             <path
-               id="path4679"
-               d="m 61.597,76.507 c 2.919,1.46 7.606,-4.96 18.335,0.625 1.956,1.018 3.123,-8.708 -8.377,-8.708 -9.958,0 -11.722,7.202 -9.958,8.083 z"
-               style="fill:#51362a"
-               inkscape:connector-curvature="0" />
-            <g
-               id="g4685">
-              <ellipse
-                 id="ellipse4681"
-                 ry="6.7610002"
-                 rx="6.1729999"
-                 cy="93.262001"
-                 cx="127.786"
-                 style="fill:#3b2519" />
-              <circle
-                 id="circle4683"
-                 r="1.846"
-                 cy="90.277"
-                 cx="125.095"
-                 style="fill:#ffffff" />
-            </g>
+               inkscape:connector-curvature="0"
+               style="fill:#fcbc85"
+               d="m 99.248,117.043 c -6.1,0 -9.774,-4.556 -9.774,-2.352 0,2.205 1.764,6.394 9.774,6.394 8.01,0 9.774,-4.189 9.774,-6.394 0,-2.205 -3.675,2.352 -9.774,2.352 z"
+               id="path4691" />
             <path
-               id="path4687"
-               d="m 136.899,76.507 c -2.919,1.46 -7.606,-4.96 -18.335,0.625 -1.956,1.018 -3.123,-8.708 8.378,-8.708 9.957,0 11.72,7.202 9.957,8.083 z"
-               style="fill:#51362a"
-               inkscape:connector-curvature="0" />
+               inkscape:connector-curvature="0"
+               style="fill:#fcbc85"
+               d="m 99.248,137.313 c -2.11,0 -3.381,-1.576 -3.381,-0.813 0,0.763 0.61,2.211 3.381,2.211 2.771,0 3.38,-1.448 3.38,-2.211 0,-0.763 -1.271,0.813 -3.38,0.813 z"
+               id="path4693" />
+            <path
+               inkscape:connector-curvature="0"
+               style="fill:#f7945e"
+               d="m 99.248,131.696 c -9.668,0 -15.493,-3.937 -15.493,-2.939 0,0.998 2.796,4.924 15.493,4.924 12.697,0 15.493,-3.926 15.493,-4.924 -0.001,-0.998 -5.825,2.939 -15.493,2.939 z"
+               id="path4695" />
           </g>
           <path
-             id="path4691"
-             d="m 99.248,117.043 c -6.1,0 -9.774,-4.556 -9.774,-2.352 0,2.205 1.764,6.394 9.774,6.394 8.01,0 9.774,-4.189 9.774,-6.394 0,-2.205 -3.675,2.352 -9.774,2.352 z"
-             style="fill:#fcbc85"
-             inkscape:connector-curvature="0" />
+             inkscape:export-ydpi="96"
+             inkscape:export-xdpi="96"
+             inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+             inkscape:connector-curvature="0"
+             style="fill:#f7941e"
+             d="m 99.248,161.458 v 37.038 H 27.821 c 0,-14.992 37.623,-37.038 71.427,-37.038 z"
+             id="path4699" />
           <path
-             id="path4693"
-             d="m 99.248,137.313 c -2.11,0 -3.381,-1.576 -3.381,-0.813 0,0.763 0.61,2.211 3.381,2.211 2.771,0 3.38,-1.448 3.38,-2.211 0,-0.763 -1.271,0.813 -3.38,0.813 z"
-             style="fill:#fcbc85"
-             inkscape:connector-curvature="0" />
+             inkscape:export-ydpi="96"
+             inkscape:export-xdpi="96"
+             inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+             inkscape:connector-curvature="0"
+             style="fill:#f7941e"
+             d="m 99.248,161.458 v 37.038 h 71.427 c 0,-14.992 -37.623,-37.038 -71.427,-37.038 z"
+             id="path4701" />
           <path
-             id="path4695"
-             d="m 99.248,131.696 c -9.668,0 -15.493,-3.937 -15.493,-2.939 0,0.998 2.796,4.924 15.493,4.924 12.697,0 15.493,-3.926 15.493,-4.924 -0.001,-0.998 -5.825,2.939 -15.493,2.939 z"
-             style="fill:#f7945e"
-             inkscape:connector-curvature="0" />
+             inkscape:export-ydpi="96"
+             inkscape:export-xdpi="96"
+             inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+             inkscape:connector-curvature="0"
+             style="fill:#f36c21"
+             d="m 99.248,161.458 c -7.19,0 -14.552,1.005 -21.689,2.72 0.048,0.063 7.916,10.214 21.689,10.214 12.754,0 21.233,-8.693 22.462,-10.03 -7.378,-1.831 -15.012,-2.904 -22.462,-2.904 z"
+             id="path4703" />
+          <path
+             inkscape:export-ydpi="96"
+             inkscape:export-xdpi="96"
+             inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+             inkscape:connector-curvature="0"
+             style="fill:#fdcc9b"
+             d="m 84.55,162.74 c 0,0 4.299,5.332 14.697,5.332 10.398,0 14.698,-5.332 14.698,-5.332 0,0 -15.248,-5.551 -29.395,0 z"
+             id="path4705" />
+          <path
+             inkscape:export-ydpi="96"
+             inkscape:export-xdpi="96"
+             inkscape:export-filename="/home/mansour/Desktop/foreground.png"
+             inkscape:connector-curvature="0"
+             style="fill:#51362a"
+             d="m 146.132,19.041 c 0,0 -21.164,-26.896 -65.152,-16.755 -43.987,10.14 -47.283,36.596 -45.96,62.335 1.323,25.74 4.85,40.84 9.022,38.974 4.172,-1.867 2.001,-18.857 2.442,-22.778 0.441,-3.921 4.409,-21.653 31.162,-19.007 26.752,2.646 49.296,-7.055 49.296,-7.055 0,0 9.075,11.471 15.047,13.669 11.934,4.391 8.02,33.67 12.696,33.67 4.676,0 27.603,-67.621 -8.553,-83.053 z"
+             id="path4707" />
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:221.75587463px;line-height:125%;font-family:Cantarell;-inkscape-font-specification:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.30995727px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             x="-450.37613"
+             y="151.03249"
+             id="text1339"><tspan
+               sodipodi:role="line"
+               id="tspan1337"
+               x="-450.37613"
+               y="151.03249"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';stroke-width:2.30995727px;fill:#ffffff">K<tspan
+   style="font-weight:bold;stroke-width:2.30995727px;fill:#ffffff"
+   id="tspan1341">S</tspan></tspan></text>
         </g>
-        <path
-           id="path4699"
-           d="m 99.248,161.458 v 37.038 H 27.821 c 0,-14.992 37.623,-37.038 71.427,-37.038 z"
-           style="fill:#f7941e"
-           inkscape:connector-curvature="0" />
-        <path
-           id="path4701"
-           d="m 99.248,161.458 v 37.038 h 71.427 c 0,-14.992 -37.623,-37.038 -71.427,-37.038 z"
-           style="fill:#f7941e"
-           inkscape:connector-curvature="0" />
-        <path
-           id="path4703"
-           d="m 99.248,161.458 c -7.19,0 -14.552,1.005 -21.689,2.72 0.048,0.063 7.916,10.214 21.689,10.214 12.754,0 21.233,-8.693 22.462,-10.03 -7.378,-1.831 -15.012,-2.904 -22.462,-2.904 z"
-           style="fill:#f36c21"
-           inkscape:connector-curvature="0" />
-        <path
-           id="path4705"
-           d="m 84.55,162.74 c 0,0 4.299,5.332 14.697,5.332 10.398,0 14.698,-5.332 14.698,-5.332 0,0 -15.248,-5.551 -29.395,0 z"
-           style="fill:#fdcc9b"
-           inkscape:connector-curvature="0" />
-        <path
-           id="path4707"
-           d="m 146.132,19.041 c 0,0 -21.164,-26.896 -65.152,-16.755 -43.987,10.14 -47.283,36.596 -45.96,62.335 1.323,25.74 4.85,40.84 9.022,38.974 4.172,-1.867 2.001,-18.857 2.442,-22.778 0.441,-3.921 4.409,-21.653 31.162,-19.007 26.752,2.646 49.296,-7.055 49.296,-7.055 0,0 9.075,11.471 15.047,13.669 11.934,4.391 8.02,33.67 12.696,33.67 4.676,0 27.603,-67.621 -8.553,-83.053 z"
-           style="fill:#51362a"
-           inkscape:connector-curvature="0" />
         <g
            id="g4918"
            transform="matrix(0.99054862,0,0,0.99054862,361.13136,-144.08141)">
@@ -1093,14 +1186,14 @@
         </g>
         <text
            xml:space="preserve"
-           style="font-style:normal;font-weight:normal;font-size:29.71645737px;line-height:125%;font-family:Comfortaa;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:Comfortaa;font-stretch:normal;font-variant:normal;"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.71645737px;line-height:125%;font-family:Comfortaa;-inkscape-font-specification:Comfortaa;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            x="490.33813"
            y="-194.70718"
            id="text4922"><tspan
              sodipodi:role="line"
              x="490.33813"
              y="-194.70718"
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Comfortaa;font-family:Comfortaa;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Comfortaa;-inkscape-font-specification:Comfortaa;stroke-width:0.74291146px"
              id="tspan4924">Child location</tspan></text>
         <g
            id="g5059"
@@ -1311,10 +1404,10 @@
            id="text5063"
            y="-193.20628"
            x="1081.6958"
-           style="font-style:normal;font-weight:normal;font-size:29.71645737px;line-height:125%;font-family:Comfortaa;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:Comfortaa;font-stretch:normal;font-variant:normal;"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.71645737px;line-height:125%;font-family:Comfortaa;-inkscape-font-specification:Comfortaa;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            xml:space="preserve"><tspan
              id="tspan5061"
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Comfortaa;font-family:Comfortaa;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Comfortaa;-inkscape-font-specification:Comfortaa;stroke-width:0.74291146px"
              y="-193.20628"
              x="1081.6958"
              sodipodi:role="line">Child location</tspan></text>
@@ -1327,7 +1420,7 @@
            y="-3513.5854"
            ry="6.8464394" />
         <path
-           style="opacity:0.643;fill:#333333;fill-opacity:1;stroke:none;stroke-width:3.41040444;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           style="opacity:0.64299999;fill:#333333;fill-opacity:1;stroke:none;stroke-width:3.41040444;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            d="m -2295.5343,-3513.5854 h 1681.87195 c 0.78684,0 1.42028,0.6334 1.42028,1.4202 v 558.7303 c 0,0.7869 -0.71809,1.0653 -1.42028,1.4203 l -1683.29225,851.0953 c 0,0 0,0.7869 0,0 v -1411.2459 c 0,-0.7868 0.6335,-1.4202 1.4203,-1.4202 z"
            id="rect953"
            inkscape:connector-curvature="0"
@@ -1371,7 +1464,7 @@
    id="tspan974">Safe</tspan></tspan></text>
         <text
            xml:space="preserve"
-           style="font-style:normal;font-weight:normal;font-size:137.14892578px;line-height:125%;font-family:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.42863464px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:Cantarell;font-stretch:normal;font-variant:normal;"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:137.14892578px;line-height:125%;font-family:Cantarell;-inkscape-font-specification:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.42863464px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            x="-2137.8525"
            y="-2405.3772"
            id="text978"><tspan
@@ -1379,7 +1472,7 @@
              id="tspan976"
              x="-2137.8525"
              y="-2405.3772"
-             style="stroke-width:1.42863464px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Parental control app</tspan></text>
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:1.42863464px">Parental control app</tspan></text>
         <text
            xml:space="preserve"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:164.55142212px;line-height:125%;font-family:Cantarell;-inkscape-font-specification:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.71407735px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1401,14 +1494,14 @@
              id="tspan984"
              x="-1694.1353"
              y="-1861.063"
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">01. Lock/Unlock child apps</tspan></text>
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px">01. Lock/Unlock child apps</tspan></text>
         <text
            id="text990"
            y="-1752.5967"
            x="-1694.1353"
            style="font-style:normal;font-weight:normal;font-size:71.31949615px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            xml:space="preserve"><tspan
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px"
              y="-1752.5967"
              x="-1694.1353"
              id="tspan988"
@@ -1423,20 +1516,20 @@
              id="tspan992"
              x="-1698.3805"
              y="-1644.5575"
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">03. Set a geo fence on a child</tspan></text>
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px">03. Set a geo fence on a child</tspan></text>
         <text
            id="text998"
            y="-1540.5496"
            x="-1698.3805"
            style="font-style:normal;font-weight:normal;font-size:71.31949615px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            xml:space="preserve"><tspan
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px"
              y="-1540.5496"
              x="-1698.3805"
              id="tspan996"
              sodipodi:role="line">04. View the messages of the </tspan><tspan
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
-             y="-1451.4001"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px"
+             y="-1449.2773"
              x="-1698.3805"
              sodipodi:role="line"
              id="tspan1000">child</tspan></text>
@@ -1450,11 +1543,11 @@
              id="tspan1002"
              x="-1681.3995"
              y="-1351.6381"
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">05. View the calls data of the</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px">05. View the calls data of the</tspan><tspan
              sodipodi:role="line"
              x="-1681.3995"
-             y="-1262.4886"
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
+             y="-1260.3658"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px"
              id="tspan1006">child</tspan></text>
         <text
            xml:space="preserve"
@@ -1466,7 +1559,7 @@
              id="tspan1008"
              x="-1711.116"
              y="-1156.3584"
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">06. Lock the child's phone</tspan></text>
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px">06. Lock the child's phone</tspan></text>
         <text
            xml:space="preserve"
            style="font-style:normal;font-weight:normal;font-size:71.31949615px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1477,7 +1570,7 @@
              id="tspan1012"
              x="-1715.3612"
              y="-1041.7378"
-             style="stroke-width:0.74291146px;-inkscape-font-specification:Cantarell;font-family:Cantarell;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">07. Set a phone useage time</tspan></text>
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:Cantarell;stroke-width:0.74291146px">07. Set a phone useage time</tspan></text>
         <rect
            style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.27975178;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            id="rect1016"
@@ -1521,7 +1614,7 @@
              style="fill:#ffffff;stroke-width:0.74291146px">Khaled Samir</tspan></text>
         <text
            xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:71.31949615px;line-height:125%;font-family:Cantarell;-inkscape-font-specification:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:71.31949615px;line-height:125%;font-family:Cantarell;-inkscape-font-specification:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            x="-1216.194"
            y="519.72491"
            id="text1035"><tspan
@@ -1529,7 +1622,7 @@
              id="tspan1033"
              x="-1216.194"
              y="519.72491"
-             style="stroke-width:0.74291146px;fill:#ffffff;font-weight:bold">Supervisor</tspan></text>
+             style="font-weight:bold;fill:#ffffff;stroke-width:0.74291146px">Supervisor</tspan></text>
         <text
            xml:space="preserve"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:71.31949615px;line-height:125%;font-family:Cantarell;-inkscape-font-specification:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.74291146px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"

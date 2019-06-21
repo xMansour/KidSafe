@@ -1,5 +1,6 @@
 package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPasswordResetListener;
@@ -26,8 +28,7 @@ public class RecoverPasswordDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return inflater.inflate(R.layout.fragment_dialog_recover_password, container, false);
-        return inflater.inflate(R.layout.fragment_dialog_custom, container, false);
+        return inflater.inflate(R.layout.fragment_dialog_recover_password, container, false);
     }
 
     @Override
@@ -46,6 +47,7 @@ public class RecoverPasswordDialogFragment extends DialogFragment {
                     dismiss();
                 } else {
                     txtRecoveryEmail.setError(getString(R.string.enter_valid_email));
+                    txtRecoveryEmail.requestFocus();
                 }
             }
         });
@@ -59,6 +61,4 @@ public class RecoverPasswordDialogFragment extends DialogFragment {
             }
         });
     }
-
-
 }

@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
         txtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recoverPassword();
+                sendPasswordRecoveryEmail();
             }
         });
 
@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
         }
     }
 
-    private void recoverPassword() {
+    private void sendPasswordRecoveryEmail() {
         RecoverPasswordDialogFragment recoverPasswordDialogFragment = new RecoverPasswordDialogFragment();
         recoverPasswordDialogFragment.setCancelable(false);
         recoverPasswordDialogFragment.show(fragmentManager, Constant.RECOVER_PASSWORD_FRAGMENT);
@@ -310,20 +310,17 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
                 });
     }
 
-
     @Override
     public void onOkClicked(String email) {
-        recoverPassword(email);
+        sendPasswordRecoveryEmail(email);
     }
 
     @Override
     public void onCancelClicked() {
-        Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
     }
 
-
-    private void recoverPassword(String email) {
+    private void sendPasswordRecoveryEmail(String email) {
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

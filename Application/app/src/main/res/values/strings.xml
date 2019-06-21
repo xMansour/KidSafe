@@ -186,6 +186,7 @@
     <string name="now_or_after_a_period">now, or after a period of time?</string>
     <string name="upper_dot_s">\'s</string>
     <string name="device">device</string>
+    <string name="password_recovery">Password recovery</string>
 
 
 </resources>

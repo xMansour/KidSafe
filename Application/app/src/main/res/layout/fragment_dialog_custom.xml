@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="280dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:focusableInTouchMode="true">
+    android:layout_gravity="center">
 
     <FrameLayout
         android:layout_width="fill_parent"
@@ -13,51 +12,66 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/congratulation_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginTop="32dp"
-            app:cardBackgroundColor="#FAFAFA"
+            app:cardBackgroundColor="#ffffff"
             app:cardCornerRadius="4dp"
             app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/margin_32dp"
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/HeaderText"
-                    android:text="@string/forgot_password" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/password_recovery"
+                    android:textColor="@color/flatui_midnight_blue"
+                    android:textSize="18sp" />
 
                 <TextView
-                    style="@style/BodyText"
-                    android:text="@string/enter_your_email_address" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="32dp"
+                    android:gravity="center"
+                    android:text="@string/enter_your_email_address"
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/txtRecoveryEmail"
-                    style="@style/DialogFragmentEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="32dp"
+                    android:background="@drawable/edit_text_rounded"
                     android:drawableStart="@drawable/ic_mail"
+                    android:drawablePadding="@dimen/padding_8dp"
                     android:hint="@string/your_email"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/padding_8dp"
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btnRecoverPassword"
-                    style="@style/OkButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_8dp"
-                    android:text="@string/ok" />
-
-                <Button
-                    android:id="@+id/btnCancelRecoverPassword"
-                    style="@style/CancelButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_8dp"
-                    android:text="@string/cancel" />
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_ok"
+                    android:text="@string/ok"
+                    android:textColor="@color/white" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
