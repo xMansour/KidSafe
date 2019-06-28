@@ -20,11 +20,12 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.PermissionExplanationDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnFragmentChangeListener;
-import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplainationListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplanationListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
-public class SMSPermissionsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, OnPermissionExplainationListener {
+public class SMSPermissionsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, OnPermissionExplanationListener {
     private Switch switchSendSmsPermission;
     private Switch switchReadSmsPermission;
     private Switch switchReceiveSmsPermission;
@@ -202,7 +203,6 @@ public class SMSPermissionsFragment extends Fragment implements CompoundButton.O
     public void onCancel(int switchId) {
         Switch pressedSwitch = layout.findViewById(switchId);
         pressedSwitch.setChecked(false);
-
     }
 
     private void startPermissionExplanationFragment(int requestCode, int id) {

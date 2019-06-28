@@ -58,8 +58,7 @@
             android:text="@string/parent_name"
             android:textAlignment="center"
             android:textColor="@color/flatui_midnight_blue"
-            android:textSize="@dimen/text_size_24sp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_size_20sp" />
 
 
         <!--    <LinearLayout
@@ -127,14 +126,9 @@
 
         <TextView
             android:id="@+id/txtNoKids"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/TextViewNoElements"
             android:layout_margin="@dimen/margin_24dp"
             android:text="@string/no_kids_added_yet"
-            android:textAlignment="center"
-            android:textColor="@color/flatui_wet_asphalt"
-            android:textSize="@dimen/text_size_16sp"
-            android:visibility="gone"
             tools:visibility="visible" />
 
         <android.support.v7.widget.RecyclerView

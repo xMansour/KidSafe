@@ -20,11 +20,12 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.PermissionExplanationDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnFragmentChangeListener;
-import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplainationListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplanationListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
-public class PhoneCallsPermissionsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, OnPermissionExplainationListener {
+public class PhoneCallsPermissionsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, OnPermissionExplanationListener {
     private Switch switchPhoneStatePermission;
     private Switch switchReadCallLogPermission;
     private Switch switchReadContactsPermission;
@@ -211,7 +212,6 @@ public class PhoneCallsPermissionsFragment extends Fragment implements CompoundB
     public void onCancel(int switchId) {
         Switch pressedSwitch = layout.findViewById(switchId);
         pressedSwitch.setChecked(false);
-
     }
 
     private boolean isPhoneStatePermissionGranted() {

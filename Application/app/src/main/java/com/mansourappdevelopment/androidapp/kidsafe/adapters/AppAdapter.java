@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnAppClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.BackgroundGenerator;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,7 +27,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHo
     private Context context;
     private ArrayList<App> apps;
     private OnAppClickListener onAppClickListener;
-    private Random random;
 
     public void setOnAppClickListener(OnAppClickListener onAppClickListener) {
         this.onAppClickListener = onAppClickListener;
@@ -35,7 +35,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHo
     public AppAdapter(Context context, ArrayList<App> apps) {
         this.context = context;
         this.apps = apps;
-        random = new Random();
     }
 
 
@@ -76,8 +75,8 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHo
         App app = apps.get(i);
         appAdapterViewHolder.txtAppName.setText(app.getAppName());
         appAdapterViewHolder.switchAppState.setChecked(app.isBlocked());
-        appAdapterViewHolder.txtAppBackground.setText(getFirstCharacters(app.getAppName()));
-        appAdapterViewHolder.txtAppBackground.setBackground(getBackground());
+        appAdapterViewHolder.txtAppBackground.setText(BackgroundGenerator.getFirstCharacters(app.getAppName()));
+        appAdapterViewHolder.txtAppBackground.setBackground(BackgroundGenerator.getBackground(context));
 
 
     }
@@ -87,24 +86,4 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppAdapterViewHo
         return apps.size();
     }
 
-    private Drawable getBackground() {
-        Drawable drawable = DrawableCompat.wrap(context.getResources().getDrawable(R.drawable.app_background).mutate());
-        DrawableCompat.setTint(drawable, getRandomColor());
-        return drawable;
-    }
-
-    private int getRandomColor() {
-        int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
-        return color;
-    }
-
-    private String getFirstCharacters(String appName) {
-        StringBuilder firstCharacters = new StringBuilder();
-        for (String word : appName.split(" ")) {
-            if (Character.isAlphabetic(word.charAt(0)))
-                firstCharacters.append(word.charAt(0));
-        }
-
-        return firstCharacters.toString().toUpperCase();
-    }
 }

@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtNoMessages"
+        style="@style/TextViewNoElements"
+        android:layout_margin="@dimen/margin_24dp"
+        android:text="@string/no_messages_received_yet"
+        tools:visibility="visible" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewMessages"

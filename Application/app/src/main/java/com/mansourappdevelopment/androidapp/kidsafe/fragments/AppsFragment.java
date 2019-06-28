@@ -50,8 +50,7 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_apps, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_apps, container, false);
     }
 
     @Override
@@ -76,11 +75,6 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
         if (bundle != null) {
             apps = bundle.getParcelableArrayList(ParentSignedInActivity.APPS_EXTRA);
             childEmail = bundle.getString(CHILD_EMAIL_EXTRA);
-
-            for (App app : apps) {
-                Log.i(TAG, "onItemClick: appName: " + app.getAppName() + " " + "packageName" + app.getPackageName());
-
-            }
         }
     }
 

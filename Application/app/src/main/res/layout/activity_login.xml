@@ -24,8 +24,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginTop="@dimen/margin_64dp"
+                android:layout_marginBottom="@dimen/margin_64dp"
                 android:gravity="center"
                 android:layoutDirection="ltr"
                 android:orientation="horizontal">
@@ -71,14 +71,14 @@
 
                 <EditText
                     android:id="@+id/txtLogInEmail"
-                    style="@style/DialogFragmentEditText"
+                    style="@style/MainEditText"
                     android:drawableStart="@drawable/ic_mail"
                     android:hint="@string/email_address"
                     android:inputType="textEmailAddress" />
 
                 <EditText
                     android:id="@+id/txtLogInPassword"
-                    style="@style/DialogFragmentEditText"
+                    style="@style/MainEditText"
                     android:drawableStart="@drawable/ic_lock"
                     android:hint="@string/password"
                     android:inputType="textPassword" />

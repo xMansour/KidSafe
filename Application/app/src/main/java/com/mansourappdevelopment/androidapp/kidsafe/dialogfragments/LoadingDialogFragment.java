@@ -1,4 +1,4 @@
-package com.mansourappdevelopment.androidapp.kidsafe.fragments;
+package com.mansourappdevelopment.androidapp.kidsafe.dialogfragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

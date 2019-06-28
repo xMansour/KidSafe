@@ -12,7 +12,10 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.models.Call;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,8 +54,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             String phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             String contactName = getContactName(phoneNumber);
 
-            String format = "yyyy.MM.dd 'at' HH:mm:ss";
-            String callTime = getCallTime(format);
+            String callTime = DateUtils.getCurrentDateString();
 
             if (phoneState.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 startCallTime = System.currentTimeMillis();
@@ -70,7 +72,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 call.setContactName(contactName);
                 call.setCallTime(callTime);*/
 
-                call = new Call("Incoming Call", phoneNumber, contactName, callTime, null);
+                call = new Call(Constant.INCOMING_CALL, phoneNumber, contactName, callTime, null);
 
             } else if (phoneState.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                 startCallTime = System.currentTimeMillis();
@@ -88,7 +90,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 call.setContactName(contactName);
                 call.setCallTime(callTime);*/
 
-                call = new Call("Outgoing Call", phoneNumber, contactName, callTime, null);
+                call = new Call(Constant.OUTGOING_CALL, phoneNumber, contactName, callTime, null);
 
 
             } else if (phoneState.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
@@ -112,7 +114,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
     private String getContactName(String phoneNumber) {
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
         String[] projection = new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME};
-        String contactName = "Unknown Number";
+        String contactName = context.getResources().getString(R.string.unknown_number);
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
 
         if (cursor != null) {
@@ -123,10 +125,5 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         }
 
         return contactName;
-    }
-
-    private String getCallTime(String format) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
-        return simpleDateFormat.format(Calendar.getInstance().getTime());
     }
 }

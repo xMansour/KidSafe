@@ -13,7 +13,7 @@ public class Constant {
     public static final int APP_LOCK_FRAGMENT_REQUEST_CODE = 10;
     public static final String RECOVER_PASSWORD_FRAGMENT = "com.mansourappdevelopment.androidapp.kidsafe.utils.RECOVER_PASSWORD_FRAGMENT";
     public static final String LOADING_FRAGMENT = "com.mansourappdevelopment.androidapp.kidsafe.utils.LOADING_FRAGMENT";
-    public static final String MODE_SELECTION_FRAGMENT = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE_SELECTION_FRAGMENT";
+    public static final String GOOGLE_CHILD_SIGN_UP = "com.mansourappdevelopment.androidapp.kidsafe.utils.GOOGLE_CHILD_SIGN_UP";
     public static final int PICK_IMAGE_REQUEST = 59;
     public static final int PIC_CROP = 922;
     public static final String AUTO_LOGIN = "com.mansourappdevelopment.androidapp.kidsafe.utils.AUTO_LOGIN";
@@ -36,6 +36,7 @@ public class Constant {
     public static final int WRITE_SETTINGS_PERMISSION_REQUEST_CODE = 8;
     public static final int OVERLAY_PERMISSION_REQUEST_CODE = 9;
     public static final int PACKAGE_USAGE_PERMISSION_REQUEST_CODE = 10;
+    public static final int CALL_PHONE_PERMISSION_REQUEST_CODE = 11;
 
     public static final String SWITCH_ID = "com.mansourappdevelopment.androidapp.kidsafe.utils.SWITCH_ID";
     public static final int PERMISSION_EXPLANATION_FRAGMENT = 453;
@@ -50,4 +51,15 @@ public class Constant {
     public static final String CHILD_FIRST_LAUNCH = "com.mansourappdevelopment.androidapp.kidsafe.utils.CHILD_FIRST_LAUNCH";
 
     public static final String CONFIRMATION_FRAGMENT_TAG = "com.mansourappdevelopment.androidapp.kidsafe.utils.CONFIRMATION_FRAGMENT_TAG";
+
+    public static final String YESTERDAY = "com.mansourappdevelopment.androidapp.kidsafe.utils.YESTERDAY";
+    public static final String A_MOMENT_AGO = "com.mansourappdevelopment.androidapp.kidsafe.utils.A_MOMENT_AGO";
+    public static final String MINUTES_AGO = "com.mansourappdevelopment.androidapp.kidsafe.utils.MINUTES_AGO";
+    public static final String UNKNOWN_NUMBER = "Unknown Number";
+
+    public static final String INCOMING_CALL = "Incoming Call";
+    public static final String OUTGOING_CALL = "Outgoing Call";
+    public static final String CHILD_CONTACTS_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.utils.CHILD_CONTACTS_EXTRA";
+
+    public static final String PARENT_SIGN_UP = "com.mansourappdevelopment.androidapp.kidsafe.utils.PARENT_SIGN_UP";
 }

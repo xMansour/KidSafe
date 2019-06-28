@@ -3,7 +3,10 @@ package com.mansourappdevelopment.androidapp.kidsafe.broadcasts;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -11,7 +14,10 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.models.Message;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,6 +29,7 @@ public class SmsReceiver extends BroadcastReceiver {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser user;
     private SmsManager smsManager;
+    private Context context;
     //private HashMap<String, Object> messeges;
 
 
@@ -36,6 +43,8 @@ public class SmsReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        this.context = context;
+
         Bundle bundle = intent.getExtras();
         String senderPhoneNumber = null;
         StringBuilder message;
@@ -50,8 +59,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 String messageBody = currentMessage.getDisplayMessageBody().replace("\n", " ");
                 message.append(messageBody);
             }
-            String format = "yyyy.MM.dd 'at' HH:mm:ss";
-            String timeReceived = getSmsReceivedTime(format);
+            String timeReceived = DateUtils.getCurrentDateString();
             String uid = user.getUid();
 
             uploadMessage(senderPhoneNumber, message.toString(), timeReceived, uid);
@@ -60,10 +68,10 @@ public class SmsReceiver extends BroadcastReceiver {
 
     }
 
-    private String getSmsReceivedTime(String format) {
+    /*private String getSmsReceivedTime(String format) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
         return simpleDateFormat.format(Calendar.getInstance().getTime());
-    }
+    }*/
 
     private void uploadMessage(String senderPhoneNumber, String messageBody, String timeReceived, String uid) {
         Log.i(TAG, "uploadMessage: messageBody" + messageBody);
@@ -76,9 +84,25 @@ public class SmsReceiver extends BroadcastReceiver {
         messeges.put("timeReceived", timeReceived);
         databaseReference.child("childs").child(uid).child("messages").push().setValue(messeges);*/
 
-        Message message = new Message(senderPhoneNumber, messageBody, timeReceived);
+        Message message = new Message(senderPhoneNumber, messageBody, timeReceived, getContactName(senderPhoneNumber));
         databaseReference.child("childs").child(uid).child("messages").push().setValue(message);
 
 
+    }
+
+    private String getContactName(String phoneNumber) {
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+        String[] projection = new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME};
+        String contactName = Constant.UNKNOWN_NUMBER;
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                contactName = cursor.getString(0);
+            }
+            cursor.close();
+        }
+
+        return contactName;
     }
 }

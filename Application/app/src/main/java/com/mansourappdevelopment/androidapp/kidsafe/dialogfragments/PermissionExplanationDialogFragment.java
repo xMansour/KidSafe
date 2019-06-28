@@ -1,5 +1,7 @@
-package com.mansourappdevelopment.androidapp.kidsafe.fragments;
+package com.mansourappdevelopment.androidapp.kidsafe.dialogfragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,11 +9,12 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
-import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplainationListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplanationListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 
@@ -19,7 +22,7 @@ public class PermissionExplanationDialogFragment extends DialogFragment {
     private TextView txtPermissionHeader;
     private Button btnOkPermission;
     private Button btnCancelPermission;
-    private OnPermissionExplainationListener onPermissionExplainationListener;
+    private OnPermissionExplanationListener onPermissionExplanationListener;
 
     @Nullable
     @Override
@@ -29,11 +32,10 @@ public class PermissionExplanationDialogFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         txtPermissionHeader = (TextView) view.findViewById(R.id.txtPermissionHeader);
-        btnOkPermission = (Button) view.findViewById(R.id.btnOkPermission);
-        btnCancelPermission = (Button) view.findViewById(R.id.btnCancelPermission);
-        onPermissionExplainationListener = (OnPermissionExplainationListener) getTargetFragment();
+        onPermissionExplanationListener = (OnPermissionExplanationListener) getTargetFragment();
 
         Bundle bundle = getArguments();
         final int requestCode = bundle.getInt(Constant.PERMISSION_REQUEST_CODE);
@@ -70,20 +72,25 @@ public class PermissionExplanationDialogFragment extends DialogFragment {
             case Constant.PACKAGE_USAGE_PERMISSION_REQUEST_CODE:
                 txtPermissionHeader.setText(getString(R.string.package_usage_permission_explanation));
                 break;
+            case Constant.CALL_PHONE_PERMISSION_REQUEST_CODE:
+                txtPermissionHeader.setText(getString(R.string.phone_call_permission_explanation));
+                break;
         }
 
+        btnOkPermission = (Button) view.findViewById(R.id.btnOkPermission);
         btnOkPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPermissionExplainationListener.onOk(requestCode);
+                onPermissionExplanationListener.onOk(requestCode);
                 dismiss();
             }
         });
 
+        btnCancelPermission = (Button) view.findViewById(R.id.btnCancelPermission);
         btnCancelPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPermissionExplainationListener.onCancel(switchId);
+                onPermissionExplanationListener.onCancel(switchId);
                 dismiss();
             }
         });

@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Child;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import java.util.ArrayList;
@@ -143,7 +144,7 @@ public class UploadAppsService extends JobService {
                 if (dataSnapshot.exists()) {
                     apps = new ArrayList<>();
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                    User child = nodeShot.getValue(User.class);
+                    Child child = nodeShot.getValue(Child.class);
                     apps = child.getApps();
 
                     prepareData(apps);

@@ -1,5 +1,7 @@
-package com.mansourappdevelopment.androidapp.kidsafe.fragments;
+package com.mansourappdevelopment.androidapp.kidsafe.dialogfragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +39,8 @@ public class AppLockDialogFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         onAppClickListener = (OnAppClickListener) getTargetFragment();
         Bundle bundle = getArguments();
         String appName = bundle.getString(Constant.CHILD_APP_NAME_EXTRA);

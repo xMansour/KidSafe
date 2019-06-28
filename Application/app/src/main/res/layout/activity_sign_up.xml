@@ -39,24 +39,34 @@
 
                 <EditText
                     android:id="@+id/txtSignUpName"
-                    style="@style/DialogFragmentEditText"
+                    style="@style/MainEditText"
                     android:drawableStart="@drawable/ic_person"
                     android:hint="@string/name"
                     android:inputType="textPersonName" />
 
                 <EditText
                     android:id="@+id/txtSignUpEmail"
-                    style="@style/DialogFragmentEditText"
+                    style="@style/MainEditText"
                     android:drawableStart="@drawable/ic_mail"
                     android:hint="@string/email_address"
                     android:inputType="textEmailAddress" />
 
                 <EditText
+                    android:id="@+id/txtParentEmail"
+                    android:visibility="gone"
+                    style="@style/MainEditText"
+                    android:drawableStart="@drawable/ic_mail"
+                    android:hint="@string/parent_email"
+                    android:inputType="textEmailAddress" />
+
+                <EditText
                     android:id="@+id/txtSignUpPassword"
-                    style="@style/DialogFragmentEditText"
+                    style="@style/MainEditText"
                     android:drawableStart="@drawable/ic_lock"
                     android:hint="@string/password"
                     android:inputType="textPassword" />
+
+
 
             </LinearLayout>
 

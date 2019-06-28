@@ -1,5 +1,7 @@
-package com.mansourappdevelopment.androidapp.kidsafe.fragments;
+package com.mansourappdevelopment.androidapp.kidsafe.dialogfragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,7 +20,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 public class ConfirmationDialogFragment extends DialogFragment {
     private Button btnConfirm;
     private Button btnCancelConfirm;
-    private TextView txtConfirmationHeader;
+    private TextView txtConfirmationBody;
     private OnConfirmationListener onConfirmationListener;
 
     @Nullable
@@ -28,18 +31,17 @@ public class ConfirmationDialogFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         onConfirmationListener = (OnConfirmationListener) getActivity();
+
         Bundle bundle = getArguments();
         String confirmationMessage = bundle.getString(Constant.CONFIRMATION_MESSAGE);
 
-        txtConfirmationHeader = (TextView) view.findViewById(R.id.txtConfirmationHeader);
+        txtConfirmationBody = (TextView) view.findViewById(R.id.txtConfirmationBody);
+        txtConfirmationBody.setText(confirmationMessage);
+
         btnConfirm = (Button) view.findViewById(R.id.btnConfirm);
-        btnCancelConfirm = (Button) view.findViewById(R.id.btnCancelConfirm);
-
-
-        txtConfirmationHeader.setText(confirmationMessage);
-
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +51,7 @@ public class ConfirmationDialogFragment extends DialogFragment {
 
         });
 
+        btnCancelConfirm = (Button) view.findViewById(R.id.btnCancelConfirm);
         btnCancelConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

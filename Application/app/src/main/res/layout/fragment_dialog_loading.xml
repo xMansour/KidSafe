@@ -19,8 +19,6 @@
         android:layout_marginEnd="@dimen/margin_32dp"
         android:text="@string/loading"
         android:textAlignment="textStart"
-        android:textColor="@color/flatui_midnight_blue"
-        android:textSize="@dimen/text_size_16sp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/text_size_18sp" />
 
 </LinearLayout>

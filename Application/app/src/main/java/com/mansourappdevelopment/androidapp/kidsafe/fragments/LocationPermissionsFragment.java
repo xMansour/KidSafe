@@ -20,11 +20,12 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.PermissionExplanationDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnFragmentChangeListener;
-import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplainationListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplanationListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
-public class LocationPermissionsFragment extends Fragment implements OnPermissionExplainationListener {
+public class LocationPermissionsFragment extends Fragment implements OnPermissionExplanationListener {
     private Switch switchLocationPermission;
     private Context context;
     private Activity activity;
@@ -53,7 +54,7 @@ public class LocationPermissionsFragment extends Fragment implements OnPermissio
         btnPermissionsLocationNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isLocationPermissionGranted() /*|| isLocationPermissionDenied()*/)//TODO:: OK?
+                if (isLocationPermissionGranted() /*|| isLocationPermissionDeniedForEver()*/)//TODO:: OK?
                     onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_SETTINGS_FRAGMENT);
                 else
                     Toast.makeText(context, getString(R.string.please_allow_location_permission), Toast.LENGTH_SHORT).show();
@@ -143,7 +144,7 @@ public class LocationPermissionsFragment extends Fragment implements OnPermissio
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private boolean isLocationPermissionDenied() {
+    private boolean isLocationPermissionDeniedForEver() {
         return !ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION);
     }
 

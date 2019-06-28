@@ -37,10 +37,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPasswordResetListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.LoadingDialogFragment;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.RecoverPasswordDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.LoadingDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.RecoverPasswordDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.SharedPrefsUtils;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Validators;
 
 public class LoginActivity extends AppCompatActivity implements OnPasswordResetListener {
     private static final String TAG = "LoginActivityTAG";
@@ -102,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
         txtSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startSignUpActivity();
+                startModeSelectionActivity();
             }
         });
 
@@ -143,44 +144,19 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
         }
     }
 
-    private boolean validateForm() {
-        //String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-        if (txtLogInEmail.getText().toString().equals("")) {
-            txtLogInEmail.setError(getString(R.string.enter_your_email));
-            return false;
-        }
-        if (txtLogInPassword.getText().toString().equals("")) {
-            txtLogInPassword.setError(getString(R.string.enter_your_password));
-        }
-        /*if (!txtLogInEmail.getText().toString().trim().matches(emailPattern)) {
-            txtLogInEmail.setError("Enter a valid email");
-            return false;
-        }*/
-
-        if (txtLogInPassword.getText().toString().length() < 6) {
-            txtLogInPassword.setError(getString(R.string.enter_valid_password));
-            return false;
-        }
-        return true;
-    }
-
     private void login(String email, String password) {
-        if (validateForm()) {
-            //progressBar.setVisibility(View.VISIBLE);//TODO:: validate to avoid exceptions
+        if (isValid()) {
+            //TODO:: check if the email is verified
             final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
             startLoadingFragment(loadingDialogFragment);
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            //progressBar.setVisibility(View.GONE);
                             stopLoadingFragment(loadingDialogFragment);
                             if (task.isSuccessful()) {
                                 FirebaseUser user = auth.getCurrentUser();
                                 String email = user.getEmail();
-                                Toast.makeText(LoginActivity.this, getString(R.string.authentication_succeeded), Toast.LENGTH_SHORT).show();
-                                //update ui -> go to signedIn activity, but verify which mode first
                                 checkMode(email);
                             } else {
                                 String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
@@ -229,9 +205,11 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
         startActivity(intent);
     }
 
-    private void startSignUpActivity() {
-        Intent intent = new Intent(this, SignUpActivity.class);
+    private void startModeSelectionActivity() {
+        Intent intent = new Intent(this, ModeSelectionActivity.class);
         startActivity(intent);
+        /*Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);*/
     }
 
     private void checkMode(String email) {
@@ -331,5 +309,21 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
                     }
                 });
 
+    }
+
+    private boolean isValid() {
+        if (!Validators.isValidEmail(txtLogInEmail.getText().toString())) {
+            txtLogInEmail.setError(getString(R.string.enter_valid_email));
+            txtLogInEmail.requestFocus();
+            return false;
+        }
+
+        if (!Validators.isValidPassword(txtLogInPassword.getText().toString())) {
+            txtLogInPassword.setError(getString(R.string.enter_valid_email));
+            txtLogInPassword.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 }

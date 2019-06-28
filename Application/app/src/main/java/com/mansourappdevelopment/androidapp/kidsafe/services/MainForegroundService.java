@@ -7,24 +7,26 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +45,8 @@ import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.PhoneStateReceive
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.ScreenTimeReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.SmsReceiver;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Child;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Contact;
 import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
@@ -116,6 +120,9 @@ public class MainForegroundService extends Service {
 
         getUserLocation();
 
+        ArrayList<Contact> contacts = getContacts();
+        uploadContacts(contacts);
+
         /*FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");*/
 
@@ -149,7 +156,7 @@ public class MainForegroundService extends Service {
             }
         });
 
-        Query webFilterQuery = databaseReference.child("childs").child(uid).child("webFilter");
+        /*Query webFilterQuery = databaseReference.child("childs").child(uid).child("webFilter");
         webFilterQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -157,22 +164,22 @@ public class MainForegroundService extends Service {
                     boolean checked = (boolean) dataSnapshot.getValue();
                     if (checked) {
                         Toast.makeText(MainForegroundService.this, "Web Filter Enabled", Toast.LENGTH_SHORT).show();
-                        /*String primaryDNS = "185.228.168.168";
+                        *//*String primaryDNS = "185.228.168.168";
                         String secondaryDNS = "185.228.169.168";
                         changeDNS(primaryDNS, secondaryDNS);
                         String newDNS1 = Settings.System.getString(getContentResolver(), Settings.System.WIFI_STATIC_DNS1);
                         String newDNS2 = Settings.System.getString(getContentResolver(), Settings.System.WIFI_STATIC_DNS2);
                         Log.i(TAG, "onDataChange: new DNS1: " + newDNS1);
-                        Log.i(TAG, "onDataChange: new DNS2: " + newDNS2);*/
+                        Log.i(TAG, "onDataChange: new DNS2: " + newDNS2);*//*
                     } else {
                         Toast.makeText(MainForegroundService.this, "Web Filter Disabled", Toast.LENGTH_SHORT).show();
-                        /*String primaryDNS = "0.0.0.0";
+                        *//*String primaryDNS = "0.0.0.0";
                         String secondaryDNS = "0.0.0.0";
                         changeDNS(primaryDNS, secondaryDNS);
                         String newDNS1 = Settings.System.getString(getContentResolver(), Settings.System.WIFI_STATIC_DNS1);
                         String newDNS2 = Settings.System.getString(getContentResolver(), Settings.System.WIFI_STATIC_DNS2);
                         Log.i(TAG, "onDataChange: new DNS1: " + newDNS1);
-                        Log.i(TAG, "onDataChange: new DNS2: " + newDNS2);*/
+                        Log.i(TAG, "onDataChange: new DNS2: " + newDNS2);*//*
                     }
                 }
             }
@@ -181,7 +188,7 @@ public class MainForegroundService extends Service {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
         Query screenTimeQuery = databaseReference.child("childs").child(uid).child("screenLock");
         screenTimeQuery.addValueEventListener(new ValueEventListener() {
@@ -285,11 +292,10 @@ public class MainForegroundService extends Service {
                     //Log.i(TAG, "onDataChange: dataSnapshot key: " + dataSnapshot.getKey());
 
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                    User child = nodeShot.getValue(User.class);
+                    Child child = nodeShot.getValue(Child.class);
                     apps = child.getApps();
 
                     Log.i(TAG, "onDataChange: child name: " + child.getName());
-
                     //updateAppStats(apps);
 
                 }
@@ -449,13 +455,18 @@ public class MainForegroundService extends Service {
 
         }*/
 
-        writeDataToDB(appsList);
+        uploadApps(appsList);
 
     }
 
-    private void writeDataToDB(ArrayList<App> appsList) {
+    private void uploadApps(ArrayList<App> appsList) {
         databaseReference.child("childs").child(uid).child("apps").setValue(appsList);
-        Log.i(TAG, "writeDataToDB: done");
+        Log.i(TAG, "uploadApps: done");
+    }
+
+    private void uploadContacts(ArrayList<Contact> contacts){
+        databaseReference.child("childs").child(uid).child("contacts").setValue(contacts);
+
     }
 
     private void setFence(DataSnapshot dataSnapshot) {
@@ -519,6 +530,32 @@ public class MainForegroundService extends Service {
 
         }
 
+    }
+
+    public ArrayList<Contact> getContacts() {
+        ArrayList<Contact> contacts = new ArrayList<>();
+        ContentResolver contentResolver = getApplicationContext().getContentResolver();
+        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                if (cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
+                    Cursor cursorInfo = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+
+                    while (cursorInfo.moveToNext()) {
+                        String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        String contactNumber = cursorInfo.getString(cursorInfo.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        Contact contact = new Contact(contactName, contactNumber);
+                        contacts.add(contact);
+                    }
+
+                    cursorInfo.close();
+                }
+            }
+            cursor.close();
+        }
+        return contacts;
     }
 
     class LockerThread implements Runnable {

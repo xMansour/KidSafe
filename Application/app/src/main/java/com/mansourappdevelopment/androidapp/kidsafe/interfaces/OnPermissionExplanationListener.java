@@ -1,6 +1,6 @@
 package com.mansourappdevelopment.androidapp.kidsafe.interfaces;
 
-public interface OnPermissionExplainationListener {
+public interface OnPermissionExplanationListener {
     void onOk(int requestCode);
 
     void onCancel(int switchId);

@@ -3,7 +3,11 @@ package com.mansourappdevelopment.androidapp.kidsafe.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Call implements Parcelable {
+import com.mansourappdevelopment.androidapp.kidsafe.utils.DateUtils;
+
+import java.util.Date;
+
+public class Call implements Parcelable, Comparable<Call> {
     private String callType;
     private String phoneNumber;
     private String contactName;
@@ -21,6 +25,7 @@ public class Call implements Parcelable {
         this.callTime = callTime;
         this.callDurationInSeconds = callDurationInSeconds;
     }
+
 
     protected Call(Parcel in) {
         callType = in.readString();
@@ -88,11 +93,17 @@ public class Call implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(callType);
-        dest.writeString(phoneNumber);
-        dest.writeString(contactName);
-        dest.writeString(callTime);
-        dest.writeString(callDurationInSeconds);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(callType);
+        parcel.writeString(phoneNumber);
+        parcel.writeString(contactName);
+        parcel.writeString(callTime);
+        parcel.writeString(callDurationInSeconds);
+    }
+
+    @Override
+    public int compareTo(Call call) {
+        return DateUtils.stringToDate(getCallTime(), DateUtils.FORMAT).compareTo(DateUtils.stringToDate(call.getCallTime(), DateUtils.FORMAT));
+
     }
 }

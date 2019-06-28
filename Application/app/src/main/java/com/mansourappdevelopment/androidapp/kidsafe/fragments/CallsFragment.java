@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,26 +25,29 @@ import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnCallDeleteClick
 import com.mansourappdevelopment.androidapp.kidsafe.models.Call;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_CALLS_EXTRA;
 import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSignedInActivity.CHILD_EMAIL_EXTRA;
 
 
-public class CallsFragment extends Fragment implements OnCallDeleteClickListener {
+public class CallsFragment extends Fragment /*implements OnCallDeleteClickListener */ {
     private static final String TAG = "CallsFragmentTAG";
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private HashMap<String, Call> calls;
+    private ArrayList<Call> callsList;
     private String childEmail;
     private RecyclerView recyclerViewCalls;
+    private CallAdapter callAdapter;
+    private TextView txtNoCalls;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calls, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_calls, container, false);
     }
 
     @Override
@@ -50,33 +55,68 @@ public class CallsFragment extends Fragment implements OnCallDeleteClickListener
         super.onViewCreated(view, savedInstanceState);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
+        getData();
 
         recyclerViewCalls = (RecyclerView) view.findViewById(R.id.recyclerViewCalls);
-        recyclerViewCalls.setHasFixedSize(true);
-        recyclerViewCalls.setLayoutManager(new LinearLayoutManager(getContext()));
+        txtNoCalls = (TextView) view.findViewById(R.id.txtNoCalls);
 
-        initializeAdapter(getData(), this);
+        if (callsList.isEmpty()) {
+            txtNoCalls.setVisibility(View.VISIBLE);
+            recyclerViewCalls.setVisibility(View.GONE);
+        } else {
+            txtNoCalls.setVisibility(View.GONE);
+            recyclerViewCalls.setVisibility(View.VISIBLE);
+            recyclerViewCalls.setHasFixedSize(true);
+            recyclerViewCalls.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            Collections.sort(callsList, Collections.<Call>reverseOrder());  //descending order
+            initializeAdapter(callsList/*, this*/);
+            initializeItemTouchHelper();
+        }
     }
 
-    private ArrayList<Call> getData() {
+    private void getData() {
         Bundle bundle = getActivity().getIntent().getExtras();
         if (bundle != null) {
             calls = (HashMap<String, Call>) bundle.getSerializable(CHILD_CALLS_EXTRA);
+            callsList = new ArrayList<>(calls.values());
             childEmail = bundle.getString(CHILD_EMAIL_EXTRA);
-
-            return new ArrayList<>(calls.values());
         }
-        return null;
     }
 
-    private void initializeAdapter(ArrayList<Call> calls, OnCallDeleteClickListener onCallDeleteClickListener) {
-        CallAdapter callAdapter = new CallAdapter(getContext(), calls);
-        callAdapter.setOnCallDeleteClickListener(onCallDeleteClickListener);
+    private void initializeAdapter(ArrayList<Call> calls/*, OnCallDeleteClickListener onCallDeleteClickListener*/) {
+        callAdapter = new CallAdapter(getContext(), calls);
+        //callAdapter.setOnCallDeleteClickListener(onCallDeleteClickListener);
         recyclerViewCalls.setAdapter(callAdapter);
     }
 
-    @Override
-    public void onCallDeleteClick(final Call call) {
+    private void initializeItemTouchHelper() {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                int position = viewHolder.getAdapterPosition();
+
+                deleteCall(callsList.get(position));
+                callsList.remove(position);
+                callAdapter.notifyItemRemoved(position);
+                callAdapter.notifyItemRangeChanged(position, callsList.size());
+                if (callsList.isEmpty()) {
+                    txtNoCalls.setVisibility(View.VISIBLE);
+                    recyclerViewCalls.setVisibility(View.GONE);
+                }
+            }
+        };
+
+        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerViewCalls);
+
+    }
+
+    private void deleteCall(final Call call) {
         Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

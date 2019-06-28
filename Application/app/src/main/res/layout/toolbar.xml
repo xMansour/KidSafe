@@ -31,8 +31,7 @@
         android:layout_marginStart="64dp"
         android:text="@string/home"
         android:textColor="@color/flatui_wet_asphalt"
-        android:textSize="@dimen/text_size_16sp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/text_size_20sp" />
 
     <ImageButton
         android:id="@+id/btnSettings"

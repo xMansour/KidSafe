@@ -10,9 +10,8 @@
     <string name="password">Password</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_up_here">Sign up here</string>
-    <string name="parent">Parent</string>
     <string name="select_mode">Select Mode</string>
-    <string name="parent_email">Parent email</string>
+    <string name="parent_email">Parent email address</string>
     <string name="forgot_password">Reset Password</string>
     <string name="enter_your_email_address">Please enter your email address to request a password reset.</string>
     <string name="your_email">Your email</string>
@@ -35,7 +34,7 @@
     <string name="call_duration">Call Duration</string>
     <string name="delete">Delete</string>
     <string name="web_filter">Web Filter</string>
-    <string name="setup_a_geofence">Setup a GeoFence</string>
+    <string name="setup_a_geofence">Start a GeoFence</string>
     <string name="select_geofence_s_center">Center</string>
     <string name="geofence_s_diameter">Diameter</string>
     <string name="diameter_in_meters">Diameter in meters</string>
@@ -60,8 +59,8 @@
     <string name="mm">MM</string>
     <string name="and">and</string>
     <string name="minutes">minutes</string>
-    <string name="maximum_is_23_hours">Maximum is 23 hours</string>
-    <string name="maximum_is_59_minutes">Maximum is 59 minutes</string>
+    <string name="maximum_is_23_hours">Enter a valid hours, maximum is 23 hours</string>
+    <string name="maximum_is_59_minutes">Enter a valid minutes, maximum is 59 minutes</string>
     <string name="enter_a_valid_number">Enter a valid number</string>
     <string name="cancel">Cancel</string>
     <string name="canceled">Canceled</string>
@@ -80,7 +79,6 @@
     <string name="enter_your_password">Enter your password</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="this_email_isnt_registered_as_parent">This email isn\'t registered as a parent</string>
-    <string name="child">Child</string>
     <string name="sign_up_succeeded">Signup succeeded</string>
     <string name="verification_email_sent_it_may_be_within_your_drafts">Verification email sent, it may be within your drafts</string>
     <string name="email_is_already_in_use">Email is already in use</string>
@@ -176,10 +174,10 @@
     <string name="done">Done</string>
     <string name="password_reset_email_sent">Password reset email sent, it may be within your drafts</string>
     <string name="select_the_mode_of_this_email_as_a_parent_or_a_child">Select the mode of this email as a parent or a child</string>
-    <string name="name_validation">Name can\'t be more than 15 character</string>
+    <string name="name_validation">Enter a name less than 15 characters</string>
     <string name="would_you_love_to_add_a_profile_image">Would you like to add a profile image?</string>
     <string name="please_add_a_profile_image">Please add a profile image</string>
-    <string name="if_he_exceeded_it_you_will_be_alerted">, if he exceeded it you will be alerted</string>
+    <string name="if_he_exceeded_it_you_will_be_alerted">exceeded it, you will be alerted.</string>
     <string name="on">on</string>
     <string name="phone">phone</string>
     <string name="lock">Lock</string>
@@ -187,6 +185,26 @@
     <string name="upper_dot_s">\'s</string>
     <string name="device">device</string>
     <string name="password_recovery">Password recovery</string>
+    <string name="if_">If</string>
+    <string name="please_enter_a_valid_diameter">Please enter a valid diameter</string>
+    <string name="minutes_ago">Mins ago</string>
+    <string name="unknown_number">Unknown Number</string>
+    <string name="a_moment_ago">A moment ago</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="deleted_the_app">has uninstalled the app.</string>
+    <string name="contacts">Contacts</string>
+    <string name="messages">Messages</string>
+    <string name="calls">Calls</string>
+    <string name="no_messages_received_yet">No messages received yet!</string>
+    <string name="no_calls_received_yet">No calls received yet!</string>
+    <string name="no_contacts_found">No contacts found</string>
+    <string name="phone_call_permission_explanation">This permission is needed to be able to call the contact</string>
+    <string name="call_canceled">Call canceled</string>
+    <string name="who_will_be_using_this_device">Who will be using this device?</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="parent">Parent</string>
+    <string name="child">Child</string>
+    <string name="please_enter_this_child_parent_email">Please enter this child\'s parent email</string>
 
 
 </resources>

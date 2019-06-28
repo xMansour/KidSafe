@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "487946012349-6limf25r4rln178dhi8ojm9s67a5j2j1.apps.googleusercontent.com",
+          "client_id": "487946012349-jl6qltcr9jv44rmdrlh1l0dhfqkjvfgj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mansourappdevelopment.androidapp.kidsafe",
-            "certificate_hash": "111d3354e481c6160ac283971c057b462c621215"
+            "certificate_hash": "54852af4dabff4d6c92c98c3c866c6d5d0ce3724"
           }
         },
         {
@@ -33,20 +33,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "487946012349-brimdf043dkkn6de7uspdv91mo7rc9s0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

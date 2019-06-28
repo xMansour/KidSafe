@@ -11,95 +11,74 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="@dimen/circular_image_width_small"
+            android:layout_height="@dimen/circular_image_height_small"
+            android:layout_margin="@dimen/margin_4dp">
+
+            <TextView
+                android:id="@+id/txtCallBackground"
+                style="@style/CardTextBackground" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_4dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
-                style="@style/CardTextViewActivityHeader"
-                android:text="@string/call_type" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/txtContactName"
+                    style="@style/CardHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="start|center" />
 
-            <TextView
-                android:id="@+id/txtCallType"
-                style="@style/CardTextViewActivityBody" />
+                <TextView
+                    android:id="@+id/txtCallTime"
+                    style="@style/CardBody"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center|end" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgCallType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_4dp" />
+
+                    <TextView
+                        android:id="@+id/txtCallerPhoneNumber"
+                        style="@style/CardBody"
+                        android:layout_width="wrap_content" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtCallDuration"
+                    style="@style/CardBody"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center|end" />
+            </FrameLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/CardTextViewActivityHeader"
-                android:text="@string/caller_phone_number" />
-
-            <TextView
-                android:id="@+id/txtCallerPhoneNumber"
-                style="@style/CardTextViewActivityBody" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/CardTextViewActivityHeader"
-                android:text="@string/contact_name" />
-
-            <TextView
-                android:id="@+id/txtContactName"
-                style="@style/CardTextViewActivityBody" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/CardTextViewActivityHeader"
-                android:text="@string/call_time" />
-
-            <TextView
-                android:id="@+id/txtCallTime"
-                style="@style/CardTextViewActivityBody" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/CardTextViewActivityHeader"
-                android:text="@string/call_duration" />
-
-            <TextView
-                android:id="@+id/txtCallDuration"
-                style="@style/CardTextViewActivityBody" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnDeleteCall"
-            style="@style/OkButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
-            android:text="@string/delete" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

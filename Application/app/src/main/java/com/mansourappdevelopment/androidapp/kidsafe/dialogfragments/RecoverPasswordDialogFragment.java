@@ -1,4 +1,4 @@
-package com.mansourappdevelopment.androidapp.kidsafe.fragments;
+package com.mansourappdevelopment.androidapp.kidsafe.dialogfragments;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -37,6 +37,8 @@ public class RecoverPasswordDialogFragment extends DialogFragment {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         txtRecoveryEmail = view.findViewById(R.id.txtRecoveryEmail);
+
+
         btnRecoverPassword = view.findViewById(R.id.btnRecoverPassword);
         btnRecoverPassword.setOnClickListener(new View.OnClickListener() {
             @Override

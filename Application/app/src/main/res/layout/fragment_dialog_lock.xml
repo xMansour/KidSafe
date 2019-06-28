@@ -1,91 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_8dp"
     android:layout_gravity="center"
-    android:focusableInTouchMode="true"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/padding_8dp">
+    android:focusableInTouchMode="true">
 
-    <TextView
-        android:id="@+id/txtLockHeader"
-        style="@style/HeaderText"
-        android:text="@string/lock_phone" />
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtLockBody"
-        style="@style/BodyText"
-        android:text="@string/confirm" />
-
-    <Spinner
-        android:id="@+id/spinnerLockEntries"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_8dp"
-        android:entries="@array/timer_entries"
-        android:textAlignment="center" />
-
-
-    <LinearLayout
-        android:id="@+id/layoutLockTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_8dp"
-        android:background="@drawable/edit_text_rounded"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <EditText
-            android:id="@+id/txtLockHours"
-            android:layout_width="50dp"
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
-            android:background="@drawable/edit_text_rounded"
-            android:hint="@string/hh"
-            android:inputType="number"
-            android:maxLength="2"
-            android:textAlignment="center" />
+            android:layout_gravity="bottom"
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/two_dots"
-            android:textAlignment="center"
-            android:textColor="@color/flatui_midnight_blue"
-            android:textSize="@dimen/text_size_16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/txtLockMinutes"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
-            android:background="@drawable/edit_text_rounded"
-            android:hint="@string/mm"
-            android:inputType="number"
-            android:maxLength="2"
-            android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/txtLockHeader"
+                    style="@style/DialogFragmentHeader"
+                    android:text="@string/lock_phone" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/txtLockBody"
+                    style="@style/DialogFragmentBody"
+                    android:text="@string/confirm" />
 
+                <Spinner
+                    android:id="@+id/spinnerLockEntries"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_32dp"
+                    android:layout_marginTop="@dimen/margin_32dp"
+                    android:layout_marginEnd="@dimen/margin_32dp"
+                    android:entries="@array/timer_entries"
+                    android:gravity="center" />
 
-    <Button
-        android:id="@+id/btnLock"
-        style="@style/OkButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_8dp"
-        android:text="@string/ok" />
+                <LinearLayout
+                    android:id="@+id/layoutLockTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_32dp"
+                    android:layout_marginTop="@dimen/margin_32dp"
+                    android:layout_marginEnd="@dimen/margin_32dp"
+                    android:background="@drawable/edit_text_rounded"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-    <Button
-        android:id="@+id/btnCancelLock"
-        style="@style/CancelButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_8dp"
-        android:text="@string/cancel" />
+                    <EditText
+                        android:id="@+id/txtLockHours"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_8dp"
+                        android:background="@drawable/edit_text_rounded"
+                        android:hint="@string/hh"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/two_dots"
+                        android:textAlignment="center"
+                        android:textColor="@color/flatui_midnight_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <EditText
+                        android:id="@+id/txtLockMinutes"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_8dp"
+                        android:background="@drawable/edit_text_rounded"
+                        android:hint="@string/mm"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutSettingsControls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:layout_marginBottom="@dimen/margin_8dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnCancelLock"
+                        style="@style/DialogFragmentButtonCancel" />
+
+                    <Button
+                        android:id="@+id/btnLock"
+                        style="@style/DialogFragmentButtonOk" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <ImageView
+            style="@style/DialogFragmentImage"
+            android:src="@drawable/ic_lock_white" />
+
+    </FrameLayout>
 </LinearLayout>

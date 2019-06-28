@@ -26,9 +26,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.ChildAdapter;
-import com.mansourappdevelopment.androidapp.kidsafe.fragments.PhoneLockDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.PhoneLockDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Child;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Parent;
 import com.mansourappdevelopment.androidapp.kidsafe.models.ScreenLock;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
@@ -49,7 +51,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
     public static final String CHILD_CALLS_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.activities.CHILD_CALLS_EXTRA";
     private RecyclerView recyclerViewChilds;
     private ChildAdapter childAdapter;
-    private ArrayList<User> childs;
+    private ArrayList<Child> childs;
     private CircleImageView imgParent;
     private TextView txtParentName;
     //private TextView txtChildCount;
@@ -121,7 +123,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
                     childs = new ArrayList<>();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        childs.add(child.getValue(User.class));
+                        childs.add(child.getValue(Child.class));
                     }
 
                     txtNoKids.setVisibility(View.GONE);
@@ -157,7 +159,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
                 if (dataSnapshot.exists()) {
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
                     //String key = dataSnapshot.getKey();
-                    User parent = nodeShot.getValue(User.class);
+                    Parent parent = nodeShot.getValue(Parent.class);
                     String parentName = parent.getName();
                     String profileImageUrl = parent.getProfileImage();
                     Picasso.get().load(profileImageUrl).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(imgParent);
@@ -178,27 +180,19 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        User child = childs.get(position);
-        Intent intent = new Intent(this, ChildDetailsActivity.class);
-        intent.putExtra(APPS_EXTRA, child.getApps());
-        intent.putExtra(PARENT_EMAIL_EXTRA, user.getEmail());
-        intent.putExtra(CHILD_NAME_EXTRA, child.getName());
-        intent.putExtra(CHILD_EMAIL_EXTRA, child.getEmail());
-
-        intent.putExtra(CHILD_MESSAGES_EXTRA, child.getMessages());
-        intent.putExtra(CHILD_CALLS_EXTRA, child.getCalls());
-
-        /*Bundle bundle = new Bundle();
-        bundle.putSerializable(CHILD_MESSAGES_EXTRA, child.getMessages());
-        bundle.putSerializable(CHILD_CALLS_EXTRA, child.getCalls());
-        intent.putExtras(bundle);*/
-        //TODO:: put child's image as an extra
-
-        for (App app : child.getApps()) {
-            Log.i(TAG, "onItemClick: appName: " + app.getAppName() + " " + "packageName" + app.getPackageName());
+    public void onItemClick(/*View view, */int position) {
+        Child child = childs.get(position);
+        if (!child.isAppDeleted()) {
+            Intent intent = new Intent(this, ChildDetailsActivity.class);
+            intent.putExtra(APPS_EXTRA, child.getApps());
+            intent.putExtra(PARENT_EMAIL_EXTRA, user.getEmail());
+            intent.putExtra(CHILD_NAME_EXTRA, child.getName());
+            intent.putExtra(CHILD_EMAIL_EXTRA, child.getEmail());
+            intent.putExtra(CHILD_MESSAGES_EXTRA, child.getMessages());
+            intent.putExtra(CHILD_CALLS_EXTRA, child.getCalls());
+            intent.putExtra(Constant.CHILD_CONTACTS_EXTRA, child.getContacts());
+            startActivity(intent);
         }
-        startActivity(intent);
     }
 
     @Override
@@ -255,7 +249,6 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
             phoneLockDialogFragment.show(fragmentManager, "PhoneLockDialogFragment");
         } else {
             Toast.makeText(this, getString(R.string.phone_unlocked), Toast.LENGTH_SHORT).show();
-
             ScreenLock screenLock = new ScreenLock(0, 0, false);
             updatePhoneLock(screenLock);
         }
@@ -275,10 +268,14 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 
     @Override
     public void onLockCanceled() {
-        Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
-        initializeAdapter();//TODO:: don't know if it is the best solution
-
+        //Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+        initializeAdapter();
     }
+
+    /*@Override
+    public void onLockDismiss() {
+        //initializeAdapter();
+    }*/
 
     private void updatePhoneLock(final ScreenLock screenLock) {
         Query childQuery = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);

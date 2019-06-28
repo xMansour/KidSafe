@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnChildClickListener;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Child;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 import com.squareup.picasso.Picasso;
 
@@ -23,14 +25,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapterViewHolder> {
     private Context context;
-    private ArrayList<User> childs;
+    private ArrayList<Child> childs;
     private OnChildClickListener onChildClickListener;
+
 
     public void setOnChildClickListener(OnChildClickListener listener) {
         this.onChildClickListener = listener;
     }
 
-    public ChildAdapter(Context context, ArrayList<User> childs) {
+    public ChildAdapter(Context context, ArrayList<Child> childs) {
         this.context = context;
         this.childs = childs;
     }
@@ -40,6 +43,8 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
         private TextView txtChildName;
         private Switch switchWebFilter;
         private Switch switchLockPhone;
+        private LinearLayout layoutDeletedApp;
+        private TextView txtDeletedApp;
 
         public ChildAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,7 +68,8 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
                     if (onChildClickListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
-                            onChildClickListener.onItemClick(v, position);
+                            //onChildClickListener.onItemClick(v, position);
+                            onChildClickListener.onItemClick(position);
                     }
                 }
             });
@@ -78,6 +84,11 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
                     }
                 }
             });
+
+            layoutDeletedApp = (LinearLayout) itemView.findViewById(R.id.layoutDeletedApp);
+            layoutDeletedApp.setVisibility(View.GONE);
+            txtDeletedApp = (TextView) itemView.findViewById(R.id.txtDeletedApp);
+
         }
     }
 
@@ -91,11 +102,21 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildAdapter
 
     @Override
     public void onBindViewHolder(@NonNull final ChildAdapterViewHolder childAdapterViewHolder, int i) {
-        User child = childs.get(i);
+        Child child = childs.get(i);
         childAdapterViewHolder.txtChildName.setText(child.getName());
-        childAdapterViewHolder.switchLockPhone.setChecked(child.getScreenLock().isLocked());
-        Picasso.get().load(child.getProfileImage()).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(childAdapterViewHolder.imgChild);
 
+        if (child.getScreenLock() != null) {
+            childAdapterViewHolder.switchLockPhone.setChecked(child.getScreenLock().isLocked());
+        }
+        Picasso.get().load(child.getProfileImage()).placeholder(R.drawable.ic_profile_image).error(R.drawable.ic_profile_image).into(childAdapterViewHolder.imgChild);
+        if (child.isAppDeleted()) {
+            childAdapterViewHolder.layoutDeletedApp.setVisibility(View.VISIBLE);
+            childAdapterViewHolder.txtDeletedApp.setText(child.getName() + " " + context.getResources().getString(R.string.deleted_the_app));
+            childAdapterViewHolder.imgChild.setEnabled(false);
+            childAdapterViewHolder.txtChildName.setEnabled(false);
+            childAdapterViewHolder.switchLockPhone.setEnabled(false);
+            childAdapterViewHolder.switchLockPhone.setClickable(false);
+        }
     }
 
     @Override

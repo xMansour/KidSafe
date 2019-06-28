@@ -30,7 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.GeoFenceSettingDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnGeoFenceSettingListener;
+import com.mansourappdevelopment.androidapp.kidsafe.models.Child;
 import com.mansourappdevelopment.androidapp.kidsafe.services.GeoFencingForegroundService;
 import com.mansourappdevelopment.androidapp.kidsafe.models.Location;
 import com.mansourappdevelopment.androidapp.kidsafe.models.User;
@@ -80,6 +82,8 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mapView = (MapView) view.findViewById(R.id.mapView);
+
+
         fabGeoFence = (FloatingActionButton) view.findViewById(R.id.fabGeoFence);
         fabGeoFence.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +168,7 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                    User child = nodeShot.getValue(User.class);
+                    Child child = nodeShot.getValue(Child.class);
                     Location childLocation = child.getLocation();//TODO:: handle if null
                     addMarkerForChild(childLocation);
                     Log.i(TAG, "onDataChange: location changed");
@@ -245,7 +249,7 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                    User child = nodeShot.getValue(User.class);
+                    Child child = nodeShot.getValue(Child.class);
                     Location childLocation = child.getLocation();
                     String key = nodeShot.getKey();
 
@@ -287,7 +291,7 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
 
     @Override
     public void onCancelFence() {
-        Toast.makeText(context, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
 
     }
 

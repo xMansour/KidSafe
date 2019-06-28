@@ -1,5 +1,7 @@
 package com.mansourappdevelopment.androidapp.kidsafe.utils;
 
+import android.net.Uri;
+
 public class Validators {
 
     public static boolean isValidEmail(String email) {
@@ -27,8 +29,47 @@ public class Validators {
 
     }
 
+    public static boolean isValidHours(String hours) {
+        if (hours.equals("")) {
+            return false;
+        }
+
+        if (hours.length() > 23) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public static boolean isValidMinutes(String minutes) {
+        if (minutes.equals("")) {
+            return false;
+        }
+
+        if (minutes.length() > 59) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public static boolean isValidGeoFenceDiameter(String diameter) {
+        if (diameter.equals("")) {
+            return false;
+        }
+        return true;
+
+    }
+
 
     public static boolean isValidName(String name) {
-        return name.length() <= 15;
+        return name.length() <= 15 && !name.equals("");
+    }
+
+    public static boolean isValidImageURI(Uri imageUri) {
+        return imageUri != null;
+
     }
 }
