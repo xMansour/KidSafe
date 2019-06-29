@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="280dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:focusableInTouchMode="true">
@@ -26,15 +26,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!--<TextView
-                    style="@style/DialogFragmentHeader"
-                    android:text="@string/permission_needed" />-->
-
                 <TextView
-                    android:id="@+id/txtPermissionBody"
+                    android:id="@+id/txtInformationBody"
                     style="@style/DialogFragmentBody"
                     android:layout_marginTop="@dimen/margin_48dp"
-                    android:text="@string/permission_explanation" />
+                    android:text="@string/confirm" />
 
                 <LinearLayout
                     android:id="@+id/linearLayoutSettingsControls"
@@ -45,12 +41,9 @@
                     android:layout_marginBottom="@dimen/margin_8dp"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/btnCancelPermission"
-                        style="@style/DialogFragmentButtonCancel" />
 
                     <Button
-                        android:id="@+id/btnOkPermission"
+                        android:id="@+id/btnInformationOk"
                         style="@style/DialogFragmentButtonOk" />
                 </LinearLayout>
             </LinearLayout>
@@ -58,7 +51,7 @@
 
         <ImageView
             style="@style/DialogFragmentImage"
-            android:src="@drawable/ic_error" />
+            android:src="@drawable/ic_info" />
 
     </FrameLayout>
 </LinearLayout>

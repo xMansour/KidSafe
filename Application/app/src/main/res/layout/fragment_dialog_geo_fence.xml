@@ -26,14 +26,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/txtGeoFenceHeader"
                     style="@style/DialogFragmentHeader"
-                    android:text="@string/setup_a_geofence" />
+                    android:text="@string/setup_a_geofence" />-->
 
                 <TextView
                     android:id="@+id/txtGeoFenceBody"
                     style="@style/DialogFragmentBody"
+                    android:layout_marginTop="@dimen/margin_48dp"
                     android:text="@string/confirm" />
 
                 <FrameLayout

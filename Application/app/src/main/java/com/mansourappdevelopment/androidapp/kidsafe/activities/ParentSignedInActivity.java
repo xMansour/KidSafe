@@ -245,7 +245,7 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
             Bundle bundle = new Bundle();
             bundle.putString(Constant.CHILD_NAME_EXTRA, child.getName());
             phoneLockDialogFragment.setArguments(bundle);
-            phoneLockDialogFragment.setCancelable(false);//TODO:: add this to all the other dialog fragments
+            phoneLockDialogFragment.setCancelable(false);
             phoneLockDialogFragment.show(fragmentManager, "PhoneLockDialogFragment");
         } else {
             Toast.makeText(this, getString(R.string.phone_unlocked), Toast.LENGTH_SHORT).show();

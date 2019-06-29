@@ -177,7 +177,7 @@
     <string name="name_validation">Enter a name less than 15 characters</string>
     <string name="would_you_love_to_add_a_profile_image">Would you like to add a profile image?</string>
     <string name="please_add_a_profile_image">Please add a profile image</string>
-    <string name="if_he_exceeded_it_you_will_be_alerted">exceeded it, you will be alerted.</string>
+    <string name="if_he_exceeded_it_you_will_be_alerted">, if exceeded it, you will be alerted.</string>
     <string name="on">on</string>
     <string name="phone">phone</string>
     <string name="lock">Lock</string>
@@ -205,6 +205,17 @@
     <string name="parent">Parent</string>
     <string name="child">Child</string>
     <string name="please_enter_this_child_parent_email">Please enter this child\'s parent email</string>
+    <string name="setup_geo_fence_on">Setup a Geo-Fence on</string>
+    <string name="please_download_google_play_services">Please download google play services</string>
+    <string name="stop">Stop</string>
+    <string name="is_out_of_the_fence">is out of the fence</string>
+    <string name="please_open_your_gps">Please turn on your GPS.</string>
+    <string name="cant_start_the_fence_without_your_location">Please enable your location, we can\'t start the fence around you without it</string>
+    <string name="s_device">\'s device</string>
+    <string name="please_turn_on_the_gps">Please turn on the GPS on</string>
+    <string name="no_location_history_found">No location history was found for</string>
+    <string name="center">Center:</string>
+    <string name="diameter">Diameter:</string>
 
 
 </resources>

@@ -30,7 +30,7 @@ public class PhoneLockDialogFragment extends DialogFragment {
     private LinearLayout layoutLockTime;
     private EditText txtLockHours;
     private EditText txtLockMinutes;
-    private TextView txtLockHeader;
+    //private TextView txtLockHeader;
     private TextView txtLockBody;
     private OnChildClickListener onChildClickListener;
 
@@ -59,11 +59,12 @@ public class PhoneLockDialogFragment extends DialogFragment {
         layoutLockTime = (LinearLayout) view.findViewById(R.id.layoutLockTime);
         txtLockHours = (EditText) view.findViewById(R.id.txtLockHours);
         txtLockMinutes = (EditText) view.findViewById(R.id.txtLockMinutes);
-        txtLockHeader = (TextView) view.findViewById(R.id.txtLockHeader);
-        txtLockBody = (TextView) view.findViewById(R.id.txtLockBody);
 
+        /*txtLockHeader = (TextView) view.findViewById(R.id.txtLockHeader);
         String header = getString(R.string.lock) + " " + childName + getString(R.string.upper_dot_s) + " " + getString(R.string.phone);
-        txtLockHeader.setText(header);
+        txtLockHeader.setText(header);*/
+
+        txtLockBody = (TextView) view.findViewById(R.id.txtLockBody);
         String body = getString(R.string.lock) + " " + childName + getString(R.string.upper_dot_s) + " " + getString(R.string.phone) + " " + getString(R.string.now_or_after_a_period);
         txtLockBody.setText(body);
 

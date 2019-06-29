@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
-        android:background="@color/white"
+        android:background="@android:color/transparent"
         android:src="@drawable/ic_arrow_back" />
 
     <TextView
@@ -31,13 +31,13 @@
         android:layout_marginStart="64dp"
         android:text="@string/home"
         android:textColor="@color/flatui_wet_asphalt"
-        android:textSize="@dimen/text_size_20sp" />
+        android:textSize="@dimen/text_size_18sp" />
 
     <ImageButton
         android:id="@+id/btnSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
-        android:background="@color/white"
+        android:background="@android:color/transparent"
         android:src="@drawable/ic_settings" />
 </FrameLayout>

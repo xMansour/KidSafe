@@ -2,12 +2,12 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -56,375 +56,360 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class SignUpActivity extends AppCompatActivity implements OnConfirmationListener, OnGoogleChildSignUp {
-    private static final String TAG = "SingUpActivityTAG";
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-    private FirebaseStorage firebaseStorage;
-    private StorageReference storageReference;
-    private Uri imageUri;
-    private FirebaseAuth auth;
-    private EditText txtSignUpEmail;
-    private EditText txtParentEmail;
-    private EditText txtSignUpPassword;
-    private EditText txtSignUpName;
-    private Button btnSignUp;
-    private Button btnSignUpWithGoogle;
-    private CircleImageView imgProfile;
-    private FragmentManager fragmentManager;
-    private String uid;
-    private boolean googleAuth = false;
-    private boolean parent = true;
-    private boolean validParent = false;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-        fragmentManager = getSupportFragmentManager();
-
-        Intent intent = getIntent();
-        parent = intent.getBooleanExtra(Constant.PARENT_SIGN_UP, true);
-
-        auth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference("profileImages");
-
-        txtSignUpEmail = (EditText) findViewById(R.id.txtSignUpEmail);
-        txtParentEmail = (EditText) findViewById(R.id.txtParentEmail);
-        txtParentEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Query query = databaseReference.child("parents").orderByChild("email").equalTo(txtParentEmail.getText().toString());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (!dataSnapshot.exists()) {
-                            validParent = false;
-                        } else
-                            validParent = true;
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
-        if (!parent) {
-            txtParentEmail.setVisibility(View.VISIBLE);
-        }
-
-        txtSignUpPassword = (EditText) findViewById(R.id.txtSignUpPassword);
-        txtSignUpName = (EditText) findViewById(R.id.txtSignUpName);
-
-        imgProfile = (CircleImageView) findViewById(R.id.imgProfile);
-        imgProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
-        btnSignUp = (Button) findViewById(R.id.btnSignUp);
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = txtSignUpEmail.getText().toString().toLowerCase();
-                String password = txtSignUpPassword.getText().toString();
-                signUp(email, password);
-            }
-        });
-
-        btnSignUpWithGoogle = (Button) findViewById(R.id.btnSignUpWithGoogle);
-        btnSignUpWithGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInWithGoogle();
-            }
-        });
-
-    }
-
-
-    private void signUp(String email, String password) {
-        if (isValid()) {
-            final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
-            startLoadingFragment(loadingDialogFragment);
-            auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            stopLoadingFragment(loadingDialogFragment);
-                            if (task.isSuccessful()) {
-                                signUpRoutine(txtParentEmail.getText().toString());
-                            } else {
-                                String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
-                                switch (errorCode) {
-                                    case "ERROR_INVALID_EMAIL":
-                                        txtSignUpEmail.setError(getString(R.string.enter_valid_email));
-                                        break;
-                                    case "ERROR_EMAIL_ALREADY_IN_USE":
-                                        txtSignUpEmail.setError(getString(R.string.email_is_already_in_use));
-                                        break;
-                                    case "ERROR_WEAK_PASSWORD":
-                                        txtSignUpPassword.setError(getString(R.string.weak_password));
-                                        break;
-                                    default:
-                                        Toast.makeText(SignUpActivity.this, getString(R.string.sign_up_falied), Toast.LENGTH_SHORT).show();
-
-                                }
-
-                            }
-                        }
-                    });
-        }
-    }
-
-    private void verifyAccount() {
-        FirebaseUser user = auth.getCurrentUser();
-        uid = user.getUid();
-        //String languageCode = auth.getLanguageCode();
-        auth.setLanguageCode(LocaleUtils.getAppLanguage());
-        user.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful())
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(SignUpActivity.this, getString(R.string.verification_email_sent_it_may_be_within_your_drafts), Toast.LENGTH_LONG).show();
-                                }
-                            }, 3000);
-                    }
-                });
-        //auth.setLanguageCode(languageCode);
-    }
-
-    private void openFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST);
-    }
-
-    private void uploadProfileImage(final boolean parent) {
-        if (googleAuth && imageUri == null) {
-            imageUri = auth.getCurrentUser().getPhotoUrl();
-            if (parent)
-                databaseReference.child("parents").child(uid).child("profileImage").setValue(imageUri.toString());
-            else
-                databaseReference.child("childs").child(uid).child("profileImage").setValue(imageUri.toString());
-
-        } else if (!googleAuth) {
-            final StorageReference profileImageStorageReference = storageReference.child(uid + "_profileImage");
-            profileImageStorageReference.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            profileImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    if (uri != null) {
-                                        if (parent)
-                                            databaseReference.child("parents").child(uid).child("profileImage").setValue(uri.toString());
-                                        else
-                                            databaseReference.child("childs").child(uid).child("profileImage").setValue(uri.toString());
-                                    }
-                                    Toast.makeText(SignUpActivity.this, getString(R.string.image_uploaded_successfully), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(SignUpActivity.this, getString(R.string.image_upload_error), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-
-    private void addUserToDB(String parentEmail, boolean parent) {
-        String email;
-        String name;
-        if (googleAuth) {
-            email = auth.getCurrentUser().getEmail();
-            name = auth.getCurrentUser().getDisplayName();
-        } else {
-            email = txtSignUpEmail.getText().toString();
-            name = txtSignUpName.getText().toString();
-
-        }
-
-        if (parent) {
-            Parent p = new Parent(name, email);
-            databaseReference.child("parents").child(uid).setValue(p);
-        } else {
-            Child c = new Child(name, email, parentEmail);
-            databaseReference.child("childs").child(uid).setValue(c);
-        }
-    }
-
-    private void signInWithGoogle() {
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.id))
-                .requestEmail()
-                .build();
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-            imgProfile.setImageURI(imageUri);
-        }
-
-        if (requestCode == Constant.RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "Google sign in failed", e);
-            }
-        }
-    }
-
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
-        AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        auth.signInWithCredential(authCredential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.i(TAG, "onComplete: Authentication Succeeded");
-                            //Toast.makeText(SignUpActivity.this, getString(R.string.authentication_succeeded), Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = auth.getCurrentUser();
-                            googleAuth = true;
-                            getParentEmail();
-
-                        }
-
-                    }
-                });
-    }
-
-    private void signUpRoutine(String parentEmail) {
-        verifyAccount();
-        addUserToDB(parentEmail, parent);
-        uploadProfileImage(parent);
-        if (parent)
-            startParentSignedInActivity();
-        else
-            startChildSignedInActivity();
-    }
-
-    private void startParentSignedInActivity() {
-        Intent intent = new Intent(this, ParentSignedInActivity.class);
-        startActivity(intent);
-    }
-
-    private void startChildSignedInActivity() {
-        Intent intent = new Intent(this, ChildSignedInActivity.class);
-        startActivity(intent);
-    }
-
-    private void startLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
-        loadingDialogFragment.setCancelable(false);
-        loadingDialogFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
-    }
-
-    private void stopLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
-        loadingDialogFragment.dismiss();
-    }
-
-    private boolean isValid() {
-        if (!Validators.isValidName(txtSignUpName.getText().toString())) {
-            txtSignUpName.setError(getString(R.string.name_validation));
-            txtSignUpName.requestFocus();
-            return false;
-        }
-
-        if (!Validators.isValidEmail(txtSignUpEmail.getText().toString())) {
-            txtSignUpEmail.setError(getString(R.string.enter_valid_email));
-            txtSignUpEmail.requestFocus();
-            return false;
-        }
-
-        if (!parent) {
-            if (!Validators.isValidEmail(txtParentEmail.getText().toString()) && !validParent) {
-                txtParentEmail.setError(getString(R.string.this_email_isnt_registered_as_parent));
-                txtParentEmail.requestFocus();
-                return false;
-            }
-        }
-
-        if (!Validators.isValidPassword(txtSignUpPassword.getText().toString())) {
-            txtSignUpPassword.setError(getString(R.string.enter_valid_password));
-            txtSignUpPassword.requestFocus();
-            return false;
-        }
-
-
-        if (!Validators.isValidImageURI(imageUri)) {
-            ConfirmationDialogFragment confirmationDialogFragment = new ConfirmationDialogFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString(Constant.CONFIRMATION_MESSAGE, getString(R.string.would_you_love_to_add_a_profile_image));
-            confirmationDialogFragment.setArguments(bundle);
-            confirmationDialogFragment.setCancelable(false);
-            confirmationDialogFragment.show(fragmentManager, Constant.CONFIRMATION_FRAGMENT_TAG);
-            return false;
-        }
-
-        return true;
-    }
-
-    private void getParentEmail(){
-        GoogleChildSignUpDialogFragment googleChildSignUpDialogFragment = new GoogleChildSignUpDialogFragment();
-        googleChildSignUpDialogFragment.setCancelable(false);
-        googleChildSignUpDialogFragment.show(fragmentManager, Constant.GOOGLE_CHILD_SIGN_UP);
-    }
-
-    @Override
-    public void onConfirm() {
-        imgProfile.requestFocus();
-        Toast.makeText(this, getString(R.string.please_add_a_profile_image), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onConfirmationCancel() {
-        imageUri = Uri.parse("android.resource://com.mansourappdevelopment.androidapp.kidsafe/" + R.drawable.ic_person);
-        signUp(txtSignUpEmail.getText().toString().toLowerCase(), txtSignUpPassword.toString());
-        //TODO:: default image here
-        Log.i(TAG, "onConfirmationCancel: DONE");
-    }
-
-    @Override
-    public void onModeSelected(String parentEmail) {
-        signUpRoutine(parentEmail);
-    }
-
+	private static final String TAG = "SingUpActivityTAG";
+	private FirebaseDatabase firebaseDatabase;
+	private DatabaseReference databaseReference;
+	private FirebaseStorage firebaseStorage;
+	private StorageReference storageReference;
+	private Uri imageUri;
+	private FirebaseAuth auth;
+	private EditText txtSignUpEmail;
+	private EditText txtParentEmail;
+	private EditText txtSignUpPassword;
+	private EditText txtSignUpName;
+	private Button btnSignUp;
+	private Button btnSignUpWithGoogle;
+	private CircleImageView imgProfile;
+	private FragmentManager fragmentManager;
+	private String uid;
+	private boolean googleAuth = false;
+	private boolean parent = true;
+	private boolean validParent = false;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_sign_up);
+		fragmentManager = getSupportFragmentManager();
+		
+		Intent intent = getIntent();
+		parent = intent.getBooleanExtra(Constant.PARENT_SIGN_UP, true);
+		
+		auth = FirebaseAuth.getInstance();
+		firebaseDatabase = FirebaseDatabase.getInstance();
+		databaseReference = firebaseDatabase.getReference("users");
+		firebaseStorage = FirebaseStorage.getInstance();
+		storageReference = firebaseStorage.getReference("profileImages");
+		
+		txtSignUpEmail = findViewById(R.id.txtSignUpEmail);
+		txtParentEmail = findViewById(R.id.txtParentEmail);
+		txtParentEmail.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+			
+			}
+			
+			@Override
+			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+			
+			}
+			
+			@Override
+			public void afterTextChanged(Editable editable) {
+				Query query = databaseReference.child("parents").orderByChild("email").equalTo(txtParentEmail.getText().toString());
+				query.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+						validParent = dataSnapshot.exists();
+					}
+					
+					@Override
+					public void onCancelled(@NonNull DatabaseError databaseError) {
+					
+					}
+				});
+			}
+		});
+		if (!parent) {
+			txtParentEmail.setVisibility(View.VISIBLE);
+		}
+		
+		txtSignUpPassword = findViewById(R.id.txtSignUpPassword);
+		txtSignUpName = findViewById(R.id.txtSignUpName);
+		
+		imgProfile = findViewById(R.id.imgProfile);
+		imgProfile.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openFileChooser();
+			}
+		});
+		btnSignUp = findViewById(R.id.btnSignUp);
+		btnSignUp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String email = txtSignUpEmail.getText().toString().toLowerCase();
+				String password = txtSignUpPassword.getText().toString();
+				signUp(email, password);
+			}
+		});
+		
+		btnSignUpWithGoogle = findViewById(R.id.btnSignUpWithGoogle);
+		btnSignUpWithGoogle.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				signInWithGoogle();
+			}
+		});
+		
+	}
+	
+	
+	private void signUp(String email, String password) {
+		if (isValid()) {
+			final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+			startLoadingFragment(loadingDialogFragment);
+			auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+				@Override
+				public void onComplete(@NonNull Task<AuthResult> task) {
+					stopLoadingFragment(loadingDialogFragment);
+					if (task.isSuccessful()) {
+						signUpRoutine(txtParentEmail.getText().toString());
+					} else {
+						String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+						switch (errorCode) {
+							case "ERROR_INVALID_EMAIL":
+								txtSignUpEmail.setError(getString(R.string.enter_valid_email));
+								break;
+							case "ERROR_EMAIL_ALREADY_IN_USE":
+								txtSignUpEmail.setError(getString(R.string.email_is_already_in_use));
+								break;
+							case "ERROR_WEAK_PASSWORD":
+								txtSignUpPassword.setError(getString(R.string.weak_password));
+								break;
+							default:
+								Toast.makeText(SignUpActivity.this, getString(R.string.sign_up_falied), Toast.LENGTH_SHORT).show();
+							
+						}
+						
+					}
+				}
+			});
+		}
+	}
+	
+	private void signUpRoutine(String parentEmail) {
+		verifyAccount();
+		addUserToDB(parentEmail, parent);
+		uploadProfileImage(parent);
+		if (parent) startParentSignedInActivity();
+		else startChildSignedInActivity();
+	}
+	
+	private void verifyAccount() {
+		FirebaseUser user = auth.getCurrentUser();
+		uid = user.getUid();
+		//String languageCode = auth.getLanguageCode();
+		auth.setLanguageCode(LocaleUtils.getAppLanguage());
+		user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+			@Override
+			public void onComplete(@NonNull Task<Void> task) {
+				if (task.isSuccessful()) new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(SignUpActivity.this, getString(R.string.verification_email_sent_it_may_be_within_your_drafts), Toast.LENGTH_LONG).show();
+					}
+				}, 3000);
+			}
+		});
+		//auth.setLanguageCode(languageCode);
+	}
+	
+	private void uploadProfileImage(final boolean parent) {
+		if (googleAuth && imageUri == null) {
+			imageUri = auth.getCurrentUser().getPhotoUrl();
+			if (parent)
+				databaseReference.child("parents").child(uid).child("profileImage").setValue(imageUri.toString());
+			else
+				databaseReference.child("childs").child(uid).child("profileImage").setValue(imageUri.toString());
+			
+		} else if (!googleAuth) {
+			final StorageReference profileImageStorageReference = storageReference.child(uid + "_profileImage");
+			profileImageStorageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+				@Override
+				public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+					profileImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+						@Override
+						public void onSuccess(Uri uri) {
+							if (uri != null) {
+								if (parent)
+									databaseReference.child("parents").child(uid).child("profileImage").setValue(uri.toString());
+								else
+									databaseReference.child("childs").child(uid).child("profileImage").setValue(uri.toString());
+							}
+							Toast.makeText(SignUpActivity.this, getString(R.string.image_uploaded_successfully), Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			}).addOnFailureListener(new OnFailureListener() {
+				@Override
+				public void onFailure(@NonNull Exception e) {
+					Toast.makeText(SignUpActivity.this, getString(R.string.image_upload_error), Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
+	}
+	
+	private void addUserToDB(String parentEmail, boolean parent) {
+		String email;
+		String name;
+		if (googleAuth) {
+			email = auth.getCurrentUser().getEmail();
+			name = auth.getCurrentUser().getDisplayName();
+		} else {
+			email = txtSignUpEmail.getText().toString();
+			name = txtSignUpName.getText().toString();
+			
+		}
+		
+		if (parent) {
+			Parent p = new Parent(name, email);
+			databaseReference.child("parents").child(uid).setValue(p);
+		} else {
+			Child c = new Child(name, email, parentEmail);
+			databaseReference.child("childs").child(uid).setValue(c);
+		}
+	}
+	
+	private void startParentSignedInActivity() {
+		Intent intent = new Intent(this, ParentSignedInActivity.class);
+		startActivity(intent);
+	}
+	
+	private void startChildSignedInActivity() {
+		Intent intent = new Intent(this, ChildSignedInActivity.class);
+		startActivity(intent);
+	}
+	
+	private void startLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
+		loadingDialogFragment.setCancelable(false);
+		loadingDialogFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
+	}
+	
+	private void stopLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
+		loadingDialogFragment.dismiss();
+	}
+	
+	private boolean isValid() {
+		if (!Validators.isValidName(txtSignUpName.getText().toString())) {
+			txtSignUpName.setError(getString(R.string.name_validation));
+			txtSignUpName.requestFocus();
+			return false;
+		}
+		
+		if (!Validators.isValidEmail(txtSignUpEmail.getText().toString())) {
+			txtSignUpEmail.setError(getString(R.string.enter_valid_email));
+			txtSignUpEmail.requestFocus();
+			return false;
+		}
+		
+		if (!parent) {
+			if (!Validators.isValidEmail(txtParentEmail.getText().toString()) && !validParent) {
+				txtParentEmail.setError(getString(R.string.this_email_isnt_registered_as_parent));
+				txtParentEmail.requestFocus();
+				return false;
+			}
+		}
+		
+		if (!Validators.isValidPassword(txtSignUpPassword.getText().toString())) {
+			txtSignUpPassword.setError(getString(R.string.enter_valid_password));
+			txtSignUpPassword.requestFocus();
+			return false;
+		}
+		
+		
+		if (!Validators.isValidImageURI(imageUri)) {
+			ConfirmationDialogFragment confirmationDialogFragment = new ConfirmationDialogFragment();
+			Bundle bundle = new Bundle();
+			bundle.putString(Constant.CONFIRMATION_MESSAGE, getString(R.string.would_you_love_to_add_a_profile_image));
+			confirmationDialogFragment.setArguments(bundle);
+			confirmationDialogFragment.setCancelable(false);
+			confirmationDialogFragment.show(fragmentManager, Constant.CONFIRMATION_FRAGMENT_TAG);
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private void openFileChooser() {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST);
+	}
+	
+	private void signInWithGoogle() {
+		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.id)).requestEmail().build();
+		GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+		Intent signInIntent = googleSignInClient.getSignInIntent();
+		startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+			imageUri = data.getData();
+			imgProfile.setImageURI(imageUri);
+		}
+		
+		if (requestCode == Constant.RC_SIGN_IN) {
+			Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+			try {
+				// Google Sign In was successful, authenticate with Firebase
+				GoogleSignInAccount account = task.getResult(ApiException.class);
+				firebaseAuthWithGoogle(account);
+			} catch (ApiException e) {
+				// Google Sign In failed, update UI appropriately
+				Toast.makeText(this, getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
+				Log.i(TAG, "Google sign in failed", e);
+			}
+		}
+	}
+	
+	private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+		Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+		AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+		auth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+			@Override
+			public void onComplete(@NonNull Task<AuthResult> task) {
+				if (task.isSuccessful()) {
+					Log.i(TAG, "onComplete: Authentication Succeeded");
+					//Toast.makeText(SignUpActivity.this, getString(R.string.authentication_succeeded), Toast.LENGTH_SHORT).show();
+					FirebaseUser user = auth.getCurrentUser();
+					googleAuth = true;
+					getParentEmail();
+					
+				}
+				
+			}
+		});
+	}
+	
+	private void getParentEmail() {
+		GoogleChildSignUpDialogFragment googleChildSignUpDialogFragment = new GoogleChildSignUpDialogFragment();
+		googleChildSignUpDialogFragment.setCancelable(false);
+		googleChildSignUpDialogFragment.show(fragmentManager, Constant.GOOGLE_CHILD_SIGN_UP);
+	}
+	
+	@Override
+	public void onConfirm() {
+		imgProfile.requestFocus();
+		Toast.makeText(this, getString(R.string.please_add_a_profile_image), Toast.LENGTH_SHORT).show();
+	}
+	
+	@Override
+	public void onConfirmationCancel() {
+		imageUri = Uri.parse("android.resource://com.mansourappdevelopment.androidapp.kidsafe/" + R.drawable.ic_person);
+		signUp(txtSignUpEmail.getText().toString().toLowerCase(), txtSignUpPassword.toString());
+		//TODO:: default image here
+		Log.i(TAG, "onConfirmationCancel: DONE");
+	}
+	
+	@Override
+	public void onModeSelected(String parentEmail) {
+		signUpRoutine(parentEmail);
+	}
+	
 }

@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/progressbarLocationFragment"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtNoLocation"
+        style="@style/TextViewNoElements"
+        android:layout_margin="@dimen/margin_24dp"
+        android:text="@string/no_location_history_found"
+        tools:visibility="visible" />
+
     <FrameLayout
+        android:id="@+id/layoutLocation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
             android:id="@+id/fabGeoFence"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/ic_geo_fence"
-            android:layout_margin="@dimen/margin_16dp"/>
+            android:layout_margin="@dimen/margin_16dp"
+            android:src="@drawable/ic_geo_fence" />
 
         <org.osmdroid.views.MapView
             android:id="@+id/mapView"

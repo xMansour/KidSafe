@@ -27,14 +27,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/txtLockHeader"
                     style="@style/DialogFragmentHeader"
-                    android:text="@string/lock_phone" />
+                    android:text="@string/lock_phone" />-->
 
                 <TextView
                     android:id="@+id/txtLockBody"
                     style="@style/DialogFragmentBody"
+                    android:layout_marginTop="@dimen/margin_48dp"
                     android:text="@string/confirm" />
 
                 <Spinner

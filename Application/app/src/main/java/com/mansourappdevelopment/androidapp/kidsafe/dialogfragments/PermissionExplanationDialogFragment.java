@@ -19,7 +19,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
 
 public class PermissionExplanationDialogFragment extends DialogFragment {
-    private TextView txtPermissionHeader;
+    private TextView txtPermissionBody;
     private Button btnOkPermission;
     private Button btnCancelPermission;
     private OnPermissionExplanationListener onPermissionExplanationListener;
@@ -34,7 +34,7 @@ public class PermissionExplanationDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        txtPermissionHeader = (TextView) view.findViewById(R.id.txtPermissionHeader);
+        txtPermissionBody = (TextView) view.findViewById(R.id.txtPermissionBody);
         onPermissionExplanationListener = (OnPermissionExplanationListener) getTargetFragment();
 
         Bundle bundle = getArguments();
@@ -43,38 +43,42 @@ public class PermissionExplanationDialogFragment extends DialogFragment {
 
         switch (requestCode) {
             case Constant.SEND_SMS_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.send_sms_explanation));
+                txtPermissionBody.setText(getString(R.string.send_sms_explanation));
                 break;
             case Constant.READ_SMS_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.read_sms_explanation));
+                txtPermissionBody.setText(getString(R.string.read_sms_explanation));
                 break;
             case Constant.RECEIVE_SMS_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.receive_sms_explanation));
+                txtPermissionBody.setText(getString(R.string.receive_sms_explanation));
                 break;
             case Constant.READ_PHONE_STATE_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.read_phone_state_explanation));
+                txtPermissionBody.setText(getString(R.string.read_phone_state_explanation));
                 break;
             case Constant.READ_CALL_LOG_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.read_call_log_explanation));
+                txtPermissionBody.setText(getString(R.string.read_call_log_explanation));
                 break;
             case Constant.READ_CONTACTS_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.read_contacts_explanation));
+                txtPermissionBody.setText(getString(R.string.read_contacts_explanation));
                 break;
             case Constant.LOCATION_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.location_permission_explanation));
+                txtPermissionBody.setText(getString(R.string.location_permission_explanation));
                 break;
             case Constant.WRITE_SETTINGS_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.write_settings_permission_explanation));
+                txtPermissionBody.setText(getString(R.string.write_settings_permission_explanation));
                 break;
             case Constant.OVERLAY_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.overlay_permission_explanation));
+                txtPermissionBody.setText(getString(R.string.overlay_permission_explanation));
                 break;
             case Constant.PACKAGE_USAGE_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.package_usage_permission_explanation));
+                txtPermissionBody.setText(getString(R.string.package_usage_permission_explanation));
                 break;
             case Constant.CALL_PHONE_PERMISSION_REQUEST_CODE:
-                txtPermissionHeader.setText(getString(R.string.phone_call_permission_explanation));
+                txtPermissionBody.setText(getString(R.string.phone_call_permission_explanation));
                 break;
+            case Constant.USER_LOCATION_PERMISSION_REQUEST_CODE:
+                txtPermissionBody.setText(getString(R.string.cant_start_the_fence_without_your_location));
+                break;
+
         }
 
         btnOkPermission = (Button) view.findViewById(R.id.btnOkPermission);

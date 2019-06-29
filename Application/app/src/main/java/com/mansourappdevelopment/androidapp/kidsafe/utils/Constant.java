@@ -24,6 +24,7 @@ public class Constant {
     public static final String MODE_CHECKED = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE_CHECKED";
     public static final String MODE = "com.mansourappdevelopment.androidapp.kidsafe.utils.MODE";
     public static final String CONFIRMATION_MESSAGE = "com.mansourappdevelopment.androidapp.kidsafe.utils.CONFIRMATION_MESSAGE";
+    public static final String EXPLANATION_MESSAGE = "com.mansourappdevelopment.androidapp.kidsafe.utils.EXPLANATION_MESSAGE";
 
     public static final String PERMISSION_REQUEST_CODE = "com.mansourappdevelopment.androidapp.kidsafe.utils.PERMISSION_REQUEST_CODE";
     public static final int SEND_SMS_PERMISSION_REQUEST_CODE = 1;
@@ -37,6 +38,8 @@ public class Constant {
     public static final int OVERLAY_PERMISSION_REQUEST_CODE = 9;
     public static final int PACKAGE_USAGE_PERMISSION_REQUEST_CODE = 10;
     public static final int CALL_PHONE_PERMISSION_REQUEST_CODE = 11;
+    public static final int USER_LOCATION_PERMISSION_REQUEST_CODE = 12;
+
 
     public static final String SWITCH_ID = "com.mansourappdevelopment.androidapp.kidsafe.utils.SWITCH_ID";
     public static final int PERMISSION_EXPLANATION_FRAGMENT = 453;
@@ -51,6 +54,7 @@ public class Constant {
     public static final String CHILD_FIRST_LAUNCH = "com.mansourappdevelopment.androidapp.kidsafe.utils.CHILD_FIRST_LAUNCH";
 
     public static final String CONFIRMATION_FRAGMENT_TAG = "com.mansourappdevelopment.androidapp.kidsafe.utils.CONFIRMATION_FRAGMENT_TAG";
+    public static final String GEO_FENCING_FRAGMENT_TAG = "com.mansourappdevelopment.androidapp.kidsafe.utils.GEO_FENCING_FRAGMENT_TAG";
 
     public static final String YESTERDAY = "com.mansourappdevelopment.androidapp.kidsafe.utils.YESTERDAY";
     public static final String A_MOMENT_AGO = "com.mansourappdevelopment.androidapp.kidsafe.utils.A_MOMENT_AGO";
@@ -62,4 +66,8 @@ public class Constant {
     public static final String CHILD_CONTACTS_EXTRA = "com.mansourappdevelopment.androidapp.kidsafe.utils.CHILD_CONTACTS_EXTRA";
 
     public static final String PARENT_SIGN_UP = "com.mansourappdevelopment.androidapp.kidsafe.utils.PARENT_SIGN_UP";
+    public static final String ACTION_STOP_GEO_FENCING_SERVICE = "com.mansourappdevelopment.androidapp.kidsafe.utils.ACTION_STOP_GEO_FENCING_SERVICE";
+    public static final int GEO_FENCING_SERVICE_REQUEST_CODE = 24;
+    public static final String INFORMATION_MESSAGE = "com.mansourappdevelopment.androidapp.kidsafe.utils.INFORMATION_MESSAGE";
+    public static final String INFORMATION_DIALOG_FRAGMENT_TAG = "com.mansourappdevelopment.androidapp.kidsafe.utils.INFORMATION_DIALOG_FRAGMENT_TAG";
 }

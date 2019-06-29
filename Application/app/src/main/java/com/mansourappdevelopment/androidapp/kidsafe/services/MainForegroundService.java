@@ -112,7 +112,7 @@ public class MainForegroundService extends Service {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 //.setContentTitle(notificationContent)
-                .setSmallIcon(R.drawable.ic_location)   //TODO:: add the app icon
+                .setSmallIcon(R.drawable.ic_kidsafe)
                 .setContentIntent(pendingIntent)
                 .build();
 
