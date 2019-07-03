@@ -80,7 +80,7 @@
     <string name="enter_your_email">Enter your email</string>
     <string name="this_email_isnt_registered_as_parent">This email isn\'t registered as a parent</string>
     <string name="sign_up_succeeded">Signup succeeded</string>
-    <string name="verification_email_sent_it_may_be_within_your_drafts">Verification email sent, it may be within your drafts</string>
+    <string name="verification_email_sent_it_may_be_within_your_drafts">Verification email sent</string>
     <string name="email_is_already_in_use">Email is already in use</string>
     <string name="weak_password">Weak password</string>
     <string name="sign_up_falied">Signup Failed</string>
@@ -216,6 +216,10 @@
     <string name="no_location_history_found">No location history was found for</string>
     <string name="center">Center:</string>
     <string name="diameter">Diameter:</string>
+    <string name="please_verify_your_account_through_the_email_that_was_sent_to_the_email_you_used_in_signing_up_it_may_be_within_your_drafts">Please verify your account through the email that was sent to the email you used in signing up, it may be within your drafts.</string>
+    <string name="account_verification">Account Verification</string>
+    <string name="resend_verification_email">Resend verification email</string>
+    <string name="you_re_offline_ncheck_your_connection_and_try_again">You\'re offline \nCheck your connection and try again</string>
 
 
 </resources>

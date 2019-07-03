@@ -3,7 +3,6 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -189,30 +188,17 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 	}
 	
 	private void signUpRoutine(String parentEmail) {
-		verifyAccount();
+		//verifyAccount();
 		addUserToDB(parentEmail, parent);
 		uploadProfileImage(parent);
-		if (parent) startParentSignedInActivity();
-		else startChildSignedInActivity();
+		startAccountVerificationActivity();
+		/*if (parent) startParentSignedInActivity();
+		else startChildSignedInActivity();*/
 	}
 	
-	private void verifyAccount() {
-		FirebaseUser user = auth.getCurrentUser();
-		uid = user.getUid();
-		//String languageCode = auth.getLanguageCode();
-		auth.setLanguageCode(LocaleUtils.getAppLanguage());
-		user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-			@Override
-			public void onComplete(@NonNull Task<Void> task) {
-				if (task.isSuccessful()) new Handler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						Toast.makeText(SignUpActivity.this, getString(R.string.verification_email_sent_it_may_be_within_your_drafts), Toast.LENGTH_LONG).show();
-					}
-				}, 3000);
-			}
-		});
-		//auth.setLanguageCode(languageCode);
+	private void startAccountVerificationActivity() {
+		Intent intent = new Intent(this, AccountVerificationActivity.class);
+		startActivity(intent);
 	}
 	
 	private void uploadProfileImage(final boolean parent) {
@@ -271,7 +257,12 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 		}
 	}
 	
-	private void startParentSignedInActivity() {
+	private void startLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
+		loadingDialogFragment.setCancelable(false);
+		loadingDialogFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
+	}
+	
+/*	private void startParentSignedInActivity() {
 		Intent intent = new Intent(this, ParentSignedInActivity.class);
 		startActivity(intent);
 	}
@@ -279,12 +270,7 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 	private void startChildSignedInActivity() {
 		Intent intent = new Intent(this, ChildSignedInActivity.class);
 		startActivity(intent);
-	}
-	
-	private void startLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
-		loadingDialogFragment.setCancelable(false);
-		loadingDialogFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
-	}
+	}*/
 	
 	private void stopLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
 		loadingDialogFragment.dismiss();
@@ -343,6 +329,20 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 		GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 		Intent signInIntent = googleSignInClient.getSignInIntent();
 		startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+	}
+	
+	private void verifyAccount() {
+		FirebaseUser user = auth.getCurrentUser();
+		uid = user.getUid();
+		auth.setLanguageCode(LocaleUtils.getAppLanguage());
+		user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+			@Override
+			public void onComplete(@NonNull Task<Void> task) {
+				if (task.isSuccessful())
+					Toast.makeText(SignUpActivity.this, getString(R.string.verification_email_sent_it_may_be_within_your_drafts), Toast.LENGTH_LONG).show();
+			}
+			
+		});
 	}
 	
 	@Override

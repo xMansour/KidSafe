@@ -7,12 +7,25 @@
     android:orientation="vertical"
     tools:context=".activities.BlockedAppActivity">
 
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_cancel" />
+
     <TextView
         android:id="@+id/txtBlockedAppName"
-        style="@style/HeaderText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_margin="@dimen/margin_4dp"
+        android:textSize="@dimen/text_size_18sp"
+        android:textColor="@color/flatui_midnight_blue"
         android:text="@string/child_app_name" />
 
     <TextView
-        style="@style/BodyText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_16sp"
+        android:textAlignment="center"
         android:text="@string/this_app_is_blocked_by_your_parents" />
 </LinearLayout>

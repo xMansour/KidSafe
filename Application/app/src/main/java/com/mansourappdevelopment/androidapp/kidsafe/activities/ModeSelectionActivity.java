@@ -23,7 +23,6 @@ public class ModeSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_selection);
 
-
         txtParentSignUp = (TextView) findViewById(R.id.txtParentSignUp);
         imgParentSignUp = (CircleImageView) findViewById(R.id.imgParentSignUp);
         imgParentSignUp.setOnClickListener(new View.OnClickListener() {

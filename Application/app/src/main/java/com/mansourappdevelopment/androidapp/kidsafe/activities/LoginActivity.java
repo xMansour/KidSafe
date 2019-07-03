@@ -180,7 +180,6 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 	
 	private void login(String email, String password) {
 		if (isValid()) {
-			//TODO:: check if the email is verified
 			final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
 			startLoadingFragment(loadingDialogFragment);
 			auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -190,7 +189,8 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 					if (task.isSuccessful()) {
 						FirebaseUser user = auth.getCurrentUser();
 						String email = user.getEmail();
-						checkMode(email);
+						if (Validators.isVerified(user)) checkMode(email);
+						else startAccountVerificationActivity();
 					} else {
 						String errorCode;
 						try {
@@ -276,6 +276,11 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 		startActivity(intent);
 	}
 	
+	private void startAccountVerificationActivity() {
+		Intent intent = new Intent(this, AccountVerificationActivity.class);
+		startActivity(intent);
+	}
+	
 	private void startModeSelectionActivity() {
 		Intent intent = new Intent(this, ModeSelectionActivity.class);
 		startActivity(intent);
@@ -352,4 +357,5 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 		});
 		
 	}
+	
 }
