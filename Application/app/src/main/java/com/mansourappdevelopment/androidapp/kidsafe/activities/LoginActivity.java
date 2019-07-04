@@ -1,6 +1,5 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,8 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.InformationDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.LoadingDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.RecoverPasswordDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPasswordResetListener;
@@ -73,19 +71,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 		
 		fragmentManager = getSupportFragmentManager();
 		LocaleUtils.setAppLanguage(this);
-		if (!isGooglePlayServicesAvailable(this)) {
-			Toast.makeText(this, getString(R.string.please_download_google_play_services), Toast.LENGTH_SHORT).show();
-			btnLogin.setEnabled(false);
-			btnLogin.setClickable(false);
-			btnGoogleSignUp.setClickable(false);
-			btnGoogleSignUp.setClickable(false);
-			txtSignUp.setEnabled(false);
-			txtSignUp.setClickable(false);
-			txtForgotPassword.setEnabled(false);
-			txtForgotPassword.setClickable(false);
-			checkBoxRememberMe.setEnabled(false);
-			checkBoxRememberMe.setClickable(false);
-		}
+		
 		
 		//FirebaseApp.initializeApp(this);
 		auth = FirebaseAuth.getInstance();
@@ -145,31 +131,37 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			txtLogInEmail.setText(emailPrefs);
 			txtLogInPassword.setText(passwordPrefs);
 		}
+		
+		if (!Validators.isGooglePlayServicesAvailable(this)) {
+			startInformationDialogFragment(getString(R.string.please_download_google_play_services));
+			//Toast.makeText(this, getString(R.string.please_download_google_play_services), Toast.LENGTH_SHORT).show();
+			btnLogin.setEnabled(false);
+			btnLogin.setClickable(false);
+			btnGoogleSignUp.setClickable(false);
+			btnGoogleSignUp.setClickable(false);
+			txtSignUp.setEnabled(false);
+			txtSignUp.setClickable(false);
+			txtForgotPassword.setEnabled(false);
+			txtForgotPassword.setClickable(false);
+			checkBoxRememberMe.setEnabled(false);
+			checkBoxRememberMe.setClickable(false);
+		}
 	}
 	
 	@Override
 	protected void onStart() {
 		super.onStart();
 		if (autoLoginPrefs) {
-			FirebaseUser user = auth.getCurrentUser();
-			if (user != null) {
-				String email = user.getEmail();
-				checkMode(email);
-			}
+			if (Validators.isInternetAvailable(this)) {
+				FirebaseUser user = auth.getCurrentUser();
+				if (user != null) {
+					String email = user.getEmail();
+					checkMode(email);
+				}
+			} else startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
 		}
 	}
 	
-	private boolean isGooglePlayServicesAvailable(Activity activity) {
-		GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-		int status = googleApiAvailability.isGooglePlayServicesAvailable(activity);
-		if (status != ConnectionResult.SUCCESS) {
-			if (googleApiAvailability.isUserResolvableError(status))
-				googleApiAvailability.getErrorDialog(activity, status, 2404).show();
-			return false;
-		}
-		
-		return true;
-	}
 	
 	private void autoLogin() {
 		SharedPrefsUtils.setBooleanPreference(this, Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
@@ -189,8 +181,9 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 					if (task.isSuccessful()) {
 						FirebaseUser user = auth.getCurrentUser();
 						String email = user.getEmail();
-						if (Validators.isVerified(user)) checkMode(email);
-						else startAccountVerificationActivity();
+						/*if (Validators.isVerified(user))*/
+						checkMode(email);
+						//else startAccountVerificationActivity();
 					} else {
 						String errorCode;
 						try {
@@ -231,7 +224,21 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			return false;
 		}
 		
+		if (!Validators.isInternetAvailable(this)) {
+			startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
+			return false;
+		}
+		
 		return true;
+	}
+	
+	private void startInformationDialogFragment(String message) {
+		InformationDialogFragment informationDialogFragment = new InformationDialogFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constant.INFORMATION_MESSAGE, message);
+		informationDialogFragment.setArguments(bundle);
+		informationDialogFragment.setCancelable(false);
+		informationDialogFragment.show(getSupportFragmentManager(), Constant.INFORMATION_DIALOG_FRAGMENT_TAG);
 	}
 	
 	private void startLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
@@ -276,11 +283,6 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 		startActivity(intent);
 	}
 	
-	private void startAccountVerificationActivity() {
-		Intent intent = new Intent(this, AccountVerificationActivity.class);
-		startActivity(intent);
-	}
-	
 	private void startModeSelectionActivity() {
 		Intent intent = new Intent(this, ModeSelectionActivity.class);
 		startActivity(intent);
@@ -295,10 +297,18 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 	}
 	
 	private void signInWithGoogle() {
-		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.id)).requestEmail().build();
-		GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-		Intent signInIntent = googleSignInClient.getSignInIntent();
-		startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+		if (Validators.isInternetAvailable(this)) {
+			GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.id)).requestEmail().build();
+			GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+			Intent signInIntent = googleSignInClient.getSignInIntent();
+			startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+		} else startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
+		
+	}
+	
+	private void startAccountVerificationActivity() {
+		Intent intent = new Intent(this, AccountVerificationActivity.class);
+		startActivity(intent);
 	}
 	
 	@Override
@@ -357,5 +367,4 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 		});
 		
 	}
-	
 }

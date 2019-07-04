@@ -1,5 +1,8 @@
 package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -111,6 +114,14 @@ public class MessagesFragment extends Fragment /*implements OnMessageDeleteClick
                     txtNoMessages.setVisibility(View.VISIBLE);
                     recyclerViewMessages.setVisibility(View.GONE);
                 }
+            }
+    
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                final ColorDrawable background = new ColorDrawable(Color.RED);
+                background.setBounds(viewHolder.itemView.getLeft() + 10, viewHolder.itemView.getTop(), viewHolder.itemView.getRight() + (int) dX, viewHolder.itemView.getBottom());
+                background.draw(c);
             }
         };
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerViewMessages);

@@ -1,5 +1,8 @@
 package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,7 +24,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.CallAdapter;
-import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnCallDeleteClickListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.Call;
 
 import java.util.ArrayList;
@@ -33,118 +35,127 @@ import static com.mansourappdevelopment.androidapp.kidsafe.activities.ParentSign
 
 
 public class CallsFragment extends Fragment /*implements OnCallDeleteClickListener */ {
-    private static final String TAG = "CallsFragmentTAG";
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-    private HashMap<String, Call> calls;
-    private ArrayList<Call> callsList;
-    private String childEmail;
-    private RecyclerView recyclerViewCalls;
-    private CallAdapter callAdapter;
-    private TextView txtNoCalls;
-
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calls, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
-        getData();
-
-        recyclerViewCalls = (RecyclerView) view.findViewById(R.id.recyclerViewCalls);
-        txtNoCalls = (TextView) view.findViewById(R.id.txtNoCalls);
-
-        if (callsList.isEmpty()) {
-            txtNoCalls.setVisibility(View.VISIBLE);
-            recyclerViewCalls.setVisibility(View.GONE);
-        } else {
-            txtNoCalls.setVisibility(View.GONE);
-            recyclerViewCalls.setVisibility(View.VISIBLE);
-            recyclerViewCalls.setHasFixedSize(true);
-            recyclerViewCalls.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            Collections.sort(callsList, Collections.<Call>reverseOrder());  //descending order
-            initializeAdapter(callsList/*, this*/);
-            initializeItemTouchHelper();
-        }
-    }
-
-    private void getData() {
-        Bundle bundle = getActivity().getIntent().getExtras();
-        if (bundle != null) {
-            calls = (HashMap<String, Call>) bundle.getSerializable(CHILD_CALLS_EXTRA);
-            callsList = new ArrayList<>(calls.values());
-            childEmail = bundle.getString(CHILD_EMAIL_EXTRA);
-        }
-    }
-
-    private void initializeAdapter(ArrayList<Call> calls/*, OnCallDeleteClickListener onCallDeleteClickListener*/) {
-        callAdapter = new CallAdapter(getContext(), calls);
-        //callAdapter.setOnCallDeleteClickListener(onCallDeleteClickListener);
-        recyclerViewCalls.setAdapter(callAdapter);
-    }
-
-    private void initializeItemTouchHelper() {
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                int position = viewHolder.getAdapterPosition();
-
-                deleteCall(callsList.get(position));
-                callsList.remove(position);
-                callAdapter.notifyItemRemoved(position);
-                callAdapter.notifyItemRangeChanged(position, callsList.size());
-                if (callsList.isEmpty()) {
-                    txtNoCalls.setVisibility(View.VISIBLE);
-                    recyclerViewCalls.setVisibility(View.GONE);
-                }
-            }
-        };
-
-        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerViewCalls);
-
-    }
-
-    private void deleteCall(final Call call) {
-        Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
-                final String key = nodeShot.getKey();
-                Log.i(TAG, "onDataChange: key: " + key);
-                Query query = databaseReference.child("childs").child(key).child("calls").orderByChild("callTime").equalTo(call.getCallTime());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
-                            snapshot.getRef().removeValue();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
+	private static final String TAG = "CallsFragmentTAG";
+	private FirebaseDatabase firebaseDatabase;
+	private DatabaseReference databaseReference;
+	private HashMap<String, Call> calls;
+	private ArrayList<Call> callsList;
+	private String childEmail;
+	private RecyclerView recyclerViewCalls;
+	private CallAdapter callAdapter;
+	private TextView txtNoCalls;
+	
+	
+	@Nullable
+	@Override
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_calls, container, false);
+	}
+	
+	@Override
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		firebaseDatabase = FirebaseDatabase.getInstance();
+		databaseReference = firebaseDatabase.getReference("users");
+		getData();
+		
+		recyclerViewCalls = (RecyclerView) view.findViewById(R.id.recyclerViewCalls);
+		txtNoCalls = (TextView) view.findViewById(R.id.txtNoCalls);
+		
+		if (callsList.isEmpty()) {
+			txtNoCalls.setVisibility(View.VISIBLE);
+			recyclerViewCalls.setVisibility(View.GONE);
+		} else {
+			txtNoCalls.setVisibility(View.GONE);
+			recyclerViewCalls.setVisibility(View.VISIBLE);
+			recyclerViewCalls.setHasFixedSize(true);
+			recyclerViewCalls.setLayoutManager(new LinearLayoutManager(getContext()));
+			
+			Collections.sort(callsList, Collections.<Call>reverseOrder());  //descending order
+			initializeAdapter(callsList/*, this*/);
+			initializeItemTouchHelper();
+		}
+	}
+	
+	private void getData() {
+		Bundle bundle = getActivity().getIntent().getExtras();
+		if (bundle != null) {
+			calls = (HashMap<String, Call>) bundle.getSerializable(CHILD_CALLS_EXTRA);
+			callsList = new ArrayList<>(calls.values());
+			childEmail = bundle.getString(CHILD_EMAIL_EXTRA);
+		}
+	}
+	
+	private void initializeAdapter(ArrayList<Call> calls/*, OnCallDeleteClickListener onCallDeleteClickListener*/) {
+		callAdapter = new CallAdapter(getContext(), calls);
+		//callAdapter.setOnCallDeleteClickListener(onCallDeleteClickListener);
+		recyclerViewCalls.setAdapter(callAdapter);
+	}
+	
+	private void initializeItemTouchHelper() {
+		ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+			@Override
+			public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+				return false;
+			}
+			
+			@Override
+			public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+				int position = viewHolder.getAdapterPosition();
+				
+				deleteCall(callsList.get(position));
+				callsList.remove(position);
+				callAdapter.notifyItemRemoved(position);
+				callAdapter.notifyItemRangeChanged(position, callsList.size());
+				if (callsList.isEmpty()) {
+					txtNoCalls.setVisibility(View.VISIBLE);
+					recyclerViewCalls.setVisibility(View.GONE);
+				}
+			}
+			
+			
+			@Override
+			public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+				super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+				final ColorDrawable background = new ColorDrawable(Color.RED);
+				background.setBounds(viewHolder.itemView.getLeft() + 10, viewHolder.itemView.getTop(), viewHolder.itemView.getRight() + (int) dX, viewHolder.itemView.getBottom());
+				background.draw(c);
+			}
+		};
+		
+		new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerViewCalls);
+		
+	}
+	
+	private void deleteCall(final Call call) {
+		Query query = databaseReference.child("childs").orderByChild("email").equalTo(childEmail);
+		query.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
+				final String key = nodeShot.getKey();
+				Log.i(TAG, "onDataChange: key: " + key);
+				Query query = databaseReference.child("childs").child(key).child("calls").orderByChild("callTime").equalTo(call.getCallTime());
+				query.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+						if (dataSnapshot.exists()) {
+							DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
+							snapshot.getRef().removeValue();
+						}
+					}
+					
+					@Override
+					public void onCancelled(@NonNull DatabaseError databaseError) {
+					
+					}
+				});
+			}
+			
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+			
+			}
+		});
+	}
 }

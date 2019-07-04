@@ -42,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.ConfirmationDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.GoogleChildSignUpDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.InformationDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.LoadingDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnConfirmationListener;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnGoogleChildSignUp;
@@ -314,7 +315,21 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 			return false;
 		}
 		
+		if (!Validators.isInternetAvailable(this)) {
+			startInformationDialogFragment();
+			return false;
+		}
+		
 		return true;
+	}
+	
+	private void startInformationDialogFragment() {
+		InformationDialogFragment informationDialogFragment = new InformationDialogFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constant.INFORMATION_MESSAGE, getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
+		informationDialogFragment.setArguments(bundle);
+		informationDialogFragment.setCancelable(false);
+		informationDialogFragment.show(getSupportFragmentManager(), Constant.INFORMATION_DIALOG_FRAGMENT_TAG);
 	}
 	
 	private void openFileChooser() {
@@ -325,10 +340,12 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 	}
 	
 	private void signInWithGoogle() {
-		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.id)).requestEmail().build();
-		GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-		Intent signInIntent = googleSignInClient.getSignInIntent();
-		startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+		if (Validators.isInternetAvailable(this)) {
+			GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.id)).requestEmail().build();
+			GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+			Intent signInIntent = googleSignInClient.getSignInIntent();
+			startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+		} else startInformationDialogFragment();
 	}
 	
 	private void verifyAccount() {

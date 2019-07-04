@@ -38,6 +38,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <FrameLayout
+            android:id="@+id/layoutFirstPermission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_8dp">
@@ -54,6 +55,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/layoutSecondPermission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_8dp">
@@ -70,6 +72,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/layoutThirdPermission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_8dp">
@@ -130,18 +133,21 @@
                 android:src="@drawable/ic_dot" />
 
             <ImageView
+                android:id="@+id/imgSecondDot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_dot" />
 
             <ImageView
+                android:id="@+id/imgThirdDot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_dot" />
 
             <ImageView
+                android:id="@+id/imgFourthDot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
