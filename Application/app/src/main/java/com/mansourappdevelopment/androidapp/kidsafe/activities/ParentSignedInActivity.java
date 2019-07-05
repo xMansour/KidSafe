@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -105,6 +106,8 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 		recyclerViewChilds.setHasFixedSize(true);
 		recyclerViewChilds.setLayoutManager(new LinearLayoutManager(this));
 		String parentEmail = user.getEmail();
+		Log.i(TAG, "onCreate: user:" + user.getEmail());
+		Log.i(TAG, "onCreate: user:" + user.getUid());
 		getChilds(parentEmail);
 		getParentData(parentEmail);
 		

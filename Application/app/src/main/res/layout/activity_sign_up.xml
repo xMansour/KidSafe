@@ -7,6 +7,7 @@
     android:background="@color/white"
     android:focusableInTouchMode="true"
     android:gravity="center"
+    android:layoutDirection="locale"
     android:orientation="vertical"
     tools:context=".activities.SignUpActivity">
 
@@ -53,11 +54,11 @@
 
                 <EditText
                     android:id="@+id/txtParentEmail"
-                    android:visibility="gone"
                     style="@style/MainEditText"
                     android:drawableStart="@drawable/ic_mail"
                     android:hint="@string/parent_email"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/txtSignUpPassword"
@@ -65,7 +66,6 @@
                     android:drawableStart="@drawable/ic_lock"
                     android:hint="@string/password"
                     android:inputType="textPassword" />
-
 
 
             </LinearLayout>

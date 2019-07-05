@@ -182,17 +182,19 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 					if (task.isSuccessful()) {
 						FirebaseUser user = auth.getCurrentUser();
 						String email = user.getEmail();
-						/*if (Validators.isVerified(user))*/
-							checkMode(email);
-						/*else
-							startAccountVerificationActivity();*/
+						uid = user.getUid();
+						Log.i(TAG, "onComplete: user: " + user.toString());
+						Log.i(TAG, "onComplete: email: " + email);
+						Log.i(TAG, "onComplete: uid: " + uid);
+						//String email = txtLogInEmail.getText().toString();
+						if (Validators.isVerified(user)) checkMode(email);
+						else startAccountVerificationActivity();
 					} else {
-						String errorCode;
+						String errorCode = null;
 						try {
 							errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
 						} catch (ClassCastException e) {
 							e.printStackTrace();
-							errorCode = null;
 						}
 						switch (errorCode) {
 							case "ERROR_INVALID_EMAIL":
@@ -255,16 +257,25 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 	private void checkMode(String email) {
 		final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
 		startLoadingFragment(loadingDialogFragment);
+		Log.i(TAG, "checkMode: email: " + email);
+		Log.i(TAG, "checkMode: email: "+databaseReference.child("parents").child(uid).child("email").get);
 		Query query = databaseReference.child("parents").orderByChild("email").equalTo(email);
 		query.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				loadingDialogFragment.dismiss();
+				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getKey());
+				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.toString());
+				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getChildrenCount());
+				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getChildren());
+				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getRef());
+				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getValue());
 				if (dataSnapshot.exists()) {
 					startParentSignedInActivity();
-					
+					Log.i(TAG, "onDataChange: startParent");
 				} else {
 					startChildSignedInActivity();
+					Log.i(TAG, "onDataChange: startChild");
 				}
 			}
 			

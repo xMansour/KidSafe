@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
+    android:layoutDirection="locale"
     android:orientation="vertical">
 
     <TextView

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="D:/docs" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../JavaDocs" />
     <option name="OPEN_IN_BROWSER" value="false" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">

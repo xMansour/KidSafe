@@ -1,0 +1,10 @@
+com.mansourappdevelopment.androidapp.kidsafe
+com.mansourappdevelopment.androidapp.kidsafe.activities
+com.mansourappdevelopment.androidapp.kidsafe.adapters
+com.mansourappdevelopment.androidapp.kidsafe.broadcasts
+com.mansourappdevelopment.androidapp.kidsafe.dialogfragments
+com.mansourappdevelopment.androidapp.kidsafe.fragments
+com.mansourappdevelopment.androidapp.kidsafe.interfaces
+com.mansourappdevelopment.androidapp.kidsafe.models
+com.mansourappdevelopment.androidapp.kidsafe.services
+com.mansourappdevelopment.androidapp.kidsafe.utils

@@ -20,6 +20,6 @@ public class LoadingDialogFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        //TODO:: NOTHING
+        // NOTHING
     }
 }

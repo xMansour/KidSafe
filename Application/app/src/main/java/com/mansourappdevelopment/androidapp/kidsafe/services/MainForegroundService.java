@@ -594,7 +594,6 @@ public class MainForegroundService extends Service {
                                 } else if (app.getScreenLock().isLocked() && app.getScreenLock().getTimeInSeconds() <= 0) {
                                     app.setBlocked(true);
                                     Log.i(TAG, "run: blocked");
-                                    //TODO:: write it to the database
                                 }
                             } else
                                 Log.i(TAG, "run: ScreenLock is null");

@@ -49,7 +49,6 @@ import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnGoogleChildSign
 import com.mansourappdevelopment.androidapp.kidsafe.models.Child;
 import com.mansourappdevelopment.androidapp.kidsafe.models.Parent;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
-import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Validators;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -189,12 +188,11 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 	}
 	
 	private void signUpRoutine(String parentEmail) {
-		//verifyAccount();
+		uid = auth.getCurrentUser().getUid();
+		Log.i(TAG, "signUpRoutine: UID: " + uid);
 		addUserToDB(parentEmail, parent);
 		uploadProfileImage(parent);
 		startAccountVerificationActivity();
-		/*if (parent) startParentSignedInActivity();
-		else startChildSignedInActivity();*/
 	}
 	
 	private void startAccountVerificationActivity() {
@@ -245,9 +243,10 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 			name = auth.getCurrentUser().getDisplayName();
 		} else {
 			email = txtSignUpEmail.getText().toString();
-			name = txtSignUpName.getText().toString();
+			name = txtSignUpName.getText().toString().replaceAll("\\s+$", "");
 			
 		}
+		Log.i(TAG, "signUpRoutine: UID: " + uid);
 		
 		if (parent) {
 			Parent p = new Parent(name, email);
@@ -262,16 +261,6 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 		loadingDialogFragment.setCancelable(false);
 		loadingDialogFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
 	}
-	
-/*	private void startParentSignedInActivity() {
-		Intent intent = new Intent(this, ParentSignedInActivity.class);
-		startActivity(intent);
-	}
-	
-	private void startChildSignedInActivity() {
-		Intent intent = new Intent(this, ChildSignedInActivity.class);
-		startActivity(intent);
-	}*/
 	
 	private void stopLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
 		loadingDialogFragment.dismiss();
@@ -346,20 +335,7 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 			Intent signInIntent = googleSignInClient.getSignInIntent();
 			startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
 		} else startInformationDialogFragment();
-	}
-	
-	private void verifyAccount() {
-		FirebaseUser user = auth.getCurrentUser();
-		uid = user.getUid();
-		auth.setLanguageCode(LocaleUtils.getAppLanguage());
-		user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-			@Override
-			public void onComplete(@NonNull Task<Void> task) {
-				if (task.isSuccessful())
-					Toast.makeText(SignUpActivity.this, getString(R.string.verification_email_sent_it_may_be_within_your_drafts), Toast.LENGTH_LONG).show();
-			}
-			
-		});
+		
 	}
 	
 	@Override
@@ -418,7 +394,7 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 	
 	@Override
 	public void onConfirmationCancel() {
-		imageUri = Uri.parse("android.resource://com.mansourappdevelopment.androidapp.kidsafe/" + R.drawable.ic_person);
+		imageUri = Uri.parse("android.resource://com.mansourappdevelopment.androidapp.kidsafe/drawable/ic_default_avatar");
 		signUp(txtSignUpEmail.getText().toString().toLowerCase(), txtSignUpPassword.toString());
 		//TODO:: default image here
 		Log.i(TAG, "onConfirmationCancel: DONE");

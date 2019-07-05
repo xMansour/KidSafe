@@ -31,7 +31,6 @@ public class UploadAppsService extends JobService {
     public static final String TAG = "UploadAppsService";
     private boolean jobCancelled;
 
-    //TODO:: get rid of this service and add it's functionality to the main foreground service and use PACKAGE_ADDED and PACKAGE_REMOVED broadcast receivers to update the online list...
     private ArrayList<App> apps;            //read from the database
     private List<ApplicationInfo> applicationInfoList;
     private PackageManager packageManager;
@@ -176,7 +175,6 @@ public class UploadAppsService extends JobService {
                     String key = nodeShot.getKey();
                     //appList contains drawables, that's why it can't be added to the database.
                     //for now i will upload the names only
-                    //TODO:: upload app icons
                     databaseReference.child("childs").child(key).child("apps").setValue(simpleAppInfo);
                     //databaseReference.child("childs").child(key).child("apps").removeValue();
 
@@ -201,13 +199,11 @@ public class UploadAppsService extends JobService {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DataSnapshot nodeShot = dataSnapshot.getChildren().iterator().next();
                 final String key = nodeShot.getKey();
-                //TODO:: upload app icons
                 Query query = databaseReference.child("childs").child(key).child("apps").orderByChild("appName").equalTo("a Paper");
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            //TODO:: move this to the parent activity
                             DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
                             HashMap<String, Object> update = new HashMap<>();
                             update.put("blocked", "true");
@@ -239,11 +235,9 @@ public class UploadAppsService extends JobService {
     }
 
     private void setAppState(String email, String appName, boolean state) {
-        //TODO:: this method should update the app state, blocked or not
     }
 
 
-    //TODO:: this method is asynchronous, needs a fix
     private boolean getAppState(final String appName) {
         Log.i(TAG, "getAppState: " + appName);
         Query query = databaseReference.child("childs").orderByChild("childEmail").equalTo(childEmail);

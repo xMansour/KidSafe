@@ -87,7 +87,7 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
     @Override
     public void onItemClick(final String packageName, String appName, boolean blocked) {
         if (blocked) {
-            Toast.makeText(context, appName + " blocked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, appName +" "+ "blocked", Toast.LENGTH_SHORT).show();
             updateAppState(packageName, blocked);
 
         } else {
@@ -104,7 +104,7 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             AppLockDialogFragment appLockFragment = new AppLockDialogFragment();
-            appLockFragment.setCancelable(false);//TODO:: add this to all the other dialog fragments
+            appLockFragment.setCancelable(false);
             appLockFragment.setArguments(bundle);
             appLockFragment.setTargetFragment(AppsFragment.this, Constant.APP_LOCK_FRAGMENT_REQUEST_CODE);
             appLockFragment.show(fragmentManager, "AppLockDialogFragment");
@@ -135,7 +135,7 @@ public class AppsFragment extends Fragment implements OnAppClickListener {
     @Override
     public void onLockCanceled() {
         Toast.makeText(context, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
-        initializeAdapter(this);//TODO:: don't know if it is the best solution
+        initializeAdapter(this);/
 
     }
 

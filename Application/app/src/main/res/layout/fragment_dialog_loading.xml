@@ -5,6 +5,7 @@
     android:layout_gravity="center"
     android:background="@color/white"
     android:gravity="center"
+    android:layoutDirection="locale"
     android:orientation="horizontal"
     android:padding="@dimen/padding_8dp">
 

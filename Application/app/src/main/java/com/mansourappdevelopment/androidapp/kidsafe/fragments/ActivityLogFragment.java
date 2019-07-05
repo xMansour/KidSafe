@@ -71,7 +71,6 @@ public class ActivityLogFragment extends Fragment {
         pagerAdapter.addFragment(new CallsFragment(), getResources().getString(R.string.calls));
         pagerAdapter.addFragment(new MessagesFragment(), getResources().getString(R.string.messages));
         pagerAdapter.addFragment(new ContactsFragment(), getResources().getString(R.string.contacts));
-        //TODO:: add one for the history
 
         return pagerAdapter;
     }

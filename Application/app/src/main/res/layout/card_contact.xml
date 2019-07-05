@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_8dp"
     android:background="@color/white"
+    android:layoutDirection="locale"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/card_elevation">
 
@@ -46,9 +47,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|end"
+                    android:layout_marginStart="@dimen/margin_4dp"
                     android:layout_marginTop="@dimen/margin_4dp"
                     android:layout_marginEnd="@dimen/margin_32dp"
-                    android:layout_marginStart="@dimen/margin_4dp"
                     android:layout_marginBottom="@dimen/margin_4dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_call" />
@@ -58,8 +59,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|end"
-                    android:background="@android:color/transparent"
                     android:layout_margin="@dimen/margin_4dp"
+                    android:background="@android:color/transparent"
                     android:src="@drawable/ic_message" />
             </FrameLayout>
 

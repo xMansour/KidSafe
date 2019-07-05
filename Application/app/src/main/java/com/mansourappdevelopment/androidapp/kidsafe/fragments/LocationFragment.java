@@ -126,7 +126,6 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
 			Log.i(TAG, "onViewCreated: not null");
 			mapController.setCenter(locationNewOverlay.getMyLocation());
 			
-			//TODO:: attach a listener to act when the location isn't null
 			
 			//mapController.animateTo(new GeoPoint(30.3198639, 31.3095743));
 			

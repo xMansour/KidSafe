@@ -58,7 +58,7 @@ public class LocationPermissionsFragment extends Fragment implements OnPermissio
                     onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_SETTINGS_FRAGMENT);
                 else
                     Toast.makeText(context, getString(R.string.please_allow_location_permission), Toast.LENGTH_SHORT).show();
-                //TODO:: move back child singed in after checking.... and writing to shared prefs
+                
 
             }
         });
