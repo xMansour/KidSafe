@@ -102,7 +102,6 @@ public class CallsFragment extends Fragment /*implements OnCallDeleteClickListen
 			@Override
 			public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 				int position = viewHolder.getAdapterPosition();
-				
 				deleteCall(callsList.get(position));
 				callsList.remove(position);
 				callAdapter.notifyItemRemoved(position);
@@ -111,15 +110,6 @@ public class CallsFragment extends Fragment /*implements OnCallDeleteClickListen
 					txtNoCalls.setVisibility(View.VISIBLE);
 					recyclerViewCalls.setVisibility(View.GONE);
 				}
-			}
-			
-			
-			@Override
-			public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-				super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-				final ColorDrawable background = new ColorDrawable(Color.RED);
-				background.setBounds(viewHolder.itemView.getLeft() + 10, viewHolder.itemView.getTop(), viewHolder.itemView.getRight() + (int) dX, viewHolder.itemView.getBottom());
-				background.draw(c);
 			}
 		};
 		

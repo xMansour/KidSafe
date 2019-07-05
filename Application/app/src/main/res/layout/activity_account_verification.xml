@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
             android:layout_marginTop="@dimen/margin_8dp"
             android:layout_marginEnd="@dimen/margin_32dp"
             android:layout_marginBottom="@dimen/margin_8dp"
-            android:text="@string/please_verify_your_account_through_the_email_that_was_sent_to_the_email_you_used_in_signing_up_it_may_be_within_your_drafts"
+            android:text="@string/please_verify"
             android:textAlignment="center"
             android:textSize="@dimen/text_size_16sp" />
     </LinearLayout>
@@ -52,7 +53,7 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="@dimen/margin_32dp"
         android:layout_marginEnd="@dimen/margin_32dp"
-        android:layout_marginBottom="@dimen/margin_8dp"
+        android:layout_marginBottom="@dimen/margin_24dp"
         android:text="@string/resend_verification_email" />
 
 

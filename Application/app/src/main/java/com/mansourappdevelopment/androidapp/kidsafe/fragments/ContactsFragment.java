@@ -63,7 +63,6 @@ public class ContactsFragment extends Fragment implements OnContactClickListener
 			recyclerViewContacts.setHasFixedSize(true);
 			recyclerViewContacts.setLayoutManager(new LinearLayoutManager(getContext()));
 			initializeAdapter(this);
-			initializeItemTouchHelper();
 			
 		}
 	}
@@ -82,39 +81,6 @@ public class ContactsFragment extends Fragment implements OnContactClickListener
 		recyclerViewContacts.setAdapter(contactsAdapter);
 	}
 	
-	private void initializeItemTouchHelper() {
-		ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-			@Override
-			public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-				return false;
-			}
-			
-			@Override
-			public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-				int position = viewHolder.getAdapterPosition();
-			}
-			
-			@Override
-			public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-				super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-				View itemView = viewHolder.itemView;
-				
-				if (dX > 0.0) {
-					final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.flatui_turquoise));
-					background.setBounds(viewHolder.itemView.getLeft() - (int) dX + 10, viewHolder.itemView.getTop(), viewHolder.itemView.getRight() + (int) dX - 10, viewHolder.itemView.getBottom());
-					background.draw(c);
-					Drawable callIcon = ContextCompat.getDrawable(context, R.drawable.ic_call_white);
-					callIcon.setBounds(20,20,20,20);
-					callIcon.draw(c);
-				} else {
-					final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.flatui_alizarin));
-					background.setBounds(viewHolder.itemView.getLeft() + (int) dX + 10, viewHolder.itemView.getTop(), viewHolder.itemView.getRight() - (int) dX - 10, viewHolder.itemView.getBottom());
-					background.draw(c);
-				}
-			}
-		};
-		new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerViewContacts);
-	}
 	
 	@Override
 	public void onCallClick(String contactNumber) {

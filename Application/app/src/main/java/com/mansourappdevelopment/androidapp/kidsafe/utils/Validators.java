@@ -2,6 +2,7 @@ package com.mansourappdevelopment.androidapp.kidsafe.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -116,5 +117,10 @@ public class Validators {
 		}
 		
 		return true;
+	}
+	
+	public static boolean isLocationOn(Context context) {
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 }

@@ -1,43 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="bottom"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/ic_permissions_messages"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        style="@style/TextViewPermissionsExplanation"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/permission_explanation_sms"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginStart="@dimen/margin_32dp"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:layout_marginEnd="@dimen/margin_32dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
+            android:src="@drawable/ic_permissions_messages" />
+
+
+        <TextView
+            style="@style/TextViewPermissionsExplanation"
+            android:text="@string/permission_explanation_sms" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutSettingsControls"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -86,68 +79,65 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center" />
         </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/linearLayoutSettingsControls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:id="@+id/btnPermissionsSmsPrev"
+                style="@style/ButtonPermissionsPrev"
+                android:text="@string/back" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_dot" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_dot_selected" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_dot" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_dot" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_dot" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnPermissionsSmsNext"
+                style="@style/ButtonPermissionsNext"
+                android:text="@string/next" />
+
+        </FrameLayout>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/linearLayoutSettingsControls"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
 
-
-        <Button
-            android:id="@+id/btnPermissionsSmsPrev"
-            style="@style/ButtonPermissionsPrev"
-            android:text="@string/back" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_dot" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_dot_selected" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_dot" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_dot" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-
-                android:layout_gravity="center"
-                android:src="@drawable/ic_dot" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnPermissionsSmsNext"
-            style="@style/ButtonPermissionsNext"
-            android:text="@string/next" />
-
-    </FrameLayout>
-
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>

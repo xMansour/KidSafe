@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewSettingsHeader"
+                    android:text="@string/general" />
+
+                <Button
+                    android:id="@+id/btnLanguageSelection"
+                    style="@style/ButtonSettings"
+                    android:text="@string/language" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewSettingsHeader"
+                    android:layout_marginTop="@dimen/margin_32dp"
+                    android:text="@string/account" />
+
+
+                <Button
+                    android:id="@+id/btnLogout"
+                    style="@style/ButtonSettings"
+                    android:text="@string/logout" />
+
+                <include layout="@layout/horizontal_line" />
+
+                <Button
+                    android:id="@+id/btnChangePassword"
+                    style="@style/ButtonSettings"
+                    android:text="@string/change_password" />
+
+                <include layout="@layout/horizontal_line" />
+
+                <Button
+                    android:id="@+id/btnDeleteAccount"
+                    style="@style/ButtonSettings"
+                    android:text="@string/delete_account" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewSettingsHeader"
+                    android:layout_marginTop="@dimen/margin_32dp"
+                    android:text="@string/info" />
+
+                <Button
+                    android:id="@+id/btnAbout"
+                    style="@style/ButtonSettings"
+                    android:text="@string/about" />
+
+                <include layout="@layout/horizontal_line" />
+
+                <Button
+                    android:id="@+id/btnRateUs"
+                    style="@style/ButtonSettings"
+                    android:text="@string/rate_us" />
+
+                <include layout="@layout/horizontal_line" />
+
+                <Button
+                    android:id="@+id/btnSendFeedBack"
+                    style="@style/ButtonSettings"
+                    android:text="@string/send_feedback" />
+
+                <include layout="@layout/horizontal_line" />
+
+                <Button
+                    android:id="@+id/btnVisitWebsite"
+                    style="@style/ButtonSettings"
+                    android:text="@string/website" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

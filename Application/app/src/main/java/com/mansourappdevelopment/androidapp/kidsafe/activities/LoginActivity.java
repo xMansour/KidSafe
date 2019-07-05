@@ -158,7 +158,8 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 					String email = user.getEmail();
 					checkMode(email);
 				}
-			} else startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
+			} else
+				startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
 		}
 	}
 	
@@ -182,8 +183,9 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 						FirebaseUser user = auth.getCurrentUser();
 						String email = user.getEmail();
 						/*if (Validators.isVerified(user))*/
-						checkMode(email);
-						//else startAccountVerificationActivity();
+							checkMode(email);
+						/*else
+							startAccountVerificationActivity();*/
 					} else {
 						String errorCode;
 						try {
@@ -283,6 +285,11 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 		startActivity(intent);
 	}
 	
+	private void startAccountVerificationActivity() {
+		Intent intent = new Intent(this, AccountVerificationActivity.class);
+		startActivity(intent);
+	}
+	
 	private void startModeSelectionActivity() {
 		Intent intent = new Intent(this, ModeSelectionActivity.class);
 		startActivity(intent);
@@ -302,13 +309,9 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 			Intent signInIntent = googleSignInClient.getSignInIntent();
 			startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
-		} else startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
+		} else
+			startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
 		
-	}
-	
-	private void startAccountVerificationActivity() {
-		Intent intent = new Intent(this, AccountVerificationActivity.class);
-		startActivity(intent);
 	}
 	
 	@Override

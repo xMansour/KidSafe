@@ -97,7 +97,6 @@
     <string name="delete_account">Delete Account</string>
     <string name="rate_us">Rate Us</string>
     <string name="about">About</string>
-    <string name="about_message">This app is free and open source</string>
     <string name="send_feedback">Send Feedback</string>
     <string name="general">General</string>
     <string name="language_shared_prefs">languageSharedPerfs</string>
@@ -111,7 +110,6 @@
     <string name="rate_us_shared_prefs">rateUsSharedPrefs</string>
     <string name="send_feedback_shared_prefs">sendFeedbackSharedPrefs</string>
     <string name="website">Website</string>
-    <string name="website_link" translatable="false">https://xmansour.github.io/KidSafe</string>
     <string name="version">Version</string>
     <string name="version_number">1.0</string>
     <string name="choose_email_client">Choose email client</string>
@@ -216,10 +214,30 @@
     <string name="no_location_history_found">No location history was found for</string>
     <string name="center">Center:</string>
     <string name="diameter">Diameter:</string>
-    <string name="please_verify_your_account_through_the_email_that_was_sent_to_the_email_you_used_in_signing_up_it_may_be_within_your_drafts">Please verify your account through the email that was sent to the email you used in signing up, it may be within your drafts.</string>
+    <string name="please_verify">Please check your inbox for a confirmation email. Click the link in the email to confirm your email address</string>
     <string name="account_verification">Account Verification</string>
     <string name="resend_verification_email">Resend verification email</string>
     <string name="you_re_offline_ncheck_your_connection_and_try_again">You\'re offline \nCheck your connection and try again</string>
+    <string name="connected">Connected</string>
+    <string name="please_enable_your_gps">Please enable your GPS</string>
+    <string name="please_allow_the_following_permissions">Please accept the following permission to allow kidsafe to function properly</string>
+    <string name="about_message">KidSafe is a free and open source android parental control app which allows parents to keep their children\'s activity under control. KidSafe was developed as a graduation project by the members specified below</string>
+    <string name="smashicons">Smashicons</string>
+    <string name="freepik">Freepik</string>
+    <string name="many_thanks_goes_to_freepik_and_smashiocns_for_the_graphics">Many thanks goes to freepik.com and smashiocns.com for the graphics</string>
+    <string name="developers">Developers</string>
+    <string name="mahmoud_mansour">Mahmoud Mansour</string>
+    <string name="khalid_samir">Khalid Samir</string>
+    <string name="supervisor">Supervisor</string>
+    <string name="d_marwa_abbas">D. Marwa Abbas</string>
+    <string name="_1_0">1.0</string>
+    <string name="select_app_language">Select kidsafe\'s language</string>
+    <string name="enter_your_old_and_new_passowrd">Enter your old and new password</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="reenter_new_password">Re-enter new password</string>
+    <string name="new_password_doesnt_match">New password doesn\'t match</string>
+    <string name="enter_your_password_to_delete_your_account">Enter your password to delete your account</string>
 
 
 </resources>

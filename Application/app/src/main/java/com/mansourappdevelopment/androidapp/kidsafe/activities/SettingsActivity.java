@@ -1,175 +1,234 @@
 package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.mansourappdevelopment.androidapp.kidsafe.AppCompatPreferenceActivity;
+import com.mansourappdevelopment.androidapp.kidsafe.R;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.AccountDeleteDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.ConfirmationDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.LanguageSelectionDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.PasswordChangingDialogFragment;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnConfirmationListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnDeleteAccountListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnLanguageSelectionListener;
+import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPasswordChangeListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.AccountUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.LocaleUtils;
-import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.SharedPrefsUtils;
 
-public class SettingsActivity extends AppCompatPreferenceActivity {
-    private static final String TAG = "SettingsActivityTAG";
-    private static Context context;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //setTitle(R.string.settings);
-        // load settings fragment
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
-    }
-
-    public static class MainPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_main);
-            context = getActivity();
-
-
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.language_shared_prefs)));
-
-            Preference logoutPref = findPreference(getString(R.string.logout_shared_pref));
-            logoutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    AccountUtils.logout(context);
-                    return true;
-                }
-            });
-
-            Preference changePasswordPref = findPreference(getString(R.string.change_password_shared_prefs));
-            changePasswordPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    AccountUtils.changePassword(context);
-                    return true;
-                }
-            });
-
-            Preference deleteAccountPref = findPreference(getString(R.string.delete_account_shared_prefs));
-            deleteAccountPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    AccountUtils.deleteAccount(context);
-                    return true;
-                }
-            });
-
-            Preference sendFeedbackPref = findPreference(getString(R.string.send_feedback_shared_prefs));
-            sendFeedbackPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    sendFeedback(getActivity());
-                    return true;
-                }
-            });
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
-    }
-
-    /**
-     * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
-     */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            String stringValue = newValue.toString();
-
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-                String appLanguage = SharedPrefsUtils.getStringPreference(context, Constant.APP_LANGUAGE, "en");
-
-                if (index == 0) {
-                    if (!appLanguage.equals("en")) {
-                        LocaleUtils.setLocale(context, "en");
-                        restartApp();   //TODO:: best solution ?
-
-                    }
-
-
-                } else if (index == 1) {
-                    if (!appLanguage.equals("ar")) {
-                        LocaleUtils.setLocale(context, "ar");
-                        restartApp();
-                    }
-
-
-                }
-
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-
-            } else {
-                preference.setSummary(stringValue);
-            }
-
-            return true;
-        }
-    };
-
-    /**
-     * Email client intent to send support mail
-     * Appends the necessary device information to email body
-     * useful when providing support
-     */
-    public static void sendFeedback(Context context) {
-        String body = null;
-        try {
-            body = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-            body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " +
-                    Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND +
-                    "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"MansourAppDevelopment@gmail.com"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "KidSafe Feedback");
-        intent.putExtra(Intent.EXTRA_TEXT, body);
-        context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
-    }
-
-    private static void restartApp() {
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
-        
-    }
+public class SettingsActivity extends AppCompatActivity implements OnLanguageSelectionListener, OnConfirmationListener, OnPasswordChangeListener, OnDeleteAccountListener {
+	private Button btnLanguageSelection;
+	private Button btnLogout;
+	private Button btnChangePassword;
+	private Button btnDeleteAccount;
+	private Button btnAbout;
+	private Button btnRateUs;
+	private Button btnSendFeedBack;
+	private Button btnVisitWebsite;
+	private ImageButton btnBack;
+	private ImageButton btnSettings;
+	private TextView txtTitle;
+	private FrameLayout toolbar;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_settings);
+		
+		toolbar = findViewById(R.id.toolbar);
+		btnBack = findViewById(R.id.btnBack);
+		btnBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_back));
+		btnBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
+			}
+		});
+		btnSettings = findViewById(R.id.btnSettings);
+		btnSettings.setVisibility(View.GONE);
+		txtTitle = findViewById(R.id.txtTitle);
+		txtTitle.setText(getString(R.string.settings));
+		
+		btnLanguageSelection = findViewById(R.id.btnLanguageSelection);
+		btnLanguageSelection.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				selectLanguage();
+			}
+		});
+		
+		btnLogout = findViewById(R.id.btnLogout);
+		btnLogout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				logout();
+			}
+		});
+		
+		
+		btnChangePassword = findViewById(R.id.btnChangePassword);
+		btnChangePassword.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				changePassword();
+			}
+		});
+		
+		
+		btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
+		btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				deleteAccount();
+			}
+		});
+		
+		
+		btnAbout = findViewById(R.id.btnAbout);
+		btnAbout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				showAbout();
+			}
+		});
+		
+		
+		btnRateUs = findViewById(R.id.btnRateUs);
+		btnRateUs.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				rateTheApp();
+			}
+		});
+		
+		
+		btnSendFeedBack = findViewById(R.id.btnSendFeedBack);
+		btnSendFeedBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				SendFeedBack();
+			}
+		});
+		
+		
+		btnVisitWebsite = findViewById(R.id.btnVisitWebsite);
+		btnVisitWebsite.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				visitWebsite();
+			}
+		});
+		
+	}
+	
+	private void showAbout() {
+		startActivity(new Intent(this, AboutActivity.class));
+	}
+	
+	private void rateTheApp() {
+		Toast.makeText(this, "rateTheApp", Toast.LENGTH_SHORT).show();
+		
+	}
+	
+	private void SendFeedBack() {
+		String body = null;
+		try {
+			body = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " + Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND + "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("message/rfc822");
+		intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"MansourAppDevelopment@gmail.com"});
+		intent.putExtra(Intent.EXTRA_SUBJECT, "KidSafe Feedback");
+		intent.putExtra(Intent.EXTRA_TEXT, body);
+		startActivity(Intent.createChooser(intent, getString(R.string.choose_email_client)));
+	}
+	
+	private void visitWebsite() {
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://xmansour.github.io/KidSafe"));
+		startActivity(intent);
+	}
+	
+	private void deleteAccount() {
+		AccountDeleteDialogFragment accountDeleteDialogFragment = new AccountDeleteDialogFragment();
+		accountDeleteDialogFragment.setCancelable(false);
+		accountDeleteDialogFragment.show(getSupportFragmentManager(), Constant.ACCOUNT_DELETE_DIALOG_FRAGMENT_TAG);
+	}
+	
+	private void changePassword() {
+		PasswordChangingDialogFragment passwordChangingDialogFragment = new PasswordChangingDialogFragment();
+		passwordChangingDialogFragment.setCancelable(false);
+		passwordChangingDialogFragment.show(getSupportFragmentManager(), Constant.PASSWORD_CHANGING_DIALOG_FRAGMENT_TAG);
+	}
+	
+	private void logout() {
+		ConfirmationDialogFragment confirmationDialogFragment = new ConfirmationDialogFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constant.CONFIRMATION_MESSAGE, getString(R.string.do_you_want_to_logout));
+		confirmationDialogFragment.setArguments(bundle);
+		confirmationDialogFragment.setCancelable(false);
+		confirmationDialogFragment.show(getSupportFragmentManager(), Constant.CONFIRMATION_FRAGMENT_TAG);
+	}
+	
+	private void selectLanguage() {
+		LanguageSelectionDialogFragment languageSelectionDialogFragment = new LanguageSelectionDialogFragment();
+		languageSelectionDialogFragment.setCancelable(false);
+		languageSelectionDialogFragment.show(getSupportFragmentManager(), Constant.LANGUAGE_SELECTION_DIALOG_FRAGMENT_TAG);
+	}
+	
+	@Override
+	public void onLanguageSelection(String language) {
+		String appLanguage = SharedPrefsUtils.getStringPreference(this, Constant.APP_LANGUAGE, "en");
+		if (language.equals("English") && !appLanguage.equals("en")) {
+			LocaleUtils.setLocale(this, "en");
+		} else if (language.equals("Arabic") && !appLanguage.equals("ar")) {
+			LocaleUtils.setLocale(this, "ar");
+			
+		}
+		
+		restartApp();
+		
+	}
+	
+	private void restartApp() {
+		Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+		
+	}
+	
+	@Override
+	public void onConfirm() {
+		AccountUtils.logout(this);
+	}
+	
+	@Override
+	public void onConfirmationCancel() {
+		//DO NOTHING
+	}
+	
+	@Override
+	public void onPasswordChange(String newPassword) {
+		AccountUtils.changePassword(this, newPassword);
+		
+	}
+	
+	@Override
+	public void onDeleteAccount(String password) {
+		AccountUtils.deleteAccount(this, password);
+		
+	}
 }

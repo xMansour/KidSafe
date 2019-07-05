@@ -10,7 +10,7 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.GET_TASKS" /> <!--FOR FOREGROUND APPS BEFORE LOLLIPOP-->
+    <uses-permission android:name="android.permission.GET_TASKS" /> <!-- FOR FOREGROUND APPS BEFORE LOLLIPOP -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
@@ -34,10 +34,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activities.AccountVerificationActivity"></activity>
+        <activity android:name=".activities.AboutActivity"></activity>
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.AccountVerificationActivity" />
         <activity android:name=".activities.ModeSelectionActivity" />
         <activity android:name=".activities.PermissionsActivity" />
-        <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.BlockedAppActivity" />
         <activity
             android:name=".activities.ChildDetailsActivity"

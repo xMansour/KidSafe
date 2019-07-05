@@ -42,6 +42,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.models.Child;
 import com.mansourappdevelopment.androidapp.kidsafe.models.Location;
 import com.mansourappdevelopment.androidapp.kidsafe.services.GeoFencingForegroundService;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
+import com.mansourappdevelopment.androidapp.kidsafe.utils.Validators;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -327,7 +328,7 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
 					String key = nodeShot.getKey();
 					
 					if (geoFenceCenter.equals("You")) {
-						if (userLocation == null || !isLocationOn()) {
+						if (userLocation == null || !Validators.isLocationOn(context)) {
 							startPermissionExplanationDialogFragment();
 						} else {
 							double fenceCenterLatitude = userLocation.getLatitude();
@@ -371,22 +372,16 @@ public class LocationFragment extends Fragment implements OnGeoFenceSettingListe
 	private void startPermissionExplanationDialogFragment() {
 		PermissionExplanationDialogFragment permissionExplanationDialogFragment = new PermissionExplanationDialogFragment();
 		Bundle bundle = new Bundle();
-		bundle.putInt(Constant.PERMISSION_REQUEST_CODE, Constant.USER_LOCATION_PERMISSION_REQUEST_CODE);
+		bundle.putInt(Constant.PERMISSION_REQUEST_CODE, Constant.CHILD_LOCATION_PERMISSION_REQUEST_CODE);
 		permissionExplanationDialogFragment.setArguments(bundle);
 		permissionExplanationDialogFragment.setCancelable(false);
 		permissionExplanationDialogFragment.setTargetFragment(this, Constant.PERMISSION_EXPLANATION_FRAGMENT);
 		permissionExplanationDialogFragment.show(getFragmentManager(), Constant.PERMISSION_EXPLANATION_FRAGMENT_TAG);
 	}
 	
-	private boolean isLocationOn() {
-		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-	}
-	
 	@Override
 	public void onOk(int requestCode) {
 		startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-		
 	}
 	
 	@Override

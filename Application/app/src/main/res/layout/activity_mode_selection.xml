@@ -1,18 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
-
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_64dp"
-        android:layout_marginBottom="@dimen/margin_64dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/margin_128dp"
         android:orientation="vertical">
 
         <TextView
@@ -46,21 +42,22 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_32dp"
+            android:text="@string/who_will_be_using_this_device"
+            android:textAlignment="center"
+            android:textColor="@color/flatui_wet_asphalt"
+            android:textSize="@dimen/text_size_24sp" />
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/who_will_be_using_this_device"
-        android:textAlignment="center"
-        android:textColor="@color/flatui_wet_asphalt"
-        android:textSize="@dimen/text_size_24sp" />
-
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_128dp">
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/margin_128dp"
+        android:layout_marginBottom="@dimen/margin_64dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -120,4 +117,4 @@
     </FrameLayout>
 
 
-</LinearLayout>
+</FrameLayout>
