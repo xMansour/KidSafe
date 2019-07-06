@@ -3,10 +3,6 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -14,6 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -105,11 +106,12 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 			
 			@Override
 			public void afterTextChanged(Editable editable) {
-				Query query = databaseReference.child("parents").orderByChild("email").equalTo(txtParentEmail.getText().toString());
+				Query query = databaseReference.child("parents").orderByChild("email").equalTo(txtParentEmail.getText().toString().toLowerCase());
 				query.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 						validParent = dataSnapshot.exists();
+						Log.i(TAG, "onDataChange: " + validParent);
 					}
 					
 					@Override
@@ -163,7 +165,7 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 				public void onComplete(@NonNull Task<AuthResult> task) {
 					stopLoadingFragment(loadingDialogFragment);
 					if (task.isSuccessful()) {
-						signUpRoutine(txtParentEmail.getText().toString());
+						signUpRoutine(txtParentEmail.getText().toString().toLowerCase());
 					} else {
 						String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
 						switch (errorCode) {
@@ -242,9 +244,8 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 			email = auth.getCurrentUser().getEmail();
 			name = auth.getCurrentUser().getDisplayName();
 		} else {
-			email = txtSignUpEmail.getText().toString();
+			email = txtSignUpEmail.getText().toString().toLowerCase();
 			name = txtSignUpName.getText().toString().replaceAll("\\s+$", "");
-			
 		}
 		Log.i(TAG, "signUpRoutine: UID: " + uid);
 		
@@ -280,7 +281,7 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 		}
 		
 		if (!parent) {
-			if (!Validators.isValidEmail(txtParentEmail.getText().toString()) && !validParent) {
+			if (!Validators.isValidEmail(txtParentEmail.getText().toString().toLowerCase()) || !validParent) {
 				txtParentEmail.setError(getString(R.string.this_email_isnt_registered_as_parent));
 				txtParentEmail.requestFocus();
 				return false;

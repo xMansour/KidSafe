@@ -2,11 +2,6 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,6 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -82,14 +83,14 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 		//txtChildCount = findViewById(R.id.txtChildCount);
 		linearLayout = findViewById(R.id.linearLayoutParentSignedInActivity);
 		
-		toolbar = (FrameLayout) findViewById(R.id.toolbar);
+		toolbar = findViewById(R.id.toolbar);
 		progressBar = findViewById(R.id.progressBarParentSignedInActivity);
 		progressBar.setVisibility(View.VISIBLE);
 		linearLayout.setVisibility(View.GONE);
 		toolbar.setVisibility(View.GONE);
-		btnBack = (ImageButton) findViewById(R.id.btnBack);
+		btnBack = findViewById(R.id.btnBack);
 		btnBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_home_));
-		btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+		btnSettings = findViewById(R.id.btnSettings);
 		btnSettings.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -97,10 +98,10 @@ public class ParentSignedInActivity extends AppCompatActivity implements OnChild
 				startActivity(intent);
 			}
 		});
-		txtTitle = (TextView) findViewById(R.id.txtTitle);
+		txtTitle = findViewById(R.id.txtTitle);
 		txtTitle.setText(getString(R.string.home));
 		
-		txtNoKids = (TextView) findViewById(R.id.txtNoKids);
+		txtNoKids = findViewById(R.id.txtNoKids);
 		
 		recyclerViewChilds = findViewById(R.id.recyclerViewChilds);
 		recyclerViewChilds.setHasFixedSize(true);

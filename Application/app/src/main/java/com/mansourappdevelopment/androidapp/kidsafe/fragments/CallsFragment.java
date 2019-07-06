@@ -1,20 +1,18 @@
 package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,8 +57,8 @@ public class CallsFragment extends Fragment /*implements OnCallDeleteClickListen
 		databaseReference = firebaseDatabase.getReference("users");
 		getData();
 		
-		recyclerViewCalls = (RecyclerView) view.findViewById(R.id.recyclerViewCalls);
-		txtNoCalls = (TextView) view.findViewById(R.id.txtNoCalls);
+		recyclerViewCalls = view.findViewById(R.id.recyclerViewCalls);
+		txtNoCalls = view.findViewById(R.id.txtNoCalls);
 		
 		if (callsList.isEmpty()) {
 			txtNoCalls.setVisibility(View.VISIBLE);

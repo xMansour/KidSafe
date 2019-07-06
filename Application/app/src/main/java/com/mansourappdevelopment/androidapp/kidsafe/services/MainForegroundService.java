@@ -21,12 +21,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -472,7 +473,7 @@ public class MainForegroundService extends Service {
 		ArrayList<App> appsList = new ArrayList<>();
 		for (ApplicationInfo applicationInfo : applicationInfoList) {
 			if (applicationInfo.packageName != null) {
-				appsList.add(new App((String) applicationInfo.loadLabel(packageManager), (String) applicationInfo.packageName, false));
+				appsList.add(new App((String) applicationInfo.loadLabel(packageManager), applicationInfo.packageName, false));
 			}
 		}
         /*if (onlineAppsList.isEmpty()) {

@@ -27,7 +27,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -82,7 +81,6 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/linearLayoutSettingsControls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

@@ -5,8 +5,8 @@ import android.app.job.JobService;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,7 +19,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mansourappdevelopment.androidapp.kidsafe.models.App;
 import com.mansourappdevelopment.androidapp.kidsafe.models.Child;
-import com.mansourappdevelopment.androidapp.kidsafe.models.User;
 
 import java.util.ArrayList;
 import java.util.Collections;

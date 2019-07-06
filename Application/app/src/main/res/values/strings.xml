@@ -10,44 +10,24 @@
     <string name="password">Password</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_up_here">Sign up here</string>
-    <string name="select_mode">Select Mode</string>
     <string name="parent_email">Parent email address</string>
-    <string name="forgot_password">Reset Password</string>
     <string name="enter_your_email_address">Please enter your email address to request a password reset.</string>
     <string name="your_email">Your email</string>
-    <string name="number_of_childs">Number of children:</string>
-    <string name="_0">0</string>
     <string name="child_name">Child Name</string>
     <string name="activity_log">Activity Log</string>
     <string name="apps">Apps</string>
     <string name="location">Location</string>
     <string name="child_app_name">App name</string>
-    <string name="available_apps">Available Apps</string>
     <string name="this_app_is_blocked_by_your_parents">Is blocked by your parents</string>
-    <string name="sender_phone_number">Sender Phone Number</string>
-    <string name="message_body">Message Body</string>
-    <string name="time_received">Time Received</string>
-    <string name="caller_phone_number">Caller Phone Number</string>
-    <string name="call_type">Call Type</string>
-    <string name="contact_name">Contact Name</string>
-    <string name="call_time">Call Time</string>
-    <string name="call_duration">Call Duration</string>
-    <string name="delete">Delete</string>
     <string name="web_filter" translatable="false">Web Filter</string>
-    <string name="setup_a_geofence">Start a GeoFence</string>
     <string name="select_geofence_s_center">Center</string>
-    <string name="geofence_s_diameter">Diameter</string>
     <string name="diameter_in_meters">Diameter in meters</string>
-    <string name="set_geofence">Set GeoFence</string>
     <string name="device_admin_description">Allow KidSafe to lock the device</string>
     <string name="device_admin" translatable="false">KidSafe</string>
     <string name="device_admin_explanation">KidSafe need to be device admin to be able to lock the phone</string>
     <string name="device_admin_enabled">Device Admin Enabled</string>
     <string name="device_admin_disabled">Device Admin Disabled</string>
-    <string name="lock_phone">Lock Phone</string>
-    <string name="timer">Timer</string>
     <string name="ok">OK</string>
-    <string name="hour">hour</string>
     <string name="phone_unlocked">Phone Unlocked</string>
     <string name="phone_locked">Phone Locked</string>
     <string name="lock_timer_set_after">Phone will be locked after</string>
@@ -65,10 +45,6 @@
     <string name="cancel">Cancel</string>
     <string name="canceled">Canceled</string>
     <string name="lock_appname" translatable="false">Lock AppName</string>
-    <string name="blocked">Blocked</string>
-    <string name="enabled">Enabled</string>
-    <string name="will_be_blocked_after">will be blocked after</string>
-    <string name="keep_me_logged_in">Keep me logged in.</string>
     <string name="remember_me">Remember me</string>
     <string name="authentication_failed">Authentication Failed</string>
     <string name="authentication_succeeded">Authentication Succeeded</string>
@@ -77,15 +53,12 @@
     <string name="wrong_password">Wrong password</string>
     <string name="loading">Loading…</string>
     <string name="enter_your_password">Enter your password</string>
-    <string name="enter_your_email">Enter your email</string>
     <string name="this_email_isnt_registered_as_parent">This email isn\'t registered as a parent</string>
-    <string name="sign_up_succeeded">Signup succeeded</string>
     <string name="verification_email_sent_it_may_be_within_your_drafts">Verification email sent</string>
     <string name="email_is_already_in_use">Email is already in use</string>
     <string name="weak_password">Weak password</string>
     <string name="sign_up_falied">Signup Failed</string>
     <string name="enter_valid_password">Enter a valid password</string>
-    <string name="enter_your_name">Enter your name</string>
     <string name="kid" translatable="false">Kid</string>
     <string name="safe" translatable="false">Safe</string>
     <string name="image_uploaded_successfully">Image uploaded successfully</string>
@@ -99,38 +72,20 @@
     <string name="about">About</string>
     <string name="send_feedback">Send Feedback</string>
     <string name="general">General</string>
-    <string name="language_shared_prefs" translatable="false">languageSharedPerfs</string>
-    <string name="choose_the_default_language_of_kidsafe">Choose the default language of KidSafe.</string>
-    <string name="choose_language">Choose display language</string>
     <string name="account">Account</string>
-    <string name="logout_shared_pref" translatable="false">logoutSharedPrefs</string>
-    <string name="change_password_shared_prefs" translatable="false">changePasswordSharedPrefs</string>
-    <string name="delete_account_shared_prefs" translatable="false">deleteAccountSharedPrefs</string>
     <string name="info">Info</string>
-    <string name="rate_us_shared_prefs" translatable="false">rateUsSharedPrefs</string>
-    <string name="send_feedback_shared_prefs" translatable="false">sendFeedbackSharedPrefs</string>
     <string name="website">Website</string>
     <string name="version">Version</string>
-    <string name="version_number">1.0</string>
     <string name="choose_email_client">Choose email client</string>
     <string name="settings">Settings</string>
-    <string name="or_sign_up_with">Or sign up with</string>
-    <string name="email">Email</string>
-    <string name="google">Google</string>
     <string name="sign_up_with_google">Sign up with google</string>
     <string name="login_with_google">Login with google</string>
     <string name="new_here">Don\'t have an account?</string>
     <string name="home">Home</string>
     <string name="confirm">Confirm</string>
     <string name="do_you_want_to_logout">Do you want to logout?</string>
-    <string name="do_you_want_to_change_password">Do you want to change your password?</string>
-    <string name="do_you_want_to_delete_account">Do you want to delete your account?</string>
     <string name="account_deleted">Account Deleted</string>
-    <string name="enter_old_password">Enter old password</string>
-    <string name="enter_new_password">Enter new password</string>
     <string name="password_updated">Password updated</string>
-    <string name="old_password_is_wrong">Old password is wrong</string>
-    <string name="enter_a_valid_new_email">Enter a valid new email</string>
     <string name="kids">Kids</string>
     <string name="no_kids_added_yet">No kids added yet</string>
     <string name="back">Back</string>
@@ -139,15 +94,12 @@
     <string name="permission_explanation_main">To allow KidSafe to function properly, please accept the following permissions.</string>
     <string name="permission_explanation_sms">We need to be able to read the messages in order to show them to the parent.</string>
     <string name="permission_explanation_phone_calls">We need to be able to get the phone calls information in order to show them to the parent.</string>
-    <string name="permission_explanation_location">We need access to the location to allow the parent to see where his child is located at real time.</string>
     <string name="permission_explanation_settings">In order to lock the child\'s phone, lock and unlock the apps, we need the following permissions.</string>
-    <string name="permission_name" translatable="false">Permission Name</string>
     <string name="send_sms_permission">Send SMS Permission</string>
     <string name="read_sms_permission">Read SMS Permission</string>
     <string name="receive_sms_permission">Receive SMS Permission</string>
     <string name="permission_granted">Permission Granted</string>
     <string name="permission_denied">Permission Denied</string>
-    <string name="permission_needed">Permission Needed</string>
     <string name="send_sms_explanation">This permission is needed to be able to see the messages your child sends</string>
     <string name="phone_state_permission">Phone state permission</string>
     <string name="read_call_log_permission">Read call log permission</string>
@@ -169,19 +121,15 @@
     <string name="device_admin_permission">Device admin permission</string>
     <string name="please_allow_permissions">Please allow all the permissions to enable KidSafe to work properly</string>
     <string name="please_allow_location_permission">Please allow access to the location</string>
-    <string name="done">Done</string>
     <string name="password_reset_email_sent">Password reset email sent, it may be within your drafts</string>
     <string name="name_validation">Enter a name less than 15 characters</string>
     <string name="please_add_a_profile_image">Please add a profile image</string>
     <string name="if_he_exceeded_it_you_will_be_alerted">, if exceeded it, you will be alerted</string>
-    <string name="on">on</string>
     <string name="phone">phone</string>
     <string name="lock">Lock</string>
     <string name="now_or_after_a_period">now, or after a period of time?</string>
     <string name="upper_dot_s" translatable="false">\'s</string>
     <string name="device">device</string>
-    <string name="password_recovery">Password recovery</string>
-    <string name="if_">If</string>
     <string name="please_enter_a_valid_diameter">Please enter a valid diameter</string>
     <string name="minutes_ago">Mins ago</string>
     <string name="unknown_number">Unknown Number</string>
@@ -195,7 +143,6 @@
     <string name="no_calls_received_yet">No calls received yet</string>
     <string name="no_contacts_found">No contacts found</string>
     <string name="phone_call_permission_explanation">This permission is needed to be able to call the contact</string>
-    <string name="call_canceled">Call canceled</string>
     <string name="who_will_be_using_this_device">Who will be using this device?</string>
     <string name="welcome_to">Welcome to</string>
     <string name="parent">Parent</string>
@@ -205,7 +152,6 @@
     <string name="please_download_google_play_services">Please download google play services</string>
     <string name="stop">Stop</string>
     <string name="is_out_of_the_fence">is out of the fence</string>
-    <string name="please_open_your_gps">Please turn on your GPS</string>
     <string name="cant_start_the_fence_without_your_location">Please enable your location, we can\'t start the fence around you without it</string>
     <string name="s_device" translatable="false">\'s device</string>
     <string name="no_location_history_found">No location history was found for</string>
@@ -219,8 +165,6 @@
     <string name="please_enable_your_gps">Please enable your GPS</string>
     <string name="please_allow_the_following_permissions">Please accept the following permission to allow kidsafe to function properly</string>
     <string name="about_message">KidSafe is a free and open source android parental control app which allows parents to keep their children\'s activity under control. KidSafe was developed as a graduation project by the members specified below</string>
-    <string name="smashicons" translatable="false">Smashicons</string>
-    <string name="freepik" translatable="false">Freepik</string>
     <string name="many_thanks_goes_to_freepik_and_smashiocns_for_the_graphics">Many thanks goes to freepik.com and smashiocns.com for the graphics</string>
     <string name="developers">Developers</string>
     <string name="mahmoud_mansour">Mahmoud Mansour</string>

@@ -16,15 +16,5 @@
         <item>Specify a period</item>
     </string-array>
 
-    <string-array name="languages_entries">
-        <item>English</item>
-        <item>Arabic</item>
-    </string-array>
-
-    <string-array name="language_entries_values">
-        <item>0/</item>
-        <item>1</item>
-    </string-array>
-
 
 </resources>

@@ -11,11 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +19,16 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.broadcasts.AdminReceiver;
+import com.mansourappdevelopment.androidapp.kidsafe.dialogfragments.InformationDialogFragment;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnFragmentChangeListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
@@ -83,7 +84,7 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
 				if (checkAllPermissions()) {
 					onFragmentChangeListener.onFragmentChange(Constant.PERMISSIONS_FRAGMENTS_FINISH);
 				} else {
-					Toast.makeText(context, getString(R.string.please_allow_permissions), Toast.LENGTH_SHORT).show();
+					startInformationDialogFragment(getString(R.string.please_allow_permissions));
 				}
 			}
 		});
@@ -143,6 +144,15 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
 		DevicePolicyManager devicePolicyManager = (DevicePolicyManager) activity.getSystemService(Context.DEVICE_POLICY_SERVICE);
 		ComponentName componentName = new ComponentName(context, AdminReceiver.class);
 		return devicePolicyManager.isAdminActive(componentName);
+	}
+	
+	private void startInformationDialogFragment(String message) {
+		InformationDialogFragment informationDialogFragment = new InformationDialogFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constant.INFORMATION_MESSAGE, message);
+		informationDialogFragment.setArguments(bundle);
+		informationDialogFragment.setCancelable(false);
+		informationDialogFragment.show(getChildFragmentManager(), Constant.INFORMATION_DIALOG_FRAGMENT_TAG);
 	}
 	
 	@Override
@@ -231,6 +241,7 @@ public class SettingsPermissionsFragment extends Fragment implements CompoundBut
 	private void disableDeviceAdmin(DevicePolicyManager devicePolicyManager, ComponentName componentName) {
 		devicePolicyManager.removeActiveAdmin(componentName);
 	}
+	
     /*private void startPermissionExplanationFragment(int requestCode, int id) {
         PermissionExplanationDialogFragment explanationFragment = new PermissionExplanationDialogFragment();
         Bundle bundle = new Bundle();

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="circular_image_border_very_large">8dp</dimen>
-    <dimen name="circular_image_width_very_large">128dp</dimen>
-    <dimen name="circular_image_height_very_large">128dp</dimen>
 
     <dimen name="circular_image_border_large">4dp</dimen>
     <dimen name="circular_image_width_large">96dp</dimen>
@@ -12,7 +9,6 @@
     <dimen name="circular_image_width_small">48dp</dimen>
     <dimen name="circular_image_height_small">48dp</dimen>
 
-    <dimen name="margin_2dp">2dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="margin_24dp">24dp</dimen>
@@ -20,17 +16,13 @@
     <dimen name="margin_48dp">48dp</dimen>
     <dimen name="margin_64dp">64dp</dimen>
     <dimen name="margin_128dp">128dp</dimen>
-    <dimen name="margin_256dp">256dp</dimen>
-    <dimen name="margin_512dp">512dp</dimen>
 
 
     <dimen name="padding_2dp">2dp</dimen>
     <dimen name="padding_8dp">8dp</dimen>
-    <dimen name="padding_16dp">16dp</dimen>
     <dimen name="padding_24dp">24dp</dimen>
     <dimen name="padding_32dp">32dp</dimen>
 
-    <dimen name="text_size_8sp">8sp</dimen>
     <dimen name="text_size_16sp">16sp</dimen>
     <dimen name="text_size_18sp">18sp</dimen>
     <dimen name="text_size_20sp">20sp</dimen>

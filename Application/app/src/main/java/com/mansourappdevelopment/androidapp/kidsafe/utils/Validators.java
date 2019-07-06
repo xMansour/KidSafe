@@ -11,9 +11,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 public class Validators {
 	
 	public static boolean isValidEmail(String email) {
@@ -22,10 +19,7 @@ public class Validators {
 		if (email.equals("")) {
 			return false;
 		}
-		if (!email.trim().matches(emailPattern)) {
-			return false;
-		}
-		return true;
+		return email.trim().matches(emailPattern);
 	}
 	
 	public static boolean isValidPassword(String password) {
@@ -33,11 +27,7 @@ public class Validators {
 			return false;
 		}
 		
-		if (password.length() < 6) {
-			return false;
-		}
-		
-		return true;
+		return password.length() >= 6;
 		
 	}
 	
@@ -46,11 +36,7 @@ public class Validators {
 			return false;
 		}
 		
-		if (hours.length() > 23) {
-			return false;
-		}
-		
-		return true;
+		return hours.length() <= 23;
 		
 	}
 	
@@ -59,19 +45,12 @@ public class Validators {
 			return false;
 		}
 		
-		if (minutes.length() > 59) {
-			return false;
-		}
-		
-		return true;
+		return minutes.length() <= 59;
 		
 	}
 	
 	public static boolean isValidGeoFenceDiameter(String diameter) {
-		if (diameter.equals("")) {
-			return false;
-		}
-		return true;
+		return !diameter.equals("");
 		
 	}
 	
@@ -97,11 +76,9 @@ public class Validators {
 		NetworkInfo[] netInfo = cm.getAllNetworkInfo();
 		for (NetworkInfo ni : netInfo) {
 			if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-				if (ni.isConnected())
-					haveConnectedWifi = true;
+				if (ni.isConnected()) haveConnectedWifi = true;
 			if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-				if (ni.isConnected())
-					haveConnectedMobile = true;
+				if (ni.isConnected()) haveConnectedMobile = true;
 		}
 		return haveConnectedWifi || haveConnectedMobile;
 		

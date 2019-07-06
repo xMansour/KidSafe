@@ -3,15 +3,16 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -102,6 +103,12 @@ public class ChildSignedInActivity extends AppCompatActivity implements OnPermis
 		informationDialogFragment.show(getSupportFragmentManager(), Constant.INFORMATION_DIALOG_FRAGMENT_TAG);
 	}
 	
+	private void startPasswordValidationDialogFragment() {
+		PasswordValidationDialogFragment passwordValidationDialogFragment = new PasswordValidationDialogFragment();
+		passwordValidationDialogFragment.setCancelable(false);
+		passwordValidationDialogFragment.show(getSupportFragmentManager(), Constant.PASSWORD_VALIDATION_DIALOG_FRAGMENT_TAG);
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -126,13 +133,6 @@ public class ChildSignedInActivity extends AppCompatActivity implements OnPermis
 	public void onCancel(int switchId) {
 		Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
 		
-	}
-	
-	
-	private void startPasswordValidationDialogFragment() {
-		PasswordValidationDialogFragment passwordValidationDialogFragment = new PasswordValidationDialogFragment();
-		passwordValidationDialogFragment.setCancelable(false);
-		passwordValidationDialogFragment.show(getSupportFragmentManager(), Constant.PASSWORD_VALIDATION_DIALOG_FRAGMENT_TAG);
 	}
 	
 	@Override

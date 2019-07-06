@@ -2,24 +2,18 @@ package com.mansourappdevelopment.androidapp.kidsafe.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.adapters.ContactsAdapter;
@@ -51,8 +45,8 @@ public class ContactsFragment extends Fragment implements OnContactClickListener
 		context = getContext();
 		getData();
 		
-		recyclerViewContacts = (RecyclerView) view.findViewById(R.id.recyclerViewContacts);
-		txtNoContacts = (TextView) view.findViewById(R.id.txtNoContacts);
+		recyclerViewContacts = view.findViewById(R.id.recyclerViewContacts);
+		txtNoContacts = view.findViewById(R.id.txtNoContacts);
 		
 		if (contacts.isEmpty()) {
 			txtNoContacts.setVisibility(View.VISIBLE);

@@ -2,8 +2,10 @@ package com.mansourappdevelopment.androidapp.kidsafe.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -65,8 +67,9 @@ public class AccountUtils {
 	}
 	
 	public static void deleteAccount(Context context, String password) {
-		final String providerId = FirebaseAuth.getInstance().getCurrentUser().getProviders().get(0);
-		
+		final String providerId = FirebaseAuth.getInstance().getCurrentUser().getProviderId();
+		final String providerId2 = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getProviderId();
+		Log.i(TAG, "deleteAccount: providerId: " + providerId);
 		if (providerId.equals("google.com")) deleteAccountData(providerId, null, context);
 		else deleteAccountData(providerId, password, context);
 		closeServices(context);

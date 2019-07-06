@@ -2,10 +2,6 @@ package com.mansourappdevelopment.androidapp.kidsafe.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +10,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -95,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			@Override
 			public void onClick(View v) {
 				autoLogin();
-				String email = txtLogInEmail.getText().toString();
+				String email = txtLogInEmail.getText().toString().toLowerCase();
 				String password = txtLogInPassword.getText().toString();
 				login(email, password);
 			}
@@ -166,7 +167,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 	
 	private void autoLogin() {
 		SharedPrefsUtils.setBooleanPreference(this, Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
-		SharedPrefsUtils.setStringPreference(this, Constant.EMAIL, txtLogInEmail.getText().toString());
+		SharedPrefsUtils.setStringPreference(this, Constant.EMAIL, txtLogInEmail.getText().toString().toLowerCase());
 		SharedPrefsUtils.setStringPreference(this, Constant.PASSWORD, txtLogInPassword.getText().toString());
 		
 	}
@@ -257,31 +258,22 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 	private void checkMode(String email) {
 		final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
 		startLoadingFragment(loadingDialogFragment);
-		Log.i(TAG, "checkMode: email: " + email);
-		Log.i(TAG, "checkMode: email: "+databaseReference.child("parents").child(uid).child("email").get);
 		Query query = databaseReference.child("parents").orderByChild("email").equalTo(email);
 		query.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				loadingDialogFragment.dismiss();
-				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getKey());
-				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.toString());
-				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getChildrenCount());
-				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getChildren());
-				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getRef());
-				Log.i(TAG, "onDataChange: datasnapshot: "+dataSnapshot.getValue());
 				if (dataSnapshot.exists()) {
 					startParentSignedInActivity();
-					Log.i(TAG, "onDataChange: startParent");
 				} else {
 					startChildSignedInActivity();
-					Log.i(TAG, "onDataChange: startChild");
 				}
+				
 			}
 			
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
-			
+				Log.i(TAG, "onCancelled: canceled");
 			}
 		});
 	}
