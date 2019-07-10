@@ -80,12 +80,13 @@
 
                 <include layout="@layout/horizontal_line" />
 
-                <Button
+                <!--Won't be uploaded to the play store duo to violation of privacy-->
+                <!--<Button
                     android:id="@+id/btnRateUs"
                     style="@style/ButtonSettings"
                     android:text="@string/rate_us" />
 
-                <include layout="@layout/horizontal_line" />
+                <include layout="@layout/horizontal_line" />-->
 
                 <Button
                     android:id="@+id/btnSendFeedBack"

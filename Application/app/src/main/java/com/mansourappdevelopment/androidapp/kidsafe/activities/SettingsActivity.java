@@ -34,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity implements OnLanguageSel
 	private Button btnChangePassword;
 	private Button btnDeleteAccount;
 	private Button btnAbout;
-	private Button btnRateUs;
+	//private Button btnRateUs;   //Won't be uploaded to the play store duo to violation of privacy
 	private Button btnSendFeedBack;
 	private Button btnVisitWebsite;
 	private ImageButton btnBack;
@@ -105,13 +105,13 @@ public class SettingsActivity extends AppCompatActivity implements OnLanguageSel
 		});
 		
 		
-		btnRateUs = findViewById(R.id.btnRateUs);
+		/*btnRateUs = findViewById(R.id.btnRateUs);
 		btnRateUs.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				rateTheApp();
 			}
-		});
+		});*/
 		
 		
 		btnSendFeedBack = findViewById(R.id.btnSendFeedBack);
@@ -137,10 +137,10 @@ public class SettingsActivity extends AppCompatActivity implements OnLanguageSel
 		startActivity(new Intent(this, AboutActivity.class));
 	}
 	
-	private void rateTheApp() {
+	/*private void rateTheApp() {
 		Toast.makeText(this, "rateTheApp", Toast.LENGTH_SHORT).show();
 		
-	}
+	}*/
 	
 	private void SendFeedBack() {
 		String body = null;
