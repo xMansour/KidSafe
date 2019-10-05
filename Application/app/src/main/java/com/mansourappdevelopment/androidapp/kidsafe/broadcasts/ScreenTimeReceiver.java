@@ -36,10 +36,10 @@ public class ScreenTimeReceiver extends BroadcastReceiver {
 			startTime = System.currentTimeMillis();
 			devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
 			restIfDifferentDay();
-			new CountDownTimer(allowedTime - screenTime, 1000) {
+			/*new CountDownTimer(allowedTime - screenTime, 1000) {
 				@Override
 				public void onTick(long l) {
-				
+					screenTime += 1000;
 				}
 				
 				@Override
@@ -47,7 +47,7 @@ public class ScreenTimeReceiver extends BroadcastReceiver {
 					screenTime = allowedTime;
 					devicePolicyManager.lockNow();
 				}
-			}.start();
+			}.start();*/
 			
 			if (screenTime >= allowedTime) {
 				devicePolicyManager.lockNow();
