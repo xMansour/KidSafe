@@ -37,53 +37,55 @@ Table of Contents
   
 ## Features<a id='features'></a>
 1. #### Free & Open Source
-	 KidSafe is free and open source without annoying ads.
+	KidSafe is free and open source without annoying ads.
   
 2. #### Matrial & Clean UI
-	 KidSafe has minimalistic, yet beautiful ui.
-  
-     [<img src="/graphics/screenshots/device-2019-07-05-144643.png" width="200" hspace="10" vspace="10">](/readme/Wallabag%20Reading%20List.png)
+	KidSafe has minimalistic, yet beautiful ui.
+	
+	[<img src="/graphics/screenshots/device-2019-07-05-144643.png" width="200" hspace="10" vspace="10">]()
 
   
 3. #### Lock & Unlock The Child's Phone.
-	 Lock and unlock your child's phone with a click of a button. Using the switch button next to the child's name allows you to lock his phone.
-    [<img src="/graphics/screenshots/device-2019-07-05-184741.png" width="200" hspace="10" vspace="10">](/readme/Wallabag%20Reading%20List.png)
+	Lock and unlock your child's phone with a click of a button. Using the switch button next to the child's name allows you to lock his phone.
+	
+	[<img src="/graphics/screenshots/device-2019-07-05-184741.png" width="200" hspace="10" vspace="10">]()
   
 4. #### Screen Time Control
 	Set a daily usage timer for your child, if he exceeded it the phone will be automatically locked.
 
-      [<img src="/graphics/screenshots/device-2019-07-05-184814.png"  width="200" hspace="10" vspace="10">](/graphics/screenshots/device-2019-07-05-184758.png)
+	[<img src="/graphics/screenshots/device-2019-07-05-184814.png"  width="200" hspace="10" vspace="10">]()
 
 5. #### App Blocking
-	  View your child's installed apps and block addictive ones.
+	View your child's installed apps and block addictive ones.
   
-    [<img src="/graphics/screenshots/device-2019-07-05-214316.png" align="left" width="200" hspace="10" vspace="10">](/readme/Wallabag%20Reading%20List.png)
+	[<img src="/graphics/screenshots/device-2019-07-05-214316.png" align="left" width="200" hspace="10" vspace="10">]()
   
-    [<img src="/graphics/screenshots/device-2019-07-05-214447.png" align="center" width="200" hspace="10" vspace="10">](/graphics/screenshots/device-2019-07-05-184758.png)
+	[<img src="/graphics/screenshots/device-2019-07-05-214447.png" align="center" width="200" hspace="10" vspace="10">]()
 
   
 6. #### Location Tracking & Geo-Fencing
-	  View your child's real time location and set a Geo-fence around you or him, if he exceeded the fence you will be notified. 
-  [<img src="/graphics/screenshots/device-2019-07-05-215451.png" align="left"
-width="200" hspace="10" vspace="10">](/readme/Wallabag%20Reading%20List.png)
-  [<img src="/graphics/screenshots/device-2019-07-05-215815.png" align="center"
-width="200" hspace="10" vspace="10">](/graphics/screenshots/device-2019-07-05-184758.png)
+	View your child's real time location and set a Geo-fence around you or him, if he exceeded the fence you will be notified. 
+	
+	[<img src="/graphics/screenshots/device-2019-07-05-215451.png" align="left" width="200" hspace="10" vspace="10">]()
+	
+	[<img src="/graphics/screenshots/device-2019-07-05-215815.png" align="center" width="200" hspace="10" vspace="10">]()
 
 7. ####  View Call, SMS & Contacts Logs
-	  You can view your child's call and sms logs and message or call their contacts.
+	You can view your child's call and sms logs and message or call their contacts.
 
-    [<img src="/graphics/screenshots/device-2019-07-05-220558.png" align="left"
-width="200" hspace="10" vspace="10">](/readme/Wallabag%20Reading%20List.png)
-  [<img src="/graphics/screenshots/device-2019-07-05-220620.png" align="center"
-width="200" hspace="10" vspace="10">](/graphics/screenshots/device-2019-07-05-184758.png)
-  [<img src="/graphics/screenshots/device-2019-07-05-220644.png" align="center"
-width="200" hspace="10" vspace="10">](/graphics/screenshots/device-2019-07-05-184758.png)
+	[<img src="/graphics/screenshots/device-2019-07-05-220558.png" align="left" width="200" hspace="10" vspace="10">]()
+
+	[<img src="/graphics/screenshots/device-2019-07-05-220620.png" align="center" width="200" hspace="10" vspace="10">]()
+
+	[<img src="/graphics/screenshots/device-2019-07-05-220644.png" align="center" width="200" hspace="10" vspace="10">]()
+
 ## Download<a id='download'></a>
 
-  All these features and KidSafe is only 5.3 MB! You can directly download KidSafe from <a href="https://github.com/xMansour/KidSafe/releases/download/V1.1/KidSafe_release_v1.1.apk">here</a>
+All these features and KidSafe is only 5.3 MB! You can directly download KidSafe from <a href="https://github.com/xMansour/KidSafe/releases/download/V1.1/KidSafe_release_v1.1.apk">here</a>
+	
 ## Documentation <a id='documentation'></a>
   
-  [![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://github.com/xMansour/KidSafe/tree/master/reports) 
+[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://github.com/xMansour/KidSafe/tree/master/reports) 
                                                      
                                                      
 ## License <a id='license'></a> Released under [MIT](/LICENSE) by [@xMansour](https://github.com/xMansour).
