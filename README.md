@@ -7,7 +7,7 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://bitbucket.org/lbesson/ansi-colors)
 
 
-Table of Contents
+## Table of Contents
  1. [About The Project](#about)
  2. [Built With](#built-with)
  3. [Features](#features)
@@ -90,5 +90,7 @@ All these features and KidSafe is only 5.3 MB! You can directly download KidSafe
                                                      
 ## License <a id='license'></a> Released under [MIT](/LICENSE) by [@xMansour](https://github.com/xMansour).
   
-## Contact me at <a id='license'></a>  MansourAppDevelopment@gmail.com or through whatsApp on +201027293859.
+## Contact me at <a id='contact'></a> MElsayedMansour96@gmail.com.
+
+
 
